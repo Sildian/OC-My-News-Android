@@ -1,7 +1,9 @@
-package com.sildian.mynews;
+package com.sildian.mynews.controller;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.sildian.mynews.R;
 
 public class MainActivity extends AppCompatActivity {
 
