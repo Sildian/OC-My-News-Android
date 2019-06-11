@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">My News</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="menu_main_add_name">Ajouter thèmes</string>
+    <string name="menu_main_search_name">Recherche</string>
+    <string name="menu_main_more_name">Plus</string>
+    <string name="menu_main_notifications_name">Notifications</string>
+    <string name="menu_main_help_name">Aide</string>
+    <string name="menu_main_about_name">A propos</string>
+
+</resources>
