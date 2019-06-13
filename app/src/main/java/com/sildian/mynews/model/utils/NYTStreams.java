@@ -14,7 +14,12 @@ import io.reactivex.schedulers.Schedulers;
 
 public class NYTStreams {
 
-    public static Observable<TopStoriesAPIResponse> streamFetchTopStoriesArticles(String section){
+    /**Gets the articles from NYT Top stories API
+     * @param section : the section name
+     * @return the response contains the list of articles
+     */
+
+    public static Observable<TopStoriesAPIResponse> streamGetTopStoriesArticles(String section){
         NYTAPI nytApi=NYTAPI.retrofit.create(NYTAPI.class);
         return nytApi.getTopStoriesArticles(section, NYTAPI.API_KEY)
                 .subscribeOn(Schedulers.io())

@@ -27,5 +27,5 @@ public interface NYTAPI {
             .build();
 
     @GET("topstories/v2/{section}.json")
-    Observable<TopStoriesAPIResponse> getTopStoriesArticles(@Path("section") String section, @Query("api-key") String api_key);
+    Observable<TopStoriesAPIResponse> getTopStoriesArticles(@Path("section") String section, @Query("api-key") String apiKey);
 }

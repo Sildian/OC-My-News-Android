@@ -3,20 +3,29 @@ package com.sildian.mynews.controller.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.sildian.mynews.R;
+import com.sildian.mynews.model.utils.services.TopStoriesArticlesService;
 
 public class MainActivity extends AppCompatActivity {
+
+    public static final String KEY_SECTION="SECTION";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setSupportActionBar((Toolbar)findViewById(R.id.activity_main_toolbar));
+
+        Intent topStoriesIntent=new Intent(MainActivity.this, TopStoriesArticlesService.class);
+        topStoriesIntent.putExtra(KEY_SECTION, "arts");
+        startService(topStoriesIntent);
+
     }
 
     @Override

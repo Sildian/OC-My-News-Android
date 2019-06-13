@@ -18,9 +18,9 @@ import static org.junit.Assert.*;
 public class TopStoriesArticlesServiceTest {
 
     @Test
-    public void given_lookForSectionArts_when_fetchTopStoriesArticles_then_checkResponse(){
+    public void given_lookForSectionArts_when_getTopStoriesArticles_then_checkResponse(){
 
-        Observable<TopStoriesAPIResponse> observableTopStoriesAPIResponse= NYTStreams.streamFetchTopStoriesArticles("arts");
+        Observable<TopStoriesAPIResponse> observableTopStoriesAPIResponse= NYTStreams.streamGetTopStoriesArticles("arts");
         TestObserver<TopStoriesAPIResponse> testObserver=new TestObserver<>();
         observableTopStoriesAPIResponse.subscribeWith(testObserver)
                 .assertNoErrors()
