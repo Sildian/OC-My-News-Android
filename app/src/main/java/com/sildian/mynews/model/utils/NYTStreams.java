@@ -16,7 +16,7 @@ public class NYTStreams {
 
     /**Gets the articles from NYT Top stories API
      * @param section : the section name
-     * @return the response contains the list of articles
+     * @return the response containing the list of articles
      */
 
     public static Observable<TopStoriesAPIResponse> streamGetTopStoriesArticles(String section){

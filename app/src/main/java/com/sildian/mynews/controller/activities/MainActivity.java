@@ -3,28 +3,24 @@ package com.sildian.mynews.controller.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.sildian.mynews.R;
-import com.sildian.mynews.model.utils.services.TopStoriesArticlesService;
+import com.sildian.mynews.controller.fragments.MainFragment;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String KEY_SECTION="SECTION";
+    public MainFragment mainFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setSupportActionBar((Toolbar)findViewById(R.id.activity_main_toolbar));
-
-        Intent topStoriesIntent=new Intent(MainActivity.this, TopStoriesArticlesService.class);
-        topStoriesIntent.putExtra(KEY_SECTION, "arts");
-        startService(topStoriesIntent);
+        displayMainFragment();
 
     }
 
@@ -48,5 +44,15 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void displayMainFragment(){
+        this.mainFragment=(MainFragment)getSupportFragmentManager().findFragmentById(R.id.activity_main_fragment);
+        if(this.mainFragment==null){
+            this.mainFragment=new MainFragment();
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.activity_main_fragment, this.mainFragment)
+                    .commit();
+        }
     }
 }

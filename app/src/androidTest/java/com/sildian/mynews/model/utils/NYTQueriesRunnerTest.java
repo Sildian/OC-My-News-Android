@@ -1,24 +1,18 @@
-package com.sildian.mynews.model.utils.services;
-
-import androidx.test.runner.AndroidJUnit4;
+package com.sildian.mynews.model.utils;
 
 import com.sildian.mynews.model.TopStoriesAPIResponse;
-import com.sildian.mynews.model.utils.NYTStreams;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import io.reactivex.Observable;
 import io.reactivex.observers.TestObserver;
 
 import static org.junit.Assert.*;
 
-
-@RunWith(AndroidJUnit4.class)
-public class TopStoriesArticlesServiceTest {
+public class NYTQueriesRunnerTest {
 
     @Test
-    public void given_lookForSectionArts_when_getTopStoriesArticles_then_checkResponse(){
+    public void given_lookForSectionArts_when_runTopStoriesArticlesRequest_then_checkResponse(){
 
         Observable<TopStoriesAPIResponse> observableTopStoriesAPIResponse= NYTStreams.streamGetTopStoriesArticles("arts");
         TestObserver<TopStoriesAPIResponse> testObserver=new TestObserver<>();
