@@ -1,34 +1,34 @@
 package com.sildian.mynews.model.utils.services;
 
-import com.sildian.mynews.model.TopStoriesArticle;
+import androidx.test.runner.AndroidJUnit4;
+
+import com.sildian.mynews.model.TopStoriesAPIResponse;
 import com.sildian.mynews.model.utils.NYTStreams;
 
 import org.junit.Test;
-
-import java.util.List;
+import org.junit.runner.RunWith;
 
 import io.reactivex.Observable;
 import io.reactivex.observers.TestObserver;
 
-import static java.sql.DriverManager.println;
 import static org.junit.Assert.*;
 
+
+@RunWith(AndroidJUnit4.class)
 public class TopStoriesArticlesServiceTest {
 
     @Test
-    public void given_lookForSectionArts_when_fetchTopStoriesArticles_then_checkArtsArticles(){
+    public void given_lookForSectionArts_when_fetchTopStoriesArticles_then_checkResponse(){
 
-        Observable<List<TopStoriesArticle>> observableTopStoriesArticles= NYTStreams.streamFetchTopStoriesArticles("arts");
-        TestObserver<List<TopStoriesArticle>> testObserver=new TestObserver<>();
-        observableTopStoriesArticles.subscribeWith(testObserver)
+        Observable<TopStoriesAPIResponse> observableTopStoriesAPIResponse= NYTStreams.streamFetchTopStoriesArticles("arts");
+        TestObserver<TopStoriesAPIResponse> testObserver=new TestObserver<>();
+        observableTopStoriesAPIResponse.subscribeWith(testObserver)
                 .assertNoErrors()
                 .assertNoTimeout()
-                .assertComplete();
+                .awaitTerminalEvent();
 
-        List<TopStoriesArticle> topStoriesArticles=testObserver.values().get(0);
-        assertTrue(topStoriesArticles.size()>0);
-        assertTrue(topStoriesArticles.get(0).getSection()=="arts");
-        println("Articles : "+topStoriesArticles.size());
-        println("Section : "+topStoriesArticles.get(0).getSection());
+        TopStoriesAPIResponse topStoriesAPIResponse=testObserver.values().get(0);
+        assertEquals("arts", topStoriesAPIResponse.getSection());
+        assertTrue(topStoriesAPIResponse.getResults().size()>0);
     }
 }
