@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import com.sildian.mynews.model.TopStoriesAPIResponse;
 import com.sildian.mynews.model.TopStoriesArticle;
 import com.sildian.mynews.model.utils.NYTQueriesRunner;
 import com.sildian.mynews.view.ArticleAdapter;
+import com.sildian.mynews.view.ItemClickSupport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,6 +85,13 @@ public class MainFragment extends Fragment implements NYTQueriesRunner.NYTQueryR
         this.articleAdapter=new ArticleAdapter(this.topStoriesArticles, Glide.with(this));
         this.articlesRecyclerView.setAdapter(this.articleAdapter);
         this.articlesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        ItemClickSupport.addTo(this.articlesRecyclerView, R.layout.list_articles_item)
+                .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+                    @Override
+                    public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                        Log.i("CHECK_ITEM", topStoriesArticles.get(position).getShortUrl());
+                    }
+                });
     }
 
     /**Initializes the queries runner**/
