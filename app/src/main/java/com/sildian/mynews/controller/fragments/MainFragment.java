@@ -6,11 +6,14 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
+import com.bumptech.glide.Glide;
 import com.sildian.mynews.R;
 import com.sildian.mynews.model.TopStoriesAPIResponse;
 import com.sildian.mynews.model.TopStoriesArticle;
@@ -33,6 +36,8 @@ public class MainFragment extends Fragment implements NYTQueriesRunner.NYTQueryR
 
     /**Components**/
 
+    @BindView(R.id.fragment_main_progress_bar) ProgressBar progressBar;
+    @BindView(R.id.fragment_main_swipe_refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.fragment_main_recycler_view) RecyclerView articlesRecyclerView;
 
     /**Attributes**/
@@ -49,10 +54,10 @@ public class MainFragment extends Fragment implements NYTQueriesRunner.NYTQueryR
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View view=inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, view);
 
+        initializeSwipeRefreshLayout();
         initializeArticlesRecyclerView();
         initializeQueriesRunner();
         startTopStoriesQuery();
@@ -60,11 +65,22 @@ public class MainFragment extends Fragment implements NYTQueriesRunner.NYTQueryR
         return view;
     }
 
+    /**Initializes the swipe refresh layout**/
+
+    private void initializeSwipeRefreshLayout(){
+        this.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                startTopStoriesQuery();
+            }
+        });
+    }
+
     /**Initializes the recycler view**/
 
     private void initializeArticlesRecyclerView(){
         this.topStoriesArticles=new ArrayList<TopStoriesArticle>();
-        this.articleAdapter=new ArticleAdapter(this.topStoriesArticles);
+        this.articleAdapter=new ArticleAdapter(this.topStoriesArticles, Glide.with(this));
         this.articlesRecyclerView.setAdapter(this.articleAdapter);
         this.articlesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
@@ -78,13 +94,16 @@ public class MainFragment extends Fragment implements NYTQueriesRunner.NYTQueryR
     /**Starts a query to get the top stories articles**/
 
     private void startTopStoriesQuery(){
-        this.queriesRunner.runTopStoriesArticlesRequest("arts");
+        this.progressBar.setVisibility(View.VISIBLE);
+        this.queriesRunner.runTopStoriesArticlesRequest("home");
     }
 
     /**Callbacks from NYTQueriesRunner**/
 
     @Override
     public void onResponse(TopStoriesAPIResponse topStoriesAPIResponse) {
+        this.progressBar.setVisibility(View.GONE);
+        this.swipeRefreshLayout.setRefreshing(false);
         this.topStoriesArticles.clear();
         this.topStoriesArticles.addAll(topStoriesAPIResponse.getResults());
         this.articleAdapter.notifyDataSetChanged();
@@ -92,6 +111,7 @@ public class MainFragment extends Fragment implements NYTQueriesRunner.NYTQueryR
 
     @Override
     public void onError() {
-
+        this.progressBar.setVisibility(View.GONE);
+        this.swipeRefreshLayout.setRefreshing(false);
     }
 }

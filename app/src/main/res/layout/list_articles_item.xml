@@ -3,13 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:layout_margin="@dimen/list_articles_layout_margin">
 
     <ImageView
         android:id="@+id/list_articles_item_image"
         android:layout_width="@dimen/list_articles_item_image_width"
         android:layout_height="@dimen/list_articles_item_image_height"
         android:layout_gravity="left"
+        android:layout_margin="@dimen/list_articles_components_margin"
         tools:srcCompat="@tools:sample/avatars[12]" />
 
     <LinearLayout
@@ -19,7 +21,8 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/list_articles_components_margin">
 
             <TextView
                 android:id="@+id/list_articles_item_text_section"
@@ -27,15 +30,18 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:text="Section"
-                android:textColor="@android:color/black"
-                android:textStyle="bold" />
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
+                android:textSize="@dimen/list_articles_item_text_size_head"/>
 
             <TextView
                 android:id="@+id/list_articles_item_text_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:text="xx/xx/xxxx" />
+                android:text="xx/xx/xxxx"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/list_articles_item_text_size_head"/>
         </FrameLayout>
 
         <TextView
@@ -43,7 +49,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-            android:text="Title" />
+            android:layout_margin="@dimen/list_articles_components_margin"
+            android:text="Title"
+            android:textSize="@dimen/list_articles_item_text_size_body"/>
     </LinearLayout>
 
 </LinearLayout>

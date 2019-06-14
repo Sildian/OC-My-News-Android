@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="list_articles_layout_margin">8dp</dimen>
+    <dimen name="list_articles_components_margin">8dp</dimen>
+    <dimen name="list_articles_item_image_width">120dp</dimen>
+    <dimen name="list_articles_item_image_height">120dp</dimen>
+    <dimen name="list_articles_item_text_size_head">18sp</dimen>
+    <dimen name="list_articles_item_text_size_body">22sp</dimen>
+</resources>

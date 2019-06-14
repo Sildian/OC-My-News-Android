@@ -3,6 +3,7 @@ package com.sildian.mynews.controller.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.Application;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -13,15 +14,17 @@ import com.sildian.mynews.controller.fragments.MainFragment;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static Application APPLICATION;
+
     public MainFragment mainFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        APPLICATION=getApplication();
         setContentView(R.layout.activity_main);
         setSupportActionBar((Toolbar)findViewById(R.id.activity_main_toolbar));
         displayMainFragment();
-
     }
 
     @Override

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.RequestManager;
 import com.sildian.mynews.R;
 import com.sildian.mynews.model.TopStoriesArticle;
 
@@ -22,11 +23,13 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleViewHolder> {
     /**Attributes**/
 
     private List<TopStoriesArticle> topStoriesArticles;             //The list of articles
+    private RequestManager glide;                                   //The request manager to display images
 
     /**Constructor**/
 
-    public ArticleAdapter(List<TopStoriesArticle> topStoriesArticles){
+    public ArticleAdapter(List<TopStoriesArticle> topStoriesArticles, RequestManager glide){
         this.topStoriesArticles=topStoriesArticles;
+        this.glide=glide;
     }
 
     /**Callback methods**/
@@ -46,7 +49,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ArticleViewHolder holder, int position, @NonNull List<Object> payloads) {
-        holder.update(this.topStoriesArticles.get(position));
+        holder.update(this.topStoriesArticles.get(position), this.glide);
     }
 
     @Override
