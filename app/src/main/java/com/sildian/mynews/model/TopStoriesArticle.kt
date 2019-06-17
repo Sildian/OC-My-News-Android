@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
  * Monitors the data from NYT Top stories API
  *************************************************************************************************/
 
-class TopStoriesArticle {
+class TopStoriesArticle : Article{
 
     @SerializedName("section") @Expose var section:String??=null
     @SerializedName("subsection") @Expose var subsection:String??=null
@@ -28,4 +28,33 @@ class TopStoriesArticle {
     @SerializedName("geo_facet") @Expose var geoFacet:List<String>?=null
     @SerializedName("multimedia") @Expose var multimedia:List<TopStoriesMultimedium>?=null
     @SerializedName("short_url") @Expose var shortUrl:String?=null
+
+    override fun getArticleSection(): String? {
+        return this.section
+    }
+
+    override fun getArticleSubSection(): String? {
+        return this.subsection
+    }
+
+    override fun getArticleTitle(): String? {
+        return this.title
+    }
+
+    override fun getArticleDate(): String? {
+        return this.publishedDate
+    }
+
+    override fun getArticleImageUrl(): String? {
+        val multimedia:List<TopStoriesMultimedium>?=this.multimedia
+        if(!multimedia.isNullOrEmpty()) {
+            return multimedia.get(0).url
+        }else{
+            return null
+        }
+    }
+
+    override fun getArticleUrl(): String? {
+        return this.shortUrl
+    }
 }

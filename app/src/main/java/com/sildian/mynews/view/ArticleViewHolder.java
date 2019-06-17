@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.sildian.mynews.R;
-import com.sildian.mynews.model.TopStoriesArticle;
+import com.sildian.mynews.model.Article;
 import com.sildian.mynews.utils.Utilities;
 
 import butterknife.BindView;
@@ -41,12 +41,12 @@ public class ArticleViewHolder extends RecyclerView.ViewHolder {
      * @param glide : glide manager to display the image
      */
 
-    public void update(TopStoriesArticle article, RequestManager glide){
-        if(!article.getMultimedia().isEmpty()) {
-            glide.load(article.getMultimedia().get(0).getUrl()).apply(RequestOptions.noTransformation()).into(articleImage);
+    public void update(Article article, RequestManager glide){
+        if(article.getArticleImageUrl()!=null) {
+            glide.load(article.getArticleImageUrl()).apply(RequestOptions.noTransformation()).into(this.articleImage);
         }
-        this.articleSectionText.setText(article.getSection()+" > "+article.getSubsection());
-        this.articleDateText.setText(Utilities.convertDate(article.getPublishedDate()));
-        this.articleTitleText.setText(article.getTitle());
+        this.articleSectionText.setText(article.getArticleSection()+" > "+article.getArticleSubSection());
+        this.articleDateText.setText(Utilities.convertDate(article.getArticleDate()));
+        this.articleTitleText.setText(article.getArticleTitle());
     }
 }

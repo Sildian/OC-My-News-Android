@@ -17,8 +17,8 @@ import android.widget.ProgressBar;
 import com.bumptech.glide.Glide;
 import com.sildian.mynews.R;
 import com.sildian.mynews.controller.activities.ArticleActivity;
+import com.sildian.mynews.model.Article;
 import com.sildian.mynews.model.TopStoriesAPIResponse;
-import com.sildian.mynews.model.TopStoriesArticle;
 import com.sildian.mynews.model.utils.NYTQueriesRunner;
 import com.sildian.mynews.view.ArticleAdapter;
 import com.sildian.mynews.view.ItemClickSupport;
@@ -55,7 +55,7 @@ public class MainFragment extends Fragment implements NYTQueriesRunner.NYTQueryR
     /**Attributes**/
 
     private int id;                                             //The id will define the behaviour of the fragment
-    private List<TopStoriesArticle> topStoriesArticles;         //The list of articles
+    private List<Article> articles;                             //The list of articles
     private ArticleAdapter articleAdapter;                      //The adapter to manage the recycler view
     private NYTQueriesRunner queriesRunner;                     //The queries runner running the NYT API
 
@@ -110,8 +110,8 @@ public class MainFragment extends Fragment implements NYTQueriesRunner.NYTQueryR
 
         /*Initializes the different items to create the recycler view*/
 
-        this.topStoriesArticles=new ArrayList<TopStoriesArticle>();
-        this.articleAdapter=new ArticleAdapter(this.topStoriesArticles, Glide.with(this));
+        this.articles=new ArrayList<Article>();
+        this.articleAdapter=new ArticleAdapter(this.articles, Glide.with(this));
         this.articlesRecyclerView.setAdapter(this.articleAdapter);
         this.articlesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -122,7 +122,7 @@ public class MainFragment extends Fragment implements NYTQueriesRunner.NYTQueryR
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
                         Intent articleActivityIntent=new Intent(getActivity(), ArticleActivity.class);
-                        articleActivityIntent.putExtra(KEY_ARTICLE_URL, topStoriesArticles.get(position).getShortUrl());
+                        articleActivityIntent.putExtra(KEY_ARTICLE_URL, articles.get(position).getArticleUrl());
                         startActivity(articleActivityIntent);
                     }
                 });
@@ -137,7 +137,7 @@ public class MainFragment extends Fragment implements NYTQueriesRunner.NYTQueryR
     /**Starts a query to get the top stories articles**/
 
     private void startTopStoriesQuery(){
-        if(this.topStoriesArticles.isEmpty()) {
+        if(this.articles.isEmpty()) {
             this.progressBar.setVisibility(View.VISIBLE);
         }
         this.queriesRunner.runTopStoriesArticlesRequest("home");
@@ -149,8 +149,8 @@ public class MainFragment extends Fragment implements NYTQueriesRunner.NYTQueryR
     public void onResponse(TopStoriesAPIResponse topStoriesAPIResponse) {
         this.progressBar.setVisibility(View.GONE);
         this.swipeRefreshLayout.setRefreshing(false);
-        this.topStoriesArticles.clear();
-        this.topStoriesArticles.addAll(topStoriesAPIResponse.getResults());
+        this.articles.clear();
+        this.articles.addAll(topStoriesAPIResponse.getResults());
         this.articleAdapter.notifyDataSetChanged();
     }
 
