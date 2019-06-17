@@ -41,6 +41,11 @@ public class MainFragment extends Fragment implements NYTQueriesRunner.NYTQueryR
 
     public static final String KEY_ARTICLE_URL="KEY_ARTICLE_URL";
 
+    /**The id will define the behaviour of the fragment**/
+
+    public static final int ID_TOP_STORIES=0;                   //The fragment will run the top stories query
+    public static final int ID_MOST_POPULARS=1;                 //The fragment will run the most populars query
+
     /**Components**/
 
     @BindView(R.id.fragment_main_progress_bar) ProgressBar progressBar;
@@ -49,14 +54,17 @@ public class MainFragment extends Fragment implements NYTQueriesRunner.NYTQueryR
 
     /**Attributes**/
 
+    private int id;                                             //The id will define the behaviour of the fragment
     private List<TopStoriesArticle> topStoriesArticles;         //The list of articles
     private ArticleAdapter articleAdapter;                      //The adapter to manage the recycler view
     private NYTQueriesRunner queriesRunner;                     //The queries runner running the NYT API
 
-    /**Constructor**/
+    /**Constructor
+     * @param id : the id will define the behaviour of the fragment
+     */
 
-    public MainFragment() {
-
+    public MainFragment(int id) {
+        this.id=id;
     }
 
     /**Callback methods**/
@@ -69,7 +77,18 @@ public class MainFragment extends Fragment implements NYTQueriesRunner.NYTQueryR
         initializeSwipeRefreshLayout();
         initializeArticlesRecyclerView();
         initializeQueriesRunner();
-        startTopStoriesQuery();
+
+        /*Runs a query related to the id*/
+
+        switch(this.id) {
+            case ID_TOP_STORIES:
+                startTopStoriesQuery();
+                break;
+            case ID_MOST_POPULARS:
+                break;
+            default:
+                break;
+        }
 
         return view;
     }

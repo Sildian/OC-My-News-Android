@@ -1,7 +1,7 @@
 package com.sildian.mynews.controller.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager.widget.ViewPager;
 
 import android.app.Application;
 import android.os.Bundle;
@@ -9,22 +9,31 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.android.material.tabs.TabLayout;
 import com.sildian.mynews.R;
-import com.sildian.mynews.controller.fragments.MainFragment;
+import com.sildian.mynews.view.MainFragmentAdapter;
+
+/*************************************************************************************************
+ * MainActivity
+ * This activity displays fragments running queries to get lists of articles from the
+ * New York Times API.
+ ************************************************************************************************/
 
 public class MainActivity extends AppCompatActivity {
 
+    /**Static attributes**/
+
     public static Application APPLICATION;
 
-    public MainFragment mainFragment;
+    /**Callback methods**/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         APPLICATION=getApplication();
         setContentView(R.layout.activity_main);
-        setSupportActionBar((Toolbar)findViewById(R.id.activity_main_toolbar));
-        displayMainFragment();
+        setSupportActionBar(findViewById(R.id.activity_main_toolbar));
+        initializeViewPager();
     }
 
     @Override
@@ -49,13 +58,12 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void displayMainFragment(){
-        this.mainFragment=(MainFragment)getSupportFragmentManager().findFragmentById(R.id.activity_main_fragment);
-        if(this.mainFragment==null){
-            this.mainFragment=new MainFragment();
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.activity_main_fragment, this.mainFragment)
-                    .commit();
-        }
+    /**Initializes the view pager and displays the fragments**/
+
+    private void initializeViewPager(){
+        ViewPager viewPager=findViewById(R.id.activity_main_view_pager);
+        viewPager.setAdapter(new MainFragmentAdapter(getSupportFragmentManager()));
+        TabLayout tabLayout=findViewById(R.id.activity_main_tab_layout);
+        tabLayout.setupWithViewPager(viewPager);
     }
 }

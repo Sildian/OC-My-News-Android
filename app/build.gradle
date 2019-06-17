@@ -39,6 +39,9 @@ dependencies {
     //RecyclerView
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
 
+    //ViewPager
+    implementation 'com.google.android.material:material:1.0.0'
+
     //GSON Library
     implementation 'com.google.code.gson:gson:2.8.5'
 
@@ -62,7 +65,6 @@ dependencies {
     //Icepick Library
     implementation 'frankiesardo:icepick:3.2.0'
     annotationProcessor 'frankiesardo:icepick-processor:3.2.0'
-
 }
 repositories {
     mavenCentral()
