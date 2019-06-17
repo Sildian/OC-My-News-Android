@@ -118,7 +118,9 @@ public class MainFragment extends Fragment implements NYTQueriesRunner.NYTQueryR
     /**Starts a query to get the top stories articles**/
 
     private void startTopStoriesQuery(){
-        this.progressBar.setVisibility(View.VISIBLE);
+        if(this.topStoriesArticles.isEmpty()) {
+            this.progressBar.setVisibility(View.VISIBLE);
+        }
         this.queriesRunner.runTopStoriesArticlesRequest("home");
     }
 
