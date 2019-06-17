@@ -1,5 +1,6 @@
 package com.sildian.mynews.model.utils;
 
+import com.sildian.mynews.model.MostPopularAPIResponse;
 import com.sildian.mynews.model.TopStoriesAPIResponse;
 import java.util.concurrent.TimeUnit;
 
@@ -25,5 +26,9 @@ public class NYTStreams {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);
+    }
+
+    public static Observable<MostPopularAPIResponse> streamGetMostPopularArticles(){
+        return null;
     }
 }
