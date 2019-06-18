@@ -101,7 +101,16 @@ public class MainFragment extends Fragment implements NYTQueriesRunner.NYTQueryR
         this.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                startTopStoriesQuery();
+                switch(id) {
+                    case ID_TOP_STORIES:
+                        startTopStoriesQuery();
+                        break;
+                    case ID_MOST_POPULARS:
+                        startMostPopularQuery();
+                        break;
+                    default:
+                        break;
+                }
             }
         });
     }
