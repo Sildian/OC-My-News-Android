@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.sildian.mynews.R;
 import com.sildian.mynews.controller.activities.ArticleActivity;
 import com.sildian.mynews.model.Article;
+import com.sildian.mynews.model.MostPopularAPIResponse;
 import com.sildian.mynews.model.TopStoriesAPIResponse;
 import com.sildian.mynews.model.utils.NYTQueriesRunner;
 import com.sildian.mynews.view.ArticleAdapter;
@@ -85,6 +86,7 @@ public class MainFragment extends Fragment implements NYTQueriesRunner.NYTQueryR
                 startTopStoriesQuery();
                 break;
             case ID_MOST_POPULARS:
+                startMostPopularQuery();
                 break;
             default:
                 break;
@@ -143,6 +145,15 @@ public class MainFragment extends Fragment implements NYTQueriesRunner.NYTQueryR
         this.queriesRunner.runTopStoriesArticlesRequest("home");
     }
 
+    /**Starts a query to get the top stories articles**/
+
+    private void startMostPopularQuery(){
+        if(this.articles.isEmpty()) {
+            this.progressBar.setVisibility(View.VISIBLE);
+        }
+        this.queriesRunner.runMostPopularArticlesRequest();
+    }
+
     /**Callbacks from NYTQueriesRunner**/
 
     @Override
@@ -151,6 +162,15 @@ public class MainFragment extends Fragment implements NYTQueriesRunner.NYTQueryR
         this.swipeRefreshLayout.setRefreshing(false);
         this.articles.clear();
         this.articles.addAll(topStoriesAPIResponse.getResults());
+        this.articleAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onResponse(MostPopularAPIResponse mostPopularAPIResponse) {
+        this.progressBar.setVisibility(View.GONE);
+        this.swipeRefreshLayout.setRefreshing(false);
+        this.articles.clear();
+        this.articles.addAll(mostPopularAPIResponse.getResults());
         this.articleAdapter.notifyDataSetChanged();
     }
 

@@ -1,5 +1,6 @@
 package com.sildian.mynews.model.utils;
 
+import com.sildian.mynews.model.MostPopularAPIResponse;
 import com.sildian.mynews.model.TopStoriesAPIResponse;
 
 import io.reactivex.Observable;
@@ -28,4 +29,7 @@ public interface NYTAPI {
 
     @GET("topstories/v2/{section}.json")
     Observable<TopStoriesAPIResponse> getTopStoriesArticles(@Path("section") String section, @Query("api-key") String apiKey);
+
+    @GET("mostpopular/v2/shared/{period}.json")
+    Observable<MostPopularAPIResponse> getMostPopularArticles(@Path("period") String period, @Query("api-key") String apiKey);
 }

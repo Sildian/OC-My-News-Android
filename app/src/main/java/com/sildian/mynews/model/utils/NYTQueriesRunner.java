@@ -1,6 +1,7 @@
 package com.sildian.mynews.model.utils;
 
 
+import com.sildian.mynews.model.MostPopularAPIResponse;
 import com.sildian.mynews.model.TopStoriesAPIResponse;
 
 import java.lang.ref.WeakReference;
@@ -19,6 +20,7 @@ public class NYTQueriesRunner {
 
     public interface NYTQueryResponseListener{
         void onResponse(TopStoriesAPIResponse topStoriesAPIResponse);
+        void onResponse(MostPopularAPIResponse mostPopularAPIResponse);
         void onError();
     }
 
@@ -33,7 +35,7 @@ public class NYTQueriesRunner {
         this.listener=new WeakReference<NYTQueryResponseListener>(listener);
     }
 
-    /**Runs the query to get the articles
+    /**Runs the query to get the articles from NYT top stories API
      * @param section : the section name
      */
 
@@ -56,6 +58,27 @@ public class NYTQueriesRunner {
         });
     }
 
+    /**Runs the query to get the articles from NYT Most popular API*/
+
+    public void runMostPopularArticlesRequest(){
+        this.disposable= NYTStreams.streamGetMostPopularArticles().subscribeWith(new DisposableObserver<MostPopularAPIResponse>(){
+            @Override
+            public void onNext(MostPopularAPIResponse mostPopularAPIResponse) {
+                sendOnResponseToListener(mostPopularAPIResponse);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                sendOnErrorToListener();
+            }
+
+            @Override
+            public void onComplete() {
+                disposeDisposable();
+            }
+        });
+    }
+
     /**Disposes with the disposable**/
 
     private void disposeDisposable(){
@@ -64,13 +87,15 @@ public class NYTQueriesRunner {
         }
     }
 
-    /**Sends the response to the listener**/
+    /**Sends the responses to the listener**/
 
     private void sendOnResponseToListener(TopStoriesAPIResponse topStoriesAPIResponse){
         this.listener.get().onResponse(topStoriesAPIResponse);
     }
 
-    /**Sends an error to the listener**/
+    private void sendOnResponseToListener(MostPopularAPIResponse mostPopularAPIResponse){
+        this.listener.get().onResponse(mostPopularAPIResponse);
+    }
 
     private void sendOnErrorToListener(){
         this.listener.get().onError();

@@ -22,10 +22,6 @@ class TopStoriesArticle : Article{
     @SerializedName("published_date") @Expose var publishedDate:String?=null
     @SerializedName("material_type_facet") @Expose var materialTypeFacet:String?=null
     @SerializedName("kicker") @Expose var kicker:String?=null
-    @SerializedName("des_facet") @Expose var desFacet:List<String>?=null
-    @SerializedName("org_facet") @Expose var orgFacet:List<Object>?=null
-    @SerializedName("per_facet") @Expose var perFacet:List<Object>?=null
-    @SerializedName("geo_facet") @Expose var geoFacet:List<String>?=null
     @SerializedName("multimedia") @Expose var multimedia:List<TopStoriesMultimedium>?=null
     @SerializedName("short_url") @Expose var shortUrl:String?=null
 
