@@ -1,6 +1,7 @@
 package com.sildian.mynews.model.utils;
 
 import com.sildian.mynews.model.MostPopularAPIResponse;
+import com.sildian.mynews.model.SearchAPIResponse;
 import com.sildian.mynews.model.TopStoriesAPIResponse;
 
 import io.reactivex.Observable;
@@ -32,4 +33,23 @@ public interface NYTAPI {
 
     @GET("mostpopular/v2/shared/{period}.json")
     Observable<MostPopularAPIResponse> getMostPopularArticles(@Path("period") String period, @Query("api-key") String apiKey);
+
+    @GET("search/v2/articlesearch.json")
+    Observable<SearchAPIResponse> getSearchArticlesWithNoDate
+            (@Query("api-key") String apiKey, @Query("q") String keyWords, @Query("fq") String sectionsFilter);
+
+    @GET("search/v2/articlesearch.json")
+    Observable<SearchAPIResponse> getSearchArticlesWithBeginDate
+            (@Query("api-key") String apiKey, @Query("q") String keyWords, @Query("fq") String sectionsFilter,
+             @Query("begin_date") String beginDate);
+
+    @GET("search/v2/articlesearch.json")
+    Observable<SearchAPIResponse> getSearchArticlesWithEndDate
+            (@Query("api-key") String apiKey, @Query("q") String keyWords, @Query("fq") String sectionsFilter,
+             @Query("end_date") String endDate);
+
+    @GET("search/v2/articlesearch.json")
+    Observable<SearchAPIResponse> getSearchArticlesWithBeginAndEndDates
+            (@Query("api-key") String apiKey, @Query("q") String keyWords, @Query("fq") String sectionsFilter,
+             @Query("begin_date") String beginDate, @Query("end_date") String endDate);
 }

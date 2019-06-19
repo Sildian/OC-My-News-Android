@@ -15,7 +15,7 @@ class SearchArticle {
     @SerializedName("lead_paragraph") @Expose val leadParagraph: String? = null
     @SerializedName("abstract") @Expose val _abstract: String? = null
     @SerializedName("print_page") @Expose val printPage: String? = null
-    @SerializedName("blog") @Expose val blog: String? = null
+    @SerializedName("blog") @Expose val blog: SearchBlog? = null
     @SerializedName("source") @Expose val source: String? = null
     @SerializedName("multimedia") @Expose val multimedia: List<SearchMultimedium>? = null
     @SerializedName("headline") @Expose val headline: SearchHeadline? = null

@@ -55,6 +55,55 @@ public class NYTStreams {
 
     public static Observable<SearchAPIResponse> streamGetSearchArticles
             (String keyWords, List<String> sections, @Nullable String beginDate, @Nullable String endDate){
-        return null;
+
+        /*Creates the sections filter String with the list of String*/
+
+        StringBuilder sectionsFilterBuilder=new StringBuilder();
+        sectionsFilterBuilder.append("section_name.contains:(");
+        for(String section:sections){
+            sectionsFilterBuilder.append("\""+section+"\"");
+        }
+        sectionsFilterBuilder.append(")");
+        String sectionsFilter=sectionsFilterBuilder.toString();
+
+        /*Runs the query*/
+
+        NYTAPI nytApi=NYTAPI.retrofit.create(NYTAPI.class);
+
+        /*Case if both begin date and end date are null*/
+
+        if(beginDate==null&&endDate==null) {
+            return nytApi.getSearchArticlesWithNoDate(NYTAPI.API_KEY, keyWords, sectionsFilter)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .timeout(10, TimeUnit.SECONDS);
+        }
+
+        /*Case if only end date is null*/
+
+        else if(endDate==null){
+            return nytApi.getSearchArticlesWithBeginDate(NYTAPI.API_KEY, keyWords, sectionsFilter, beginDate)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .timeout(10, TimeUnit.SECONDS);
+        }
+
+        /*Case if only begin date is null*/
+
+        else if(beginDate==null) {
+            return nytApi.getSearchArticlesWithEndDate(NYTAPI.API_KEY, keyWords, sectionsFilter, endDate)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .timeout(10, TimeUnit.SECONDS);
+        }
+
+        /*Case if both begin date and end date are given*/
+
+        else{
+            return nytApi.getSearchArticlesWithBeginAndEndDates(NYTAPI.API_KEY, keyWords, sectionsFilter, beginDate, endDate)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .timeout(10, TimeUnit.SECONDS);
+        }
     }
 }
