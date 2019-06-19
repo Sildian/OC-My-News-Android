@@ -1,14 +1,15 @@
-package com.sildian.mynews.model
+package com.sildian.mynews.model.articles_search_api
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import com.sildian.mynews.model.Article
 
 /**************************************************************************************************
  * SearchArticle
  * Monitors the data from NYT Search API
  *************************************************************************************************/
 
-class SearchArticle :Article {
+class SearchArticle : Article {
 
     @SerializedName("web_url") @Expose val webUrl: String? = null
     @SerializedName("snippet") @Expose val snippet: String? = null

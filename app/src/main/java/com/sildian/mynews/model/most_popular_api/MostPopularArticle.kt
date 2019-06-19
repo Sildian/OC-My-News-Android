@@ -1,14 +1,15 @@
-package com.sildian.mynews.model
+package com.sildian.mynews.model.most_popular_api
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import com.sildian.mynews.model.Article
 
 /**************************************************************************************************
  * MostPopularArticle
  * Monitors the data from NYT Most popular API
  *************************************************************************************************/
 
-class MostPopularArticle : Article{
+class MostPopularArticle : Article {
 
     @SerializedName("url") @Expose val url: String? = null
     @SerializedName("adx_keywords") @Expose val adxKeywords: String? = null

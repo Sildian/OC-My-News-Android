@@ -1,4 +1,4 @@
-package com.sildian.mynews.model
+package com.sildian.mynews.model.most_popular_api
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName

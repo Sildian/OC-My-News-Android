@@ -1,17 +1,18 @@
-package com.sildian.mynews.model
+package com.sildian.mynews.model.top_stories_api
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.sildian.mynews.model.Article
 
 /**************************************************************************************************
  * TopStoriesArticle
  * Monitors the data from NYT Top stories API
  *************************************************************************************************/
 
-class TopStoriesArticle : Article{
+class TopStoriesArticle : Article {
 
-    @SerializedName("section") @Expose val section:String??=null
-    @SerializedName("subsection") @Expose val subsection:String??=null
+    @SerializedName("section") @Expose val section:String?=null
+    @SerializedName("subsection") @Expose val subsection:String?=null
     @SerializedName("title") @Expose val title:String?=null
     @SerializedName("abstract") @Expose val _abstract:String?=null
     @SerializedName("url") @Expose val url:String?=null

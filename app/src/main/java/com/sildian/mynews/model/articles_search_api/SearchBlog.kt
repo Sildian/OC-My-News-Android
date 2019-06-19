@@ -1,4 +1,4 @@
-package com.sildian.mynews.model
+package com.sildian.mynews.model.articles_search_api
 
 /**************************************************************************************************
  * SearchBlog

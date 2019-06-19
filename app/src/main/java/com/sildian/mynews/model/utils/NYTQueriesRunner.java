@@ -1,8 +1,8 @@
 package com.sildian.mynews.model.utils;
 
 
-import com.sildian.mynews.model.MostPopularAPIResponse;
-import com.sildian.mynews.model.TopStoriesAPIResponse;
+import com.sildian.mynews.model.most_popular_api.MostPopularAPIResponse;
+import com.sildian.mynews.model.top_stories_api.TopStoriesAPIResponse;
 
 import java.lang.ref.WeakReference;
 
