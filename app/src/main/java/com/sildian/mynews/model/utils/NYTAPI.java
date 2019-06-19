@@ -19,8 +19,15 @@ import retrofit2.http.Query;
 
 public interface NYTAPI {
 
+    /**Static data**/
+
     public static final String BASE_URL="https://api.nytimes.com/svc/";
+    public static final String TOP_STORIES_API_URL="topstories/v2/{section}.json";
+    public static final String MOST_POPULAR_API_URL="mostpopular/v2/shared/{period}.json";
+    public static final String ARTICLES_SEARCH_API_URL="search/v2/articlesearch.json";
     public static final String API_KEY="QH5GqvMuy9GV395zpsXITpglhNYpQndn";
+
+    /**Retrofit builder**/
 
     public static final Retrofit retrofit =new Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -28,28 +35,35 @@ public interface NYTAPI {
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build();
 
-    @GET("topstories/v2/{section}.json")
+    /**Top stories API**/
+
+    @GET(TOP_STORIES_API_URL)
     Observable<TopStoriesAPIResponse> getTopStoriesArticles(@Path("section") String section, @Query("api-key") String apiKey);
 
-    @GET("mostpopular/v2/shared/{period}.json")
+    /**Most popular API**/
+
+    @GET(MOST_POPULAR_API_URL)
     Observable<MostPopularAPIResponse> getMostPopularArticles(@Path("period") String period, @Query("api-key") String apiKey);
 
-    @GET("search/v2/articlesearch.json")
+    /**Articles Search API
+     * Different queries exists, giving the choice to fill the begin date and end date or not**/
+
+    @GET(ARTICLES_SEARCH_API_URL)
     Observable<SearchAPIResponse> getSearchArticlesWithNoDate
             (@Query("api-key") String apiKey, @Query("q") String keyWords, @Query("fq") String sectionsFilter);
 
-    @GET("search/v2/articlesearch.json")
+    @GET(ARTICLES_SEARCH_API_URL)
     Observable<SearchAPIResponse> getSearchArticlesWithBeginDate
             (@Query("api-key") String apiKey, @Query("q") String keyWords, @Query("fq") String sectionsFilter,
              @Query("begin_date") String beginDate);
 
-    @GET("search/v2/articlesearch.json")
+    @GET(ARTICLES_SEARCH_API_URL)
     Observable<SearchAPIResponse> getSearchArticlesWithEndDate
             (@Query("api-key") String apiKey, @Query("q") String keyWords, @Query("fq") String sectionsFilter,
              @Query("end_date") String endDate);
 
-    @GET("search/v2/articlesearch.json")
-    Observable<SearchAPIResponse> getSearchArticlesWithBeginAndEndDates
+    @GET(ARTICLES_SEARCH_API_URL)
+    Observable<SearchAPIResponse> getSearchArticlesWithBeginDateAndEndDate
             (@Query("api-key") String apiKey, @Query("q") String keyWords, @Query("fq") String sectionsFilter,
              @Query("begin_date") String beginDate, @Query("end_date") String endDate);
 }

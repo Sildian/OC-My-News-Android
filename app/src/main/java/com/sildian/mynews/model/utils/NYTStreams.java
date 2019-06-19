@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import com.sildian.mynews.model.MostPopularAPIResponse;
 import com.sildian.mynews.model.SearchAPIResponse;
 import com.sildian.mynews.model.TopStoriesAPIResponse;
+import com.sildian.mynews.utils.Utilities;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -45,7 +46,7 @@ public class NYTStreams {
                 .timeout(10, TimeUnit.SECONDS);
     }
 
-    /**Gets the articles from NYT Article Search API
+    /**Gets the articles from NYT Articles Search API
      * @param keyWords : the key words searched in the query. Each word must be separated by ','
      * @param sections : the list of sections to be used as a filter in the request
      * @param beginDate : the begin date format like 'aaaammdd'
@@ -56,54 +57,70 @@ public class NYTStreams {
     public static Observable<SearchAPIResponse> streamGetSearchArticles
             (String keyWords, List<String> sections, @Nullable String beginDate, @Nullable String endDate){
 
-        /*Creates the sections filter String with the list of String*/
+        /*Generates the sections filter String with the list of String*/
 
-        StringBuilder sectionsFilterBuilder=new StringBuilder();
-        sectionsFilterBuilder.append("section_name.contains:(");
-        for(String section:sections){
-            sectionsFilterBuilder.append("\""+section+"\"");
-        }
-        sectionsFilterBuilder.append(")");
-        String sectionsFilter=sectionsFilterBuilder.toString();
+        String sectionsFilter= Utilities.generateQueryFilter("section_name.contains", sections);
 
-        /*Runs the query*/
-
-        NYTAPI nytApi=NYTAPI.retrofit.create(NYTAPI.class);
-
-        /*Case if both begin date and end date are null*/
+        /*Runs the query. A different query runs depending on if beginDate and endDate contains values or not*/
 
         if(beginDate==null&&endDate==null) {
-            return nytApi.getSearchArticlesWithNoDate(NYTAPI.API_KEY, keyWords, sectionsFilter)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .timeout(10, TimeUnit.SECONDS);
+            return streamGetSearchArticlesWithNoDate(keyWords, sectionsFilter);
         }
-
-        /*Case if only end date is null*/
-
         else if(endDate==null){
-            return nytApi.getSearchArticlesWithBeginDate(NYTAPI.API_KEY, keyWords, sectionsFilter, beginDate)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .timeout(10, TimeUnit.SECONDS);
+            return streamGetSearchArticlesWithBeginDate(keyWords, sectionsFilter, beginDate);
         }
-
-        /*Case if only begin date is null*/
-
         else if(beginDate==null) {
-            return nytApi.getSearchArticlesWithEndDate(NYTAPI.API_KEY, keyWords, sectionsFilter, endDate)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .timeout(10, TimeUnit.SECONDS);
+            return streamGetSearchArticlesWithEndDate(keyWords, sectionsFilter, endDate);
         }
-
-        /*Case if both begin date and end date are given*/
-
         else{
-            return nytApi.getSearchArticlesWithBeginAndEndDates(NYTAPI.API_KEY, keyWords, sectionsFilter, beginDate, endDate)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .timeout(10, TimeUnit.SECONDS);
+            return streamGetSearchArticlesWithBeginDateAndEndDate(keyWords, sectionsFilter, beginDate, endDate);
         }
+    }
+
+    /**NYT Articles Search API : case no date**/
+
+    private static Observable<SearchAPIResponse> streamGetSearchArticlesWithNoDate(String keyWords, String sectionsFilter){
+
+        NYTAPI nytApi=NYTAPI.retrofit.create(NYTAPI.class);
+        return nytApi.getSearchArticlesWithNoDate(NYTAPI.API_KEY, keyWords, sectionsFilter)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .timeout(10, TimeUnit.SECONDS);
+    }
+
+    /**NYT Articles Search API : case begin date only**/
+
+    private static Observable<SearchAPIResponse> streamGetSearchArticlesWithBeginDate
+            (String keyWords, String sectionsFilter, String beginDate){
+
+        NYTAPI nytApi=NYTAPI.retrofit.create(NYTAPI.class);
+        return nytApi.getSearchArticlesWithBeginDate(NYTAPI.API_KEY, keyWords, sectionsFilter, beginDate)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .timeout(10, TimeUnit.SECONDS);
+    }
+
+    /**NYT Articles Search API : case end date only**/
+
+    private static Observable<SearchAPIResponse> streamGetSearchArticlesWithEndDate
+            (String keyWords, String sectionsFilter, String endDate){
+
+        NYTAPI nytApi=NYTAPI.retrofit.create(NYTAPI.class);
+        return nytApi.getSearchArticlesWithEndDate(NYTAPI.API_KEY, keyWords, sectionsFilter, endDate)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .timeout(10, TimeUnit.SECONDS);
+    }
+
+    /**NYT Articles Search API : case begin date and end date**/
+
+    private static Observable<SearchAPIResponse> streamGetSearchArticlesWithBeginDateAndEndDate
+            (String keyWords, String sectionsFilter, String beginDate, String endDate){
+
+        NYTAPI nytApi=NYTAPI.retrofit.create(NYTAPI.class);
+        return nytApi.getSearchArticlesWithBeginDateAndEndDate(NYTAPI.API_KEY, keyWords, sectionsFilter, beginDate, endDate)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .timeout(10, TimeUnit.SECONDS);
     }
 }

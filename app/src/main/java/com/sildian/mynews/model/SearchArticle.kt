@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName
  * Monitors the data from NYT Search API
  *************************************************************************************************/
 
-class SearchArticle {
+class SearchArticle :Article {
 
     @SerializedName("web_url") @Expose val webUrl: String? = null
     @SerializedName("snippet") @Expose val snippet: String? = null
@@ -29,4 +29,36 @@ class SearchArticle {
     @SerializedName("_id") @Expose val id: String? = null
     @SerializedName("word_count") @Expose val wordCount: Int? = null
     @SerializedName("uri") @Expose val uri: String? = null
+
+    override fun getArticleSection(): String? {
+        return this.sectionName
+    }
+
+    override fun getArticleSubSection(): String? {
+        return ""
+    }
+
+    override fun getArticleTitle(): String? {
+        if (this.headline != null) {
+            return this.headline.main
+        }else{
+            return null
+        }
+    }
+
+    override fun getArticleDate(): String? {
+        return this.pubDate
+    }
+
+    override fun getArticleImageUrl(): String? {
+        if(this.multimedia!=null) {
+            return this.multimedia.get(0).url
+        }else{
+            return null
+        }
+    }
+
+    override fun getArticleUrl(): String? {
+        return this.webUrl
+    }
 }
