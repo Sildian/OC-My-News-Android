@@ -10,12 +10,12 @@ import com.google.gson.annotations.SerializedName;
 
 class TopStoriesMultimedium {
 
-    @SerializedName("url") @Expose var url:String??=null
-    @SerializedName("format") @Expose var format:String?=null
-    @SerializedName("height") @Expose var height:Int?=0
-    @SerializedName("width") @Expose var width:Int?=0
-    @SerializedName("type") @Expose var type:String?=null
-    @SerializedName("subtype") @Expose var subtype:String?=null
-    @SerializedName("caption") @Expose var caption:String?=null
-    @SerializedName("copyright") @Expose var copyright:String?=null
+    @SerializedName("url") @Expose val url:String??=null
+    @SerializedName("format") @Expose val format:String?=null
+    @SerializedName("height") @Expose val height:Int?=0
+    @SerializedName("width") @Expose val width:Int?=0
+    @SerializedName("type") @Expose val type:String?=null
+    @SerializedName("subtype") @Expose val subtype:String?=null
+    @SerializedName("caption") @Expose val caption:String?=null
+    @SerializedName("copyright") @Expose val copyright:String?=null
 }

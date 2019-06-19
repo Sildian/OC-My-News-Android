@@ -4,14 +4,13 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 /**************************************************************************************************
- * MostPopularAPIResponse
- * Monitors the data from NYT Most popular API
+ * SearchAPIResponse
+ * Monitors the data from NYT Search API
  *************************************************************************************************/
 
-class MostPopularAPIResponse {
+class SearchAPIResponse {
 
     @SerializedName("status") @Expose val status: String? = null
     @SerializedName("copyright") @Expose val copyright: String? = null
-    @SerializedName("num_results") @Expose val numResults: Int? = null
-    @SerializedName("results") @Expose val results: List<MostPopularArticle>? = null
+    @SerializedName("response") @Expose val response: SearchDetailResponse? = null
 }

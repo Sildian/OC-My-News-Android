@@ -1,7 +1,12 @@
 package com.sildian.mynews.model.utils;
 
+import androidx.annotation.Nullable;
+
 import com.sildian.mynews.model.MostPopularAPIResponse;
+import com.sildian.mynews.model.SearchAPIResponse;
 import com.sildian.mynews.model.TopStoriesAPIResponse;
+
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -38,5 +43,18 @@ public class NYTStreams {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);
+    }
+
+    /**Gets the articles from NYT Article Search API
+     * @param keyWords : the key words searched in the query. Each word must be separated by ','
+     * @param sections : the list of sections to be used as a filter in the request
+     * @param beginDate : the begin date format like 'aaaammdd'
+     * @param endDate : the end date format like 'aaaammdd'
+     * @return the response containing the list of articles
+     */
+
+    public static Observable<SearchAPIResponse> streamGetSearchArticles
+            (String keyWords, List<String> sections, @Nullable String beginDate, @Nullable String endDate){
+        return null;
     }
 }

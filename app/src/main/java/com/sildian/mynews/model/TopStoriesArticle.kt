@@ -10,20 +10,20 @@ import com.google.gson.annotations.SerializedName;
 
 class TopStoriesArticle : Article{
 
-    @SerializedName("section") @Expose var section:String??=null
-    @SerializedName("subsection") @Expose var subsection:String??=null
-    @SerializedName("title") @Expose var title:String?=null
-    @SerializedName("abstract") @Expose var _abstract:String?=null
-    @SerializedName("url") @Expose var url:String?=null
-    @SerializedName("byline") @Expose var byline:String?=null
-    @SerializedName("item_type") @Expose var itemType:String?=null
-    @SerializedName("updated_date") @Expose var updatedDate:String?=null
-    @SerializedName("created_date") @Expose var createdDate:String?=null
-    @SerializedName("published_date") @Expose var publishedDate:String?=null
-    @SerializedName("material_type_facet") @Expose var materialTypeFacet:String?=null
-    @SerializedName("kicker") @Expose var kicker:String?=null
-    @SerializedName("multimedia") @Expose var multimedia:List<TopStoriesMultimedium>?=null
-    @SerializedName("short_url") @Expose var shortUrl:String?=null
+    @SerializedName("section") @Expose val section:String??=null
+    @SerializedName("subsection") @Expose val subsection:String??=null
+    @SerializedName("title") @Expose val title:String?=null
+    @SerializedName("abstract") @Expose val _abstract:String?=null
+    @SerializedName("url") @Expose val url:String?=null
+    @SerializedName("byline") @Expose val byline:String?=null
+    @SerializedName("item_type") @Expose val itemType:String?=null
+    @SerializedName("updated_date") @Expose val updatedDate:String?=null
+    @SerializedName("created_date") @Expose val createdDate:String?=null
+    @SerializedName("published_date") @Expose val publishedDate:String?=null
+    @SerializedName("material_type_facet") @Expose val materialTypeFacet:String?=null
+    @SerializedName("kicker") @Expose val kicker:String?=null
+    @SerializedName("multimedia") @Expose val multimedia:List<TopStoriesMultimedium>?=null
+    @SerializedName("short_url") @Expose val shortUrl:String?=null
 
     override fun getArticleSection(): String? {
         return this.section

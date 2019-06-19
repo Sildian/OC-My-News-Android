@@ -10,10 +10,10 @@ import com.google.gson.annotations.SerializedName
 
 class TopStoriesAPIResponse {
 
-    @SerializedName("status") @Expose var status: String? = null
-    @SerializedName("copyright") @Expose var copyright: String? = null
-    @SerializedName("section") @Expose var section: String? = null
-    @SerializedName("last_updated") @Expose var lastUpdated: String? = null
-    @SerializedName("num_results") @Expose var numResults: Int? = null
-    @SerializedName("results") @Expose var results: List<TopStoriesArticle>? = null
+    @SerializedName("status") @Expose val status: String? = null
+    @SerializedName("copyright") @Expose val copyright: String? = null
+    @SerializedName("section") @Expose val section: String? = null
+    @SerializedName("last_updated") @Expose val lastUpdated: String? = null
+    @SerializedName("num_results") @Expose val numResults: Int? = null
+    @SerializedName("results") @Expose val results: List<TopStoriesArticle>? = null
 }
