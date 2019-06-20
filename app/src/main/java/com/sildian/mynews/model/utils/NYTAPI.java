@@ -50,20 +50,20 @@ public interface NYTAPI {
 
     @GET(ARTICLES_SEARCH_API_URL)
     Observable<SearchAPIResponse> getSearchArticlesWithNoDate
-            (@Query("api-key") String apiKey, @Query("q") String keyWords, @Query("fq") String sectionsFilter);
+            (@Query("api-key") String apiKey, @Query("sort") String sort, @Query("q") String keyWords, @Query("fq") String sectionsFilter);
 
     @GET(ARTICLES_SEARCH_API_URL)
     Observable<SearchAPIResponse> getSearchArticlesWithBeginDate
-            (@Query("api-key") String apiKey, @Query("q") String keyWords, @Query("fq") String sectionsFilter,
+            (@Query("api-key") String apiKey, @Query("sort") String sort, @Query("q") String keyWords, @Query("fq") String sectionsFilter,
              @Query("begin_date") String beginDate);
 
     @GET(ARTICLES_SEARCH_API_URL)
     Observable<SearchAPIResponse> getSearchArticlesWithEndDate
-            (@Query("api-key") String apiKey, @Query("q") String keyWords, @Query("fq") String sectionsFilter,
+            (@Query("api-key") String apiKey, @Query("sort") String sort, @Query("q") String keyWords, @Query("fq") String sectionsFilter,
              @Query("end_date") String endDate);
 
     @GET(ARTICLES_SEARCH_API_URL)
     Observable<SearchAPIResponse> getSearchArticlesWithBeginDateAndEndDate
-            (@Query("api-key") String apiKey, @Query("q") String keyWords, @Query("fq") String sectionsFilter,
+            (@Query("api-key") String apiKey, @Query("sort") String sort, @Query("q") String keyWords, @Query("fq") String sectionsFilter,
              @Query("begin_date") String beginDate, @Query("end_date") String endDate);
 }

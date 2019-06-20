@@ -82,7 +82,7 @@ public class NYTStreams {
     private static Observable<SearchAPIResponse> streamGetSearchArticlesWithNoDate(String keyWords, String sectionsFilter){
 
         NYTAPI nytApi=NYTAPI.retrofit.create(NYTAPI.class);
-        return nytApi.getSearchArticlesWithNoDate(NYTAPI.API_KEY, keyWords, sectionsFilter)
+        return nytApi.getSearchArticlesWithNoDate(NYTAPI.API_KEY, "newest", keyWords, sectionsFilter)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);
@@ -94,7 +94,7 @@ public class NYTStreams {
             (String keyWords, String sectionsFilter, String beginDate){
 
         NYTAPI nytApi=NYTAPI.retrofit.create(NYTAPI.class);
-        return nytApi.getSearchArticlesWithBeginDate(NYTAPI.API_KEY, keyWords, sectionsFilter, beginDate)
+        return nytApi.getSearchArticlesWithBeginDate(NYTAPI.API_KEY, "newest", keyWords, sectionsFilter, beginDate)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);
@@ -106,7 +106,7 @@ public class NYTStreams {
             (String keyWords, String sectionsFilter, String endDate){
 
         NYTAPI nytApi=NYTAPI.retrofit.create(NYTAPI.class);
-        return nytApi.getSearchArticlesWithEndDate(NYTAPI.API_KEY, keyWords, sectionsFilter, endDate)
+        return nytApi.getSearchArticlesWithEndDate(NYTAPI.API_KEY, "newest", keyWords, sectionsFilter, endDate)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);
@@ -118,7 +118,7 @@ public class NYTStreams {
             (String keyWords, String sectionsFilter, String beginDate, String endDate){
 
         NYTAPI nytApi=NYTAPI.retrofit.create(NYTAPI.class);
-        return nytApi.getSearchArticlesWithBeginDateAndEndDate(NYTAPI.API_KEY, keyWords, sectionsFilter, beginDate, endDate)
+        return nytApi.getSearchArticlesWithBeginDateAndEndDate(NYTAPI.API_KEY, "newest", keyWords, sectionsFilter, beginDate, endDate)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);

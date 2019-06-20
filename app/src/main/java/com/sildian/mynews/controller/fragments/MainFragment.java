@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.sildian.mynews.R;
 import com.sildian.mynews.controller.activities.ArticleActivity;
 import com.sildian.mynews.model.Article;
+import com.sildian.mynews.model.articles_search_api.SearchAPIResponse;
 import com.sildian.mynews.model.most_popular_api.MostPopularAPIResponse;
 import com.sildian.mynews.model.top_stories_api.TopStoriesAPIResponse;
 import com.sildian.mynews.model.utils.NYTStreams;
@@ -49,8 +51,9 @@ public class MainFragment extends Fragment {
 
     /**The id will define the behaviour of the fragment**/
 
-    public static final int ID_TOP_STORIES=0;                   //The fragment will run the top stories query
-    public static final int ID_MOST_POPULARS=1;                 //The fragment will run the most populars query
+    public static final int ID_TOP_STORIES=0;                   //The fragment will run the top stories API
+    public static final int ID_MOST_POPULARS=1;                 //The fragment will run the most populars API
+    public static final int ID_SEARCH=2;                        //THe fragment will run the articles search API
 
     /**Components**/
 
@@ -140,6 +143,13 @@ public class MainFragment extends Fragment {
             case ID_MOST_POPULARS:
                 runMostPopularArticlesRequest();
                 break;
+            case ID_SEARCH:
+                String keyWords="fish, chicken";
+                ArrayList<String> sections=new ArrayList<String>();
+                sections.add("food");
+                sections.add("arts");
+                runSearchArticlesRequest(keyWords, sections, "20190101", "20190530");
+                break;
             default:
                 break;
         }
@@ -190,6 +200,7 @@ public class MainFragment extends Fragment {
             @Override
             public void onError(Throwable e) {
                 refreshScreenAfterRequestError();
+                Log.d("CHECK_API", e.getMessage());
             }
 
             @Override
@@ -214,6 +225,38 @@ public class MainFragment extends Fragment {
             @Override
             public void onError(Throwable e) {
                 refreshScreenAfterRequestError();
+                Log.d("CHECK_API", e.getMessage());
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
+    }
+
+    /**Runs the query to get the articles from NYT Articles Search API
+     * @param keyWords : the key words searched in the query. Each word must be separated by ','
+     * @param sections : the list of sections to be used as a filter in the request
+     * @param beginDate : the begin date format like 'aaaammdd'
+     * @param endDate : the end date format like 'aaaammdd'
+     */
+
+    private void runSearchArticlesRequest(String keyWords, List<String> sections, String beginDate, String endDate){
+        refreshScreenBeforeRequest();
+        this.disposable= NYTStreams.streamGetSearchArticles(keyWords, sections, beginDate, endDate)
+                .subscribeWith(new DisposableObserver<SearchAPIResponse>(){
+            @Override
+            public void onNext(SearchAPIResponse searchAPIResponse) {
+                articles.clear();
+                articles.addAll(searchAPIResponse.getResponse().getDocs());
+                refreshScreenAfterRequestSuccess();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                refreshScreenAfterRequestError();
+                Log.d("CHECK_API", e.getMessage());
             }
 
             @Override

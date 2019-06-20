@@ -52,7 +52,7 @@ class SearchArticle : Article {
     }
 
     override fun getArticleImageUrl(): String? {
-        if(this.multimedia!=null) {
+        if(this.multimedia!=null&&this.multimedia.size>0) {
             return this.multimedia.get(0).url
         }else{
             return null

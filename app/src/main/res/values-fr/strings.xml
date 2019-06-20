@@ -12,6 +12,7 @@
     <string-array name="view_pager_pages_names">
         <item>Top stories</item>
         <item>Populaires</item>
+        <item>Recherche</item>
     </string-array>
 
     <string name="message_request_error">Désolé, impossible de télécharger les articles!</string>
