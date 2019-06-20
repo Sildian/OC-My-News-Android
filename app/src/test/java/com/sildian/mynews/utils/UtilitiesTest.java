@@ -26,4 +26,11 @@ public class UtilitiesTest {
         String result=Utilities.generateQueryFilter(filterName, filters);
         assertEquals("section_name.contains:(\"food\"\"arts\")", result);
     }
+
+    @Test
+    public void given_date_when_convertDate_then_checkResult(){
+        String date="2019-06-20T05:27:03-04:00";
+        String result=Utilities.convertDate(date);
+        assertEquals("06/20/2019", result);
+    }
 }

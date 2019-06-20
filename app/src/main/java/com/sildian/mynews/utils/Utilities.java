@@ -1,9 +1,5 @@
 package com.sildian.mynews.utils;
 
-
-import com.sildian.mynews.controller.activities.MainActivity;
-
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -54,7 +50,7 @@ public class Utilities {
     public static String convertDate(String inputDate){
 
         SimpleDateFormat inputFormat=new SimpleDateFormat("yyyy-MM-dd'T'HH-mm");
-        DateFormat outputFormat=android.text.format.DateFormat.getDateFormat(MainActivity.APPLICATION);
+        SimpleDateFormat outputFormat=new SimpleDateFormat("MM/dd/yyyy");
 
         Date date=new Date();
         try {
