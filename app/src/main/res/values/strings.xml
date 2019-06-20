@@ -1,9 +1,6 @@
 <resources>
     <string name="app_name">My News</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
     <string name="menu_main_add_name">Add sections</string>
     <string name="menu_main_search_name">Search</string>
     <string name="menu_main_more_name">More</string>
@@ -15,5 +12,34 @@
         <item>Top stories</item>
         <item>Most popular</item>
     </string-array>
+
+    <string-array name="sections_names">
+        <item>Arts</item>
+        <item>Automobiles</item>
+        <item>Books</item>
+        <item>Business</item>
+        <item>Fashion</item>
+        <item>Food</item>
+        <item>Health</item>
+        <item>Insider</item>
+        <item>Magazine</item>
+        <item>Movies</item>
+        <item>National</item>
+        <item>Ny Region</item>
+        <item>Obituaries</item>
+        <item>Opinion</item>
+        <item>Politics</item>
+        <item>Real estate</item>
+        <item>Science</item>
+        <item>Sports</item>
+        <item>Technology</item>
+        <item>Theater</item>
+        <item>T Magazine</item>
+        <item>Travel</item>
+        <item>Upshot</item>
+        <item>World</item>
+    </string-array>
+
+    <string name="section_name_default">Home</string>
 
 </resources>

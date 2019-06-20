@@ -16,25 +16,15 @@ import java.util.List;
 
 public class Utilities {
 
-    /**Converts a date's format from the article to the date to display
-     * @param inputDate : a String containing the date received from an article
-     * @return a String containing the date to display
+    /**Converts a query word to make it ready to be sent to the API
+     * @param inputQueryWord : this word can contain UPPER CASES and " "
+     * @return an outputQueryWord ready to be sent to the API, full lower cases and without " "
      */
 
-    public static String convertDate(String inputDate){
-
-        SimpleDateFormat inputFormat=new SimpleDateFormat("yyyy-MM-dd'T'HH-mm");
-        DateFormat outputFormat=android.text.format.DateFormat.getDateFormat(MainActivity.APPLICATION);
-
-        Date date=new Date();
-        try {
-            date = inputFormat.parse(inputDate);
-        }
-        catch(ParseException e){}
-
-        String outputDate=outputFormat.format(date);
-
-        return outputDate;
+    public static String convertQueryWord(String inputQueryWord){
+        String temporaryQueryWord=inputQueryWord.replace(" ", "");
+        String outputQueryWord=temporaryQueryWord.toLowerCase();
+        return outputQueryWord;
     }
 
     /**Generates a query filter to be sent to an API
@@ -54,5 +44,26 @@ public class Utilities {
         filterBuilder.append(")");
 
         return filterBuilder.toString();
+    }
+
+    /**Converts a date's format from the article to the date to display
+     * @param inputDate : a String containing the date received from an article
+     * @return a String containing the date to display
+     */
+
+    public static String convertDate(String inputDate){
+
+        SimpleDateFormat inputFormat=new SimpleDateFormat("yyyy-MM-dd'T'HH-mm");
+        DateFormat outputFormat=android.text.format.DateFormat.getDateFormat(MainActivity.APPLICATION);
+
+        Date date=new Date();
+        try {
+            date = inputFormat.parse(inputDate);
+        }
+        catch(ParseException e){}
+
+        String outputDate=outputFormat.format(date);
+
+        return outputDate;
     }
 }
