@@ -14,6 +14,8 @@
         <item>Populaires</item>
     </string-array>
 
+    <string name="message_request_error">Désolé, impossible de télécharger les articles!</string>
+
     <string-array name="sections_names">
         <item>Arts</item>
         <item>Automobiles</item>

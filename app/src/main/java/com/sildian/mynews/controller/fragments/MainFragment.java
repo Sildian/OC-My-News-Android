@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.sildian.mynews.R;
@@ -20,7 +22,8 @@ import com.sildian.mynews.controller.activities.ArticleActivity;
 import com.sildian.mynews.model.Article;
 import com.sildian.mynews.model.most_popular_api.MostPopularAPIResponse;
 import com.sildian.mynews.model.top_stories_api.TopStoriesAPIResponse;
-import com.sildian.mynews.model.utils.NYTQueriesRunner;
+import com.sildian.mynews.model.utils.NYTStreams;
+import com.sildian.mynews.utils.Utilities;
 import com.sildian.mynews.view.ArticleAdapter;
 import com.sildian.mynews.view.ItemClickSupport;
 
@@ -29,6 +32,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
 
 /************************************************************************************************
  * MainFragment
@@ -36,7 +41,7 @@ import butterknife.ButterKnife;
  * Different lists of articles can be shown depending on the query
  ***********************************************************************************************/
 
-public class MainFragment extends Fragment implements NYTQueriesRunner.NYTQueryResponseListener {
+public class MainFragment extends Fragment {
 
     /**Keys to transfer data within intents**/
 
@@ -50,6 +55,7 @@ public class MainFragment extends Fragment implements NYTQueriesRunner.NYTQueryR
     /**Components**/
 
     @BindView(R.id.fragment_main_progress_bar) ProgressBar progressBar;
+    @BindView(R.id.fragment_main_text_message) TextView messageText;
     @BindView(R.id.fragment_main_swipe_refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.fragment_main_recycler_view) RecyclerView articlesRecyclerView;
 
@@ -58,7 +64,7 @@ public class MainFragment extends Fragment implements NYTQueriesRunner.NYTQueryR
     private int id;                                             //The id will define the behaviour of the fragment
     private List<Article> articles;                             //The list of articles
     private ArticleAdapter articleAdapter;                      //The adapter to manage the recycler view
-    private NYTQueriesRunner queriesRunner;                     //The queries runner running the NYT API
+    private Disposable disposable;                              //The disposable which gets the response
 
     /**Constructor
      * @param id : the id will define the behaviour of the fragment
@@ -74,14 +80,18 @@ public class MainFragment extends Fragment implements NYTQueriesRunner.NYTQueryR
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, view);
-
         initializeSwipeRefreshLayout();
         initializeArticlesRecyclerView();
-        initializeQueriesRunner();
-
         refreshQuery();
-
         return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        if (this.disposable != null && !this.disposable.isDisposed()){
+            this.disposable.dispose();
+        }
+        super.onDestroy();
     }
 
     /**Initializes the swipe refresh layout**/
@@ -119,71 +129,97 @@ public class MainFragment extends Fragment implements NYTQueriesRunner.NYTQueryR
                 });
     }
 
-    /**Initializes the queries runner**/
-
-    private void initializeQueriesRunner(){
-        this.queriesRunner=new NYTQueriesRunner(this);
-    }
-
     /**Refreshes the query depending on the current id**/
 
     private void refreshQuery(){
         switch(this.id) {
             case ID_TOP_STORIES:
-                startTopStoriesQuery();
+                String section= Utilities.convertQueryWord(getString(R.string.section_name_default));
+                runTopStoriesArticlesRequest(section);
                 break;
             case ID_MOST_POPULARS:
-                startMostPopularQuery();
+                runMostPopularArticlesRequest();
                 break;
             default:
                 break;
         }
     }
 
-    /**Updates the UI components**/
+    /**Refreshes the screen before a request**/
 
-    private void updateUI(){
+    private void refreshScreenBeforeRequest(){
+        if(this.articles.isEmpty()) {
+            this.progressBar.setVisibility(View.VISIBLE);
+        }
+        this.messageText.setVisibility(View.GONE);
+    }
+
+    /**Refreshes the screen after a request returning success**/
+
+    private void refreshScreenAfterRequestSuccess(){
         this.progressBar.setVisibility(View.GONE);
         this.swipeRefreshLayout.setRefreshing(false);
         this.articleAdapter.notifyDataSetChanged();
     }
 
-    /**Starts a query to get the top stories articles**/
+    /**Refreshes the screen after a request returning error**/
 
-    private void startTopStoriesQuery(){
+    private void refreshScreenAfterRequestError(){
+        this.progressBar.setVisibility(View.GONE);
         if(this.articles.isEmpty()) {
-            this.progressBar.setVisibility(View.VISIBLE);
+            this.messageText.setVisibility(View.VISIBLE);
         }
-        this.queriesRunner.runTopStoriesArticlesRequest("home");
+        this.swipeRefreshLayout.setRefreshing(false);
+        Toast.makeText(getContext(), getString(R.string.message_request_error), Toast.LENGTH_LONG).show();
     }
 
-    /**Starts a query to get the top stories articles**/
+    /**Runs the query to get the articles from NYT top stories API
+     * @param section : the section name
+     */
 
-    private void startMostPopularQuery(){
-        if(this.articles.isEmpty()) {
-            this.progressBar.setVisibility(View.VISIBLE);
-        }
-        this.queriesRunner.runMostPopularArticlesRequest();
+    private void runTopStoriesArticlesRequest(String section){
+        refreshScreenBeforeRequest();
+        this.disposable= NYTStreams.streamGetTopStoriesArticles(section).subscribeWith(new DisposableObserver<TopStoriesAPIResponse>(){
+            @Override
+            public void onNext(TopStoriesAPIResponse topStoriesAPIResponse) {
+                articles.clear();
+                articles.addAll(topStoriesAPIResponse.getResults());
+                refreshScreenAfterRequestSuccess();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                refreshScreenAfterRequestError();
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
     }
 
-    /**Callbacks from NYTQueriesRunner**/
+    /**Runs the query to get the articles from NYT Most popular API*/
 
-    @Override
-    public void onResponse(TopStoriesAPIResponse topStoriesAPIResponse) {
-        this.articles.clear();
-        this.articles.addAll(topStoriesAPIResponse.getResults());
-        updateUI();
-    }
+    private void runMostPopularArticlesRequest(){
+        refreshScreenBeforeRequest();
+        this.disposable= NYTStreams.streamGetMostPopularArticles().subscribeWith(new DisposableObserver<MostPopularAPIResponse>(){
+            @Override
+            public void onNext(MostPopularAPIResponse mostPopularAPIResponse) {
+                articles.clear();
+                articles.addAll(mostPopularAPIResponse.getResults());
+                refreshScreenAfterRequestSuccess();
+            }
 
-    @Override
-    public void onResponse(MostPopularAPIResponse mostPopularAPIResponse) {
-        this.articles.clear();
-        this.articles.addAll(mostPopularAPIResponse.getResults());
-        updateUI();
-    }
+            @Override
+            public void onError(Throwable e) {
+                refreshScreenAfterRequestError();
+            }
 
-    @Override
-    public void onError() {
-        updateUI();
+            @Override
+            public void onComplete() {
+
+            }
+        });
     }
 }

@@ -13,6 +13,8 @@
         <item>Most popular</item>
     </string-array>
 
+    <string name="message_request_error">Sorry, couldn\'t load the articles!</string>
+
     <string-array name="sections_names">
         <item>Arts</item>
         <item>Automobiles</item>
