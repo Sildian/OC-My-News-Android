@@ -79,18 +79,7 @@ public class MainFragment extends Fragment implements NYTQueriesRunner.NYTQueryR
         initializeArticlesRecyclerView();
         initializeQueriesRunner();
 
-        /*Runs a query related to the id*/
-
-        switch(this.id) {
-            case ID_TOP_STORIES:
-                startTopStoriesQuery();
-                break;
-            case ID_MOST_POPULARS:
-                startMostPopularQuery();
-                break;
-            default:
-                break;
-        }
+        refreshQuery();
 
         return view;
     }
@@ -101,16 +90,7 @@ public class MainFragment extends Fragment implements NYTQueriesRunner.NYTQueryR
         this.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                switch(id) {
-                    case ID_TOP_STORIES:
-                        startTopStoriesQuery();
-                        break;
-                    case ID_MOST_POPULARS:
-                        startMostPopularQuery();
-                        break;
-                    default:
-                        break;
-                }
+                refreshQuery();
             }
         });
     }
@@ -145,6 +125,29 @@ public class MainFragment extends Fragment implements NYTQueriesRunner.NYTQueryR
         this.queriesRunner=new NYTQueriesRunner(this);
     }
 
+    /**Refreshes the query depending on the current id**/
+
+    private void refreshQuery(){
+        switch(this.id) {
+            case ID_TOP_STORIES:
+                startTopStoriesQuery();
+                break;
+            case ID_MOST_POPULARS:
+                startMostPopularQuery();
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**Updates the UI components**/
+
+    private void updateUI(){
+        this.progressBar.setVisibility(View.GONE);
+        this.swipeRefreshLayout.setRefreshing(false);
+        this.articleAdapter.notifyDataSetChanged();
+    }
+
     /**Starts a query to get the top stories articles**/
 
     private void startTopStoriesQuery(){
@@ -167,25 +170,20 @@ public class MainFragment extends Fragment implements NYTQueriesRunner.NYTQueryR
 
     @Override
     public void onResponse(TopStoriesAPIResponse topStoriesAPIResponse) {
-        this.progressBar.setVisibility(View.GONE);
-        this.swipeRefreshLayout.setRefreshing(false);
         this.articles.clear();
         this.articles.addAll(topStoriesAPIResponse.getResults());
-        this.articleAdapter.notifyDataSetChanged();
+        updateUI();
     }
 
     @Override
     public void onResponse(MostPopularAPIResponse mostPopularAPIResponse) {
-        this.progressBar.setVisibility(View.GONE);
-        this.swipeRefreshLayout.setRefreshing(false);
         this.articles.clear();
         this.articles.addAll(mostPopularAPIResponse.getResults());
-        this.articleAdapter.notifyDataSetChanged();
+        updateUI();
     }
 
     @Override
     public void onError() {
-        this.progressBar.setVisibility(View.GONE);
-        this.swipeRefreshLayout.setRefreshing(false);
+        updateUI();
     }
 }
