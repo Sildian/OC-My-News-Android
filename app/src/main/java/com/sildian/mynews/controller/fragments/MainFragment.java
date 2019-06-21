@@ -135,6 +135,7 @@ public class MainFragment extends Fragment {
     /**Refreshes the query depending on the current id**/
 
     private void refreshQuery(){
+        //Todo : change the queries parameters
         switch(this.id) {
             case ID_TOP_STORIES:
                 String section= Utilities.convertQueryWord(getString(R.string.section_name_default));

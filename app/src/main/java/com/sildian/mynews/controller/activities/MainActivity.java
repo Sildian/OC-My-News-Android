@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import android.app.Application;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -44,15 +45,17 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        //Todo : change the events within the menu options
+        Intent settingsActivityIntent=new Intent(this, SettingsActivity.class);
         switch(item.getItemId()){
             case R.id.menu_main_add:
-                Log.i("CHECK_MENU", "Add");
+                startActivity(settingsActivityIntent);
                 break;
             case R.id.menu_main_search:
-                Log.i("CHECK_MENU", "Search");
+                startActivity(settingsActivityIntent);
                 break;
             case R.id.menu_main_notifications:
-                Log.i("CHECK_MENU", "Notifications");
+                startActivity(settingsActivityIntent);
                 break;
         }
         return super.onOptionsItemSelected(item);
