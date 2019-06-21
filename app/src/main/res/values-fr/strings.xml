@@ -15,7 +15,14 @@
         <item>Recherche</item>
     </string-array>
 
+    <string-array name="settings_pages_names">
+        <item>Ajouter des sujets</item>
+        <item>Rechercher des articles</item>
+        <item>Activer les notifications</item>
+    </string-array>
+
     <string name="message_request_error">Désolé, impossible de télécharger les articles!</string>
+    <string name="button_validate_text">Valider</string>
 
     <string-array name="sections_names">
         <item>Arts</item>

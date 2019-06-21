@@ -27,13 +27,13 @@ import butterknife.ButterKnife;
  * to search articles or to activate/deactivate notifications
  *************************************************************************************************/
 
-public class SettingsBaseFragment extends Fragment {
+public abstract class SettingsBaseFragment extends Fragment {
 
     /**Components**/
 
-    @BindView(R.id.fragment_settings_base_table) TableLayout sectionsTableLayout;
-    private List<TableRow> sectionsTableRows;
-    private List<CheckBox> sectionsCheckBoxes;
+    private TableLayout sectionsTableLayout;            //The table
+    private List<TableRow> sectionsTableRows;           //The rows in the table
+    protected List<CheckBox> sectionsCheckBoxes;        //The check boxes
 
     /**Constructor**/
 
@@ -42,14 +42,16 @@ public class SettingsBaseFragment extends Fragment {
         this.sectionsCheckBoxes=new ArrayList<>();
     }
 
-    /**Callback methods**/
+    /**Callback methods
+     * onCreateView
+     * @param layout : additional param, this is the layout which should contain the check boxes
+     */
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_settings_base, container, false);
-        ButterKnife.bind(this, view);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState, TableLayout layout) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        this.sectionsTableLayout=layout;
         generateSectionsCheckBoxes();
-        return view;
+        return this.sectionsTableLayout;
     }
 
     /**Generates check boxes allowing to select the sections

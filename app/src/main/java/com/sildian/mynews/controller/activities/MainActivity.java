@@ -6,7 +6,6 @@ import androidx.viewpager.widget.ViewPager;
 import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -25,6 +24,10 @@ public class MainActivity extends AppCompatActivity {
     /**Static attributes**/
 
     public static Application APPLICATION;
+
+    /**Keys used to transfer data within intents**/
+
+    public static final String KEY_SETTINGS_ID="KEY_SETTINGS_ID";
 
     /**Callback methods**/
 
@@ -45,19 +48,21 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        //Todo : change the events within the menu options
         Intent settingsActivityIntent=new Intent(this, SettingsActivity.class);
         switch(item.getItemId()){
             case R.id.menu_main_add:
-                startActivity(settingsActivityIntent);
+                settingsActivityIntent.putExtra(KEY_SETTINGS_ID, SettingsActivity.ID_SHEETS);
                 break;
             case R.id.menu_main_search:
-                startActivity(settingsActivityIntent);
+                settingsActivityIntent.putExtra(KEY_SETTINGS_ID, SettingsActivity.ID_SEARCH);
                 break;
             case R.id.menu_main_notifications:
-                startActivity(settingsActivityIntent);
+                settingsActivityIntent.putExtra(KEY_SETTINGS_ID, SettingsActivity.ID_NOTIFICATIONS);
+                break;
+            default:
                 break;
         }
+        startActivity(settingsActivityIntent);
         return super.onOptionsItemSelected(item);
     }
 

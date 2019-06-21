@@ -14,7 +14,14 @@
         <item>Research</item>
     </string-array>
 
+    <string-array name="settings_pages_names">
+        <item>Add topics</item>
+        <item>Search articles</item>
+        <item>Activate notifications</item>
+    </string-array>
+
     <string name="message_request_error">Sorry, couldn\'t load the articles!</string>
+    <string name="button_validate_text">Validate</string>
 
     <string-array name="sections_names">
         <item>Arts</item>
@@ -44,8 +51,5 @@
     </string-array>
 
     <string name="section_name_default">Home</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
