@@ -52,8 +52,8 @@ class SearchArticle : Article {
     }
 
     override fun getArticleImageUrl(): String? {
-        if(this.multimedia!=null&&this.multimedia.size>0) {
-            return this.multimedia.get(0).url
+        if(!this.multimedia.isNullOrEmpty()) {
+            return "https://static01.nyt.com/"+this.multimedia.get(0).url
         }else{
             return null
         }

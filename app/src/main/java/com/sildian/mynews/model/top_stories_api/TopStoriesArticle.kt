@@ -43,9 +43,8 @@ class TopStoriesArticle : Article {
     }
 
     override fun getArticleImageUrl(): String? {
-        val multimedia:List<TopStoriesMultimedium>?=this.multimedia
-        if(!multimedia.isNullOrEmpty()) {
-            return multimedia.get(0).url
+        if(!this.multimedia.isNullOrEmpty()){
+            return this.multimedia.get(0).url
         }else{
             return null
         }

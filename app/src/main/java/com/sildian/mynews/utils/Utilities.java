@@ -2,6 +2,7 @@ package com.sildian.mynews.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
@@ -49,7 +50,7 @@ public class Utilities {
 
     public static String convertDate(String inputDate){
 
-        SimpleDateFormat inputFormat=new SimpleDateFormat("yyyy-MM-dd'T'HH-mm");
+        SimpleDateFormat inputFormat=new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         SimpleDateFormat outputFormat=new SimpleDateFormat("MM/dd/yyyy");
 
         Date date=new Date();
