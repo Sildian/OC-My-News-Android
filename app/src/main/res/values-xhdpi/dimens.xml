@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="component_margin">4dp</dimen>
+    <dimen name="text_size_title">15sp</dimen>
+    <dimen name="text_size_normal">12sp</dimen>
+
     <dimen name="list_articles_layout_margin">4dp</dimen>
     <dimen name="list_articles_components_margin">4dp</dimen>
     <dimen name="list_articles_item_image_width">80dp</dimen>

@@ -1,5 +1,7 @@
 package com.sildian.mynews.utils;
 
+import android.util.Log;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
@@ -57,7 +59,10 @@ public class Utilities {
         try {
             date = inputFormat.parse(inputDate);
         }
-        catch(ParseException e){}
+        catch(ParseException e){
+            Log.d("CHECK_DATE", e.getMessage());
+            return "";
+        }
 
         String outputDate=outputFormat.format(date);
 

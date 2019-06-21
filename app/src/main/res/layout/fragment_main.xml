@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="@string/message_request_error"
-        android:textSize="@dimen/list_articles_item_text_size_body"
+        android:textSize="@dimen/text_size_title"
         android:visibility="gone" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
