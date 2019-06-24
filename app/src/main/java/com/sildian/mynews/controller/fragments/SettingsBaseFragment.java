@@ -1,13 +1,9 @@
 package com.sildian.mynews.controller.fragments;
 
 
-import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -16,9 +12,6 @@ import com.sildian.mynews.R;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /*************************************************************************************************
  * SettingsBaseFragment
@@ -31,8 +24,8 @@ public abstract class SettingsBaseFragment extends Fragment {
 
     /**Components**/
 
-    private TableLayout sectionsTableLayout;            //The table
-    private List<TableRow> sectionsTableRows;           //The rows in the table
+    protected TableLayout sectionsTableLayout;          //The table
+    protected List<TableRow> sectionsTableRows;         //The rows in the table
     protected List<CheckBox> sectionsCheckBoxes;        //The check boxes
 
     /**Constructor**/
@@ -42,23 +35,13 @@ public abstract class SettingsBaseFragment extends Fragment {
         this.sectionsCheckBoxes=new ArrayList<>();
     }
 
-    /**Callback methods
-     * onCreateView
-     * @param layout : additional param, this is the layout which should contain the check boxes
-     */
-
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState, TableLayout layout) {
-        super.onCreateView(inflater, container, savedInstanceState);
-        this.sectionsTableLayout=layout;
-        generateSectionsCheckBoxes();
-        return this.sectionsTableLayout;
-    }
-
     /**Generates check boxes allowing to select the sections
      * The number of check boxes depends on R.array.sections_names's size
      * 2 check boxes are shown by row**/
 
-    private void generateSectionsCheckBoxes(){
+    protected void generateSectionsCheckBoxes(TableLayout sectionsTableLayout){
+
+        this.sectionsTableLayout=sectionsTableLayout;
 
         String[] sections= getResources().getStringArray(R.array.sections_names);       //List of sections
         View sectionTableRowTemplate;                                                   //Gets a template to create a row in the table

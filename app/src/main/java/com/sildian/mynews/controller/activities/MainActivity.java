@@ -11,6 +11,7 @@ import android.view.MenuItem;
 
 import com.google.android.material.tabs.TabLayout;
 import com.sildian.mynews.R;
+import com.sildian.mynews.model.UserSettings;
 import com.sildian.mynews.view.MainFragmentAdapter;
 
 /*************************************************************************************************
@@ -28,6 +29,11 @@ public class MainActivity extends AppCompatActivity {
     /**Keys used to transfer data within intents**/
 
     public static final String KEY_SETTINGS_ID="KEY_SETTINGS_ID";
+    public static final String KEY_SETTINGS_USER="KEY_SETTINGS_USER";
+
+    /**Other attributes**/
+
+    UserSettings userSettings;                                  //The user settings
 
     /**Callback methods**/
 
@@ -37,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         APPLICATION=getApplication();
         setContentView(R.layout.activity_main);
         setSupportActionBar(findViewById(R.id.activity_main_toolbar));
+        initializeUserSettings();
         initializeViewPager();
     }
 
@@ -48,7 +55,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         Intent settingsActivityIntent=new Intent(this, SettingsActivity.class);
+
         switch(item.getItemId()){
             case R.id.menu_main_add:
                 settingsActivityIntent.putExtra(KEY_SETTINGS_ID, SettingsActivity.ID_SHEETS);
@@ -62,8 +71,17 @@ public class MainActivity extends AppCompatActivity {
             default:
                 break;
         }
+
+        settingsActivityIntent.putExtra(KEY_SETTINGS_USER, this.userSettings);
+
         startActivity(settingsActivityIntent);
         return super.onOptionsItemSelected(item);
+    }
+
+    /**Initializes the user settings**/
+
+    private void initializeUserSettings(){
+        this.userSettings=new UserSettings();
     }
 
     /**Initializes the view pager and displays the fragments**/

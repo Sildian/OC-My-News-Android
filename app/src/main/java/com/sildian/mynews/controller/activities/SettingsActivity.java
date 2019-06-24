@@ -3,10 +3,12 @@ package com.sildian.mynews.controller.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.sildian.mynews.R;
 import com.sildian.mynews.controller.fragments.SettingsBaseFragment;
 import com.sildian.mynews.controller.fragments.SettingsSheetsFragment;
+import com.sildian.mynews.model.UserSettings;
 
 /*************************************************************************************************
  * SettingsActivity
