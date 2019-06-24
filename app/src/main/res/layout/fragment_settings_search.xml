@@ -26,16 +26,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_margin="@dimen/component_margin"
-            android:textSize="@dimen/text_size_title"/>
+            android:layout_margin="@dimen/component_margin" />
 
         <Spinner
             android:id="@+id/fragment_settings_search_end_date"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_margin="@dimen/component_margin"
-            android:textSize="@dimen/text_size_title"/>
+            android:layout_margin="@dimen/component_margin" />
 
     </LinearLayout>
 

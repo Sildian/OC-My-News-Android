@@ -10,7 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.Switch;
 import android.widget.TableLayout;
+import android.widget.TextView;
 
 import com.sildian.mynews.R;
 import com.sildian.mynews.model.UserSettings;
@@ -27,7 +29,9 @@ public class SettingsNotificationFragment extends SettingsBaseFragment implement
 
     /**Components**/
 
+    @BindView(R.id.fragment_settings_notification_keywords) TextView keyWordsText;
     @BindView(R.id.fragment_settings_notification_sections) TableLayout sectionsLayout;
+    @BindView(R.id.fragment_settings_notification_switch) Switch notificationSwitch;
     @BindView(R.id.fragment_settings_notification_button_validate) Button validateButton;
 
     /**Constructor**/
