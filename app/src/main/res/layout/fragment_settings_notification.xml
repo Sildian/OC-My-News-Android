@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".controller.fragments.SettingsNotificationFragment">
+
+    <EditText
+        android:id="@+id/fragment_settings_notification_keywords"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/component_margin"
+        android:ems="10"
+        android:inputType="text"
+        android:textSize="@dimen/text_size_title"
+        android:hint="@string/text_search_query_text" />
+
+    <TableLayout
+        android:id="@+id/fragment_settings_notification_sections"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="@dimen/component_margin"
+        android:background="?android:attr/listDivider" />
+
+    <Switch
+        android:id="@+id/fragment_settings_notification_switch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/component_margin"
+        android:textSize="@dimen/text_size_title"
+        android:text="@string/switch_notifications_text" />
+
+    <Button
+        android:id="@+id/fragment_settings_notification_button_validate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/component_margin"
+        android:text="@string/button_validate_text" />
+
+</LinearLayout>

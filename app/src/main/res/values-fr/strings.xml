@@ -22,7 +22,12 @@
     </string-array>
 
     <string name="message_request_error">Désolé, impossible de télécharger les articles!</string>
+    <string name="text_search_query_text">Mots recherchés</string>
+    <string name="text_begin_date_text">Date de début</string>
+    <string name="text_end_date_text">Date de fin</string>
     <string name="button_validate_text">Valider</string>
+    <string name="button_search_text">Rechercher</string>
+    <string name="switch_notifications_text">Activer les notifications (une par jour)</string>
 
     <string-array name="sections_names">
         <item>Arts</item>

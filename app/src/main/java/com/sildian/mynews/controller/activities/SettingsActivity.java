@@ -8,6 +8,8 @@ import android.util.Log;
 
 import com.sildian.mynews.R;
 import com.sildian.mynews.controller.fragments.SettingsBaseFragment;
+import com.sildian.mynews.controller.fragments.SettingsNotificationFragment;
+import com.sildian.mynews.controller.fragments.SettingsSearchFragment;
 import com.sildian.mynews.controller.fragments.SettingsSheetsFragment;
 import com.sildian.mynews.model.UserSettings;
 
@@ -77,9 +79,23 @@ public class SettingsActivity extends AppCompatActivity {
                 break;
 
             case ID_SEARCH:
+                this.settingsFragment=(SettingsSearchFragment)getSupportFragmentManager().findFragmentById(R.id.activity_settings_fragment);
+                if(this.settingsFragment==null){
+                    this.settingsFragment=new SettingsSearchFragment(this.userSettings);
+                    getSupportFragmentManager().beginTransaction()
+                            .add(R.id.activity_settings_fragment, this.settingsFragment)
+                            .commit();
+                }
                 break;
 
             case ID_NOTIFICATIONS:
+                this.settingsFragment=(SettingsNotificationFragment)getSupportFragmentManager().findFragmentById(R.id.activity_settings_fragment);
+                if(this.settingsFragment==null){
+                    this.settingsFragment=new SettingsNotificationFragment(this.userSettings);
+                    getSupportFragmentManager().beginTransaction()
+                            .add(R.id.activity_settings_fragment, this.settingsFragment)
+                            .commit();
+                }
                 break;
 
             default:

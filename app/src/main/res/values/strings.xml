@@ -21,7 +21,12 @@
     </string-array>
 
     <string name="message_request_error">Sorry, couldn\'t load the articles!</string>
+    <string name="text_search_query_text">Search query term</string>
+    <string name="text_begin_date_text">Begin date</string>
+    <string name="text_end_date_text">End date</string>
     <string name="button_validate_text">Validate</string>
+    <string name="button_search_text">Search</string>
+    <string name="switch_notifications_text">Enable notifications (once per day)</string>
 
     <string-array name="sections_names">
         <item>Arts</item>
@@ -51,5 +56,8 @@
     </string-array>
 
     <string name="section_name_default">Home</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

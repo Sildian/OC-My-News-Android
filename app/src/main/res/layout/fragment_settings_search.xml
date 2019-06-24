@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".controller.fragments.SettingsSearchFragment">
+
+    <EditText
+        android:id="@+id/fragment_settings_search_keywords"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/component_margin"
+        android:ems="10"
+        android:inputType="text"
+        android:textSize="@dimen/text_size_title"
+        android:hint="@string/text_search_query_text" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Spinner
+            android:id="@+id/fragment_settings_search_begin_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="@dimen/component_margin"
+            android:textSize="@dimen/text_size_title"/>
+
+        <Spinner
+            android:id="@+id/fragment_settings_search_end_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="@dimen/component_margin"
+            android:textSize="@dimen/text_size_title"/>
+
+    </LinearLayout>
+
+    <TableLayout
+        android:id="@+id/fragment_settings_search_sections"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/fragment_settings_search_button_validate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/component_margin"
+        android:text="@string/button_search_text" />
+
+</LinearLayout>
