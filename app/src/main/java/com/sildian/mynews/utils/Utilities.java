@@ -46,14 +46,16 @@ public class Utilities {
     }
 
     /**Converts a date's format from the article to the date to display
-     * @param inputDate : a String containing the date received from an article
+     * @param inputDateFormat : the input date format
+     * @param outputDateFormat : the output date format
+     * @param inputDate : the date received from an article
      * @return a String containing the date to display
      */
 
-    public static String convertDate(String inputDate){
+    public static String convertDate(String inputDateFormat, String outputDateFormat, String inputDate){
 
-        SimpleDateFormat inputFormat=new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        SimpleDateFormat outputFormat=new SimpleDateFormat("MM/dd/yyyy");
+        SimpleDateFormat inputFormat=new SimpleDateFormat(inputDateFormat);
+        SimpleDateFormat outputFormat=new SimpleDateFormat(outputDateFormat);
 
         Date date=new Date();
         try {

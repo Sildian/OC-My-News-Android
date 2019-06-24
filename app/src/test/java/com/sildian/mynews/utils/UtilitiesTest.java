@@ -28,9 +28,20 @@ public class UtilitiesTest {
     }
 
     @Test
-    public void given_date_when_convertDate_then_checkResult(){
+    public void given_simpleDateFormat_when_convertDate_then_checkResult(){
+        String inputDateFormat="yyyy-MM-dd";
+        String outputDateFormat="MM/dd/yyyy";
+        String date="2019-06-20";
+        String result=Utilities.convertDate(inputDateFormat, outputDateFormat, date);
+        assertEquals("06/20/2019", result);
+    }
+
+    @Test
+    public void given_complexDateFormat_when_convertDate_then_checkResult(){
+        String inputDateFormat="yyyy-MM-dd'T'HH:mm:ss";
+        String outputDateFormat="MM/dd/yyyy";
         String date="2019-06-20T05:27:03-04:00";
-        String result=Utilities.convertDate(date);
+        String result=Utilities.convertDate(inputDateFormat, outputDateFormat, date);
         assertEquals("06/20/2019", result);
     }
 }

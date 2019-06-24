@@ -45,8 +45,12 @@ public class ArticleViewHolder extends RecyclerView.ViewHolder {
         if(article.getArticleImageUrl()!=null) {
             glide.load(article.getArticleImageUrl()).apply(RequestOptions.noTransformation()).into(this.articleImage);
         }
-        this.articleSectionText.setText(article.getArticleSection()+" > "+article.getArticleSubSection());
-        this.articleDateText.setText(Utilities.convertDate(article.getArticleDate()));
+        if(article.getArticleSubSection().equals("")){
+            this.articleSectionText.setText(article.getArticleSection());
+        }else {
+            this.articleSectionText.setText(article.getArticleSection() + " > " + article.getArticleSubSection());
+        }
+        this.articleDateText.setText(article.getArticleDate());
         this.articleTitleText.setText(article.getArticleTitle());
     }
 }

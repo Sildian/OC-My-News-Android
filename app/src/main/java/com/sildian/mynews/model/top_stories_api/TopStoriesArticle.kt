@@ -3,6 +3,7 @@ package com.sildian.mynews.model.top_stories_api
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.sildian.mynews.model.Article
+import com.sildian.mynews.utils.Utilities
 
 /**************************************************************************************************
  * TopStoriesArticle
@@ -39,7 +40,9 @@ class TopStoriesArticle : Article {
     }
 
     override fun getArticleDate(): String? {
-        return this.publishedDate
+        val inputDateFormat:String="yyyy-MM-dd'T'HH:mm:ss"
+        val outputDateFormat:String="MM/dd/yyyy"
+        return Utilities.convertDate(inputDateFormat, outputDateFormat, this.publishedDate)
     }
 
     override fun getArticleImageUrl(): String? {
