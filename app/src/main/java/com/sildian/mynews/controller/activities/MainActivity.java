@@ -1,5 +1,6 @@
 package com.sildian.mynews.controller.activities;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
@@ -30,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String KEY_SETTINGS_ID="KEY_SETTINGS_ID";
     public static final String KEY_SETTINGS_USER="KEY_SETTINGS_USER";
+
+    public static final int KEY_RESULT_SETTINGS=10;
 
     /**Other attributes**/
 
@@ -73,9 +76,18 @@ public class MainActivity extends AppCompatActivity {
         }
 
         settingsActivityIntent.putExtra(KEY_SETTINGS_USER, this.userSettings);
+        startActivityForResult(settingsActivityIntent, KEY_RESULT_SETTINGS);
 
-        startActivity(settingsActivityIntent);
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        switch(requestCode){
+            case KEY_RESULT_SETTINGS:
+                this.userSettings=data.getParcelableExtra(KEY_SETTINGS_USER);
+                break;
+        }
     }
 
     /**Initializes the user settings**/

@@ -6,16 +6,16 @@
     android:orientation="vertical"
     tools:context=".controller.fragments.SettingsSheetsFragment">
 
-    <include
+    <TableLayout
         android:id="@+id/fragment_settings_sheets_sections"
-        layout="@layout/fragment_settings_base"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <Button
-        android:id="@+id/fragment_settings_sheet_button_validation"
+        android:id="@+id/fragment_settings_sheet_button_validate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/component_margin"
         android:text="@string/button_validate_text" />
+
 </LinearLayout>

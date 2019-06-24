@@ -9,6 +9,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 
 import com.sildian.mynews.R;
+import com.sildian.mynews.model.UserSettings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,16 +29,24 @@ public abstract class SettingsBaseFragment extends Fragment {
     protected List<TableRow> sectionsTableRows;         //The rows in the table
     protected List<CheckBox> sectionsCheckBoxes;        //The check boxes
 
+    /**Attributes**/
+
+    protected UserSettings userSettings;                //The user settings
+
     /**Constructor**/
 
-    public SettingsBaseFragment() {
+    public SettingsBaseFragment(UserSettings userSettings) {
         this.sectionsTableRows=new ArrayList<>();
         this.sectionsCheckBoxes=new ArrayList<>();
+        this.userSettings=userSettings;
     }
 
     /**Generates check boxes allowing to select the sections
+     * @param sectionsTableLayout : the base Table layout
      * The number of check boxes depends on R.array.sections_names's size
-     * 2 check boxes are shown by row**/
+     * 2 check boxes are shown by row
+     */
+
 
     protected void generateSectionsCheckBoxes(TableLayout sectionsTableLayout){
 
@@ -68,6 +77,18 @@ public abstract class SettingsBaseFragment extends Fragment {
             this.sectionsCheckBoxes.get(this.sectionsCheckBoxes.size()-1).setText(sections[i]);
             this.sectionsTableRows.get(this.sectionsTableRows.size()-1)
                     .addView(this.sectionsCheckBoxes.get(this.sectionsCheckBoxes.size()-1));
+        }
+    }
+
+    /**Refreshes the screen
+     * @param sections : the list used to update the sections check boxes
+     */
+
+    protected void refreshScreen(List<String> sections){
+        for(CheckBox sectionCheckBox:this.sectionsCheckBoxes){
+            if(sections.contains(sectionCheckBox.getText().toString())){
+                sectionCheckBox.setChecked(true);
+            }
         }
     }
 }
