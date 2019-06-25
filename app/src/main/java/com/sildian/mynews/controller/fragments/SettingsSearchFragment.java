@@ -74,6 +74,9 @@ public class SettingsSearchFragment extends SettingsBaseFragment implements View
             for (CheckBox sectionCheckBox : this.sectionsCheckBoxes) {
                 this.userSettings.updateSearchSections(sectionCheckBox.getText().toString(), sectionCheckBox.isChecked());
             }
+            this.userSettings.setSearchKeyWords(this.keyWordsText.getText().toString());
+            this.userSettings.setSearchBeginDate(this.beginDateText.getText().toString());
+            this.userSettings.setSearchEndDate(this.endDateText.getText().toString());
             getActivity().finish();
         }
     }
@@ -82,6 +85,9 @@ public class SettingsSearchFragment extends SettingsBaseFragment implements View
 
     private void refreshScreen(){
         super.refreshScreen(this.userSettings.getSearchSections());
+        this.keyWordsText.setText(this.userSettings.getSearchKeyWords());
+        this.beginDateText.setText(this.userSettings.getSearchBeginDate());
+        this.endDateText.setText(this.userSettings.getSearchEndDate());
     }
 
     /**Shows a Date picker dialog**/

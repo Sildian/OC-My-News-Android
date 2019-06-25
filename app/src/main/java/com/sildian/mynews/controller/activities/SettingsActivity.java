@@ -1,10 +1,11 @@
 package com.sildian.mynews.controller.activities;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.sildian.mynews.R;
 import com.sildian.mynews.controller.fragments.SettingsBaseFragment;
@@ -49,6 +50,17 @@ public class SettingsActivity extends AppCompatActivity {
         this.userSettings=getIntent().getParcelableExtra(MainActivity.KEY_SETTINGS_USER);
         setActivityResult();
         displaySettingsFragment();
+    }
+
+    @Override
+    public void onBackPressed() {
+        showBackDialog();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        showBackDialog();
+        return true;
     }
 
     /**Sets the result that the activity returns after finishing**/
@@ -101,5 +113,28 @@ public class SettingsActivity extends AppCompatActivity {
             default:
                 break;
         }
+    }
+
+    /**Shows a dialog box asking confirmation to leave the activity**/
+
+    //TODO : complete the actions to do in this dialog
+
+    public void showBackDialog(){
+        AlertDialog.Builder backDialog=new AlertDialog.Builder(this);
+        backDialog.setTitle("Au revoir");
+        backDialog.setMessage("By bye");
+        backDialog.setNegativeButton("Non", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        backDialog.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        backDialog.create().show();
     }
 }

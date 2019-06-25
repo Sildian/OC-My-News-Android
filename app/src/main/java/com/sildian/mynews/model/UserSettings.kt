@@ -12,6 +12,8 @@ class UserSettings : Parcelable {
 
     var sheetsSections=arrayListOf<String>(); private set               //The additional sections in the main menu
     var searchKeyWords:String=""                                        //The key words in the search options
+    var searchBeginDate:String=""                                       //The begin date in the search options
+    var searchEndDate:String=""                                         //The end date in the search options
     var searchSections=arrayListOf<String>(); private set               //The sections in the search options
     var notificationKeyWords:String=""                                  //The key words in the notification options
     var notificationSections=arrayListOf<String>(); private set         //The sections in the notification options
@@ -28,6 +30,8 @@ class UserSettings : Parcelable {
     constructor(parcel: Parcel){
         parcel.readStringList(this.sheetsSections)
         this.searchKeyWords=parcel.readString()
+        this.searchBeginDate=parcel.readString()
+        this.searchEndDate=parcel.readString()
         parcel.readStringList(this.searchSections)
         this.notificationKeyWords=parcel.readString()
         parcel.readStringList(this.notificationSections)
@@ -43,6 +47,8 @@ class UserSettings : Parcelable {
         if(dest!=null) {
             dest.writeStringList(this.sheetsSections)
             dest.writeString(this.searchKeyWords)
+            dest.writeString(this.searchBeginDate)
+            dest.writeString(this.searchEndDate)
             dest.writeStringList(this.searchSections)
             dest.writeString(this.notificationKeyWords)
             dest.writeStringList(this.notificationSections)

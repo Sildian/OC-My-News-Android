@@ -58,6 +58,8 @@ public class SettingsNotificationFragment extends SettingsBaseFragment implement
             for (CheckBox sectionCheckBox : this.sectionsCheckBoxes) {
                 this.userSettings.updateNotificationSections(sectionCheckBox.getText().toString(), sectionCheckBox.isChecked());
             }
+            this.userSettings.setNotificationKeyWords(this.keyWordsText.getText().toString());
+            this.userSettings.setNotificationOn(this.notificationSwitch.isChecked());
             getActivity().finish();
         }
     }
@@ -66,6 +68,7 @@ public class SettingsNotificationFragment extends SettingsBaseFragment implement
 
     private void refreshScreen(){
         super.refreshScreen(this.userSettings.getNotificationSections());
+        this.keyWordsText.setText(this.userSettings.getNotificationKeyWords());
+        this.notificationSwitch.setChecked(this.userSettings.getNotificationOn());
     }
-
 }
