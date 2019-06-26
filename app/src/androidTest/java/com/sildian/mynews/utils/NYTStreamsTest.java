@@ -1,4 +1,4 @@
-package com.sildian.mynews.model.utils;
+package com.sildian.mynews.utils;
 
 import android.util.Log;
 

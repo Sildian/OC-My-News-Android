@@ -1,11 +1,10 @@
-package com.sildian.mynews.model.utils;
+package com.sildian.mynews.utils;
 
 import androidx.annotation.Nullable;
 
 import com.sildian.mynews.model.most_popular_api.MostPopularAPIResponse;
 import com.sildian.mynews.model.articles_search_api.SearchAPIResponse;
 import com.sildian.mynews.model.top_stories_api.TopStoriesAPIResponse;
-import com.sildian.mynews.utils.Utilities;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;

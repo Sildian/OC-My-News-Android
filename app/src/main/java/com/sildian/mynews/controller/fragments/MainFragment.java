@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.sildian.mynews.R;
@@ -25,7 +24,7 @@ import com.sildian.mynews.model.UserSettings;
 import com.sildian.mynews.model.articles_search_api.SearchAPIResponse;
 import com.sildian.mynews.model.most_popular_api.MostPopularAPIResponse;
 import com.sildian.mynews.model.top_stories_api.TopStoriesAPIResponse;
-import com.sildian.mynews.model.utils.NYTStreams;
+import com.sildian.mynews.utils.NYTStreams;
 import com.sildian.mynews.utils.Utilities;
 import com.sildian.mynews.view.ArticleAdapter;
 import com.sildian.mynews.view.ItemClickSupport;
