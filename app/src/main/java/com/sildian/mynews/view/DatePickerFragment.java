@@ -12,6 +12,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 
 import com.sildian.mynews.R;
+import com.sildian.mynews.utils.Utilities;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -51,7 +52,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int day) {
-        String dateToDisplay=generateDateToDisplay(year, month, day);
+        String dateToDisplay= Utilities.generateDate("MM/dd/yyyy", year, month, day);
         this.callView.setText(dateToDisplay);
         this.callView.clearFocus();
     }
@@ -95,21 +96,5 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
             this.month=calendar.get(Calendar.MONTH);
             this.day=calendar.get(Calendar.DAY_OF_MONTH);
         }
-    }
-
-    /**Generates a date to display in the callView
-     * @param year : the year
-     * @param month : the month
-     * @param day : the day
-     * @return the date to display
-     */
-
-    private String generateDateToDisplay(int year, int month, int day){
-        Calendar calendar=Calendar.getInstance();
-        calendar.set(Calendar.YEAR, year);
-        calendar.set(Calendar.MONTH, month);
-        calendar.set(Calendar.DAY_OF_MONTH, day);
-        SimpleDateFormat dateFormat=new SimpleDateFormat("MM/dd/yyyy");
-        return dateFormat.format(calendar.getTime());
     }
 }

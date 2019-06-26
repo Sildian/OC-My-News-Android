@@ -29,6 +29,9 @@
     <string name="button_search_text">Search</string>
     <string name="switch_notifications_text">Enable notifications (once per day)</string>
 
+    <string name="notification_title">My news</string>
+    <string name="notification_text">New articles matching your criteria were published</string>
+
     <string-array name="sections_names">
         <item>Arts</item>
         <item>Automobiles</item>

@@ -30,6 +30,9 @@
     <string name="button_search_text">Rechercher</string>
     <string name="switch_notifications_text">Activer les notifications (une par jour)</string>
 
+    <string name="notification_title">My news</string>
+    <string name="notification_text">De nouveaux articles correspondants à vos critères ont été publiés</string>
+
     <string-array name="sections_names">
         <item>Arts</item>
         <item>Automobiles</item>

@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -44,11 +45,11 @@ public class Utilities {
         return filterBuilder.toString();
     }
 
-    /**Converts a date's format from the article to the date to display
+    /**Converts a date's format
      * @param inputDateFormat : the input date format
      * @param outputDateFormat : the output date format
-     * @param inputDate : the date received from an article
-     * @return a String containing the date to display
+     * @param inputDate : the input date
+     * @return the output date
      */
 
     public static String convertDate(String inputDateFormat, String outputDateFormat, String inputDate){
@@ -72,5 +73,22 @@ public class Utilities {
         }
 
         return outputDate;
+    }
+
+    /**Generates a date according to a given format pattern and year, month, day
+     * @param dateFormat : the format pattern
+     * @param year : the year
+     * @param month : the month
+     * @param day : the day
+     * @return : the date
+     */
+
+    public static String generateDate(String dateFormat, int year, int month, int day){
+        Calendar calendar=Calendar.getInstance();
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.DAY_OF_MONTH, day);
+        SimpleDateFormat format=new SimpleDateFormat(dateFormat);
+        return format.format(calendar.getTime());
     }
 }

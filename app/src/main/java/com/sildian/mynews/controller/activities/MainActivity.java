@@ -4,7 +4,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.AlarmManager;
 import android.app.Application;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,7 +16,10 @@ import com.google.android.material.tabs.TabLayout;
 import com.sildian.mynews.R;
 import com.sildian.mynews.controller.fragments.MainFragment;
 import com.sildian.mynews.model.UserSettings;
+import com.sildian.mynews.utils.NotificationReceiver;
 import com.sildian.mynews.view.MainFragmentAdapter;
+
+import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String KEY_SETTINGS_ID="KEY_SETTINGS_ID";
     public static final String KEY_SETTINGS_USER="KEY_SETTINGS_USER";
+    public static final String KEY_NOTIFICATION_USER="KEY_NOTIFICATION_USER";
 
     public static final int KEY_RESULT_SETTINGS=10;
 
@@ -121,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 break;
             case SettingsActivity.ID_NOTIFICATIONS:
+                setNotificationAlarm();
                 break;
             default:
                 break;
@@ -139,5 +146,33 @@ public class MainActivity extends AppCompatActivity {
         this.mainFragmentAdapter=new MainFragmentAdapter(getSupportFragmentManager(), this.userSettings);
         this.viewPager.setAdapter(this.mainFragmentAdapter);
         this.tabLayout.setupWithViewPager(viewPager);
+    }
+
+    /**Activates or deactivates the alarm allowing to send notification to the phone**/
+
+    private void setNotificationAlarm(){
+
+        //TODO : change the alarm first start and interval
+
+        /*Creates the alarm manager*/
+
+        AlarmManager notificationAlarm=(AlarmManager) getSystemService(ALARM_SERVICE);
+
+        /*Creates an intent allowing to start NotificationReceiver*/
+
+        Intent notificationReceiverIntent = new Intent(MainActivity.this, NotificationReceiver.class);
+        notificationReceiverIntent.putExtra(KEY_NOTIFICATION_USER, this.userSettings);
+        PendingIntent notificationReceiverPendingIntent = PendingIntent.getBroadcast(this, 0, notificationReceiverIntent, 0);
+
+        /*If the notification is on, activates the alarm. Else, deactivates it.*/
+
+        if(this.userSettings.getNotificationOn()) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.MINUTE, 1);
+            notificationAlarm.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 60000, notificationReceiverPendingIntent);
+        }
+        else{
+            notificationAlarm.cancel(notificationReceiverPendingIntent);
+        }
     }
 }
