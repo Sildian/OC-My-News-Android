@@ -16,7 +16,8 @@ import com.sildian.mynews.controller.fragments.MainFragment;
 import com.sildian.mynews.model.UserSettings;
 import com.sildian.mynews.view.MainFragmentAdapter;
 
-import java.util.Set;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /*************************************************************************************************
  * MainActivity
@@ -37,11 +38,15 @@ public class MainActivity extends AppCompatActivity {
 
     public static final int KEY_RESULT_SETTINGS=10;
 
+    /**View pager items**/
+
+    private MainFragmentAdapter mainFragmentAdapter;
+    @BindView (R.id.activity_main_view_pager) ViewPager viewPager;
+    @BindView (R.id.activity_main_tab_layout) TabLayout tabLayout;
+
     /**Other attributes**/
 
     private UserSettings userSettings;                      //The user settings
-    private ViewPager viewPager;                            //The view pager monitoring the fragments
-    private MainFragmentAdapter mainFragmentAdapter;        //The adapter monitoring the fragments
 
     /**Callback methods**/
 
@@ -51,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         APPLICATION=getApplication();
         setContentView(R.layout.activity_main);
         setSupportActionBar(findViewById(R.id.activity_main_toolbar));
+        ButterKnife.bind(this);
         initializeUserSettings();
         initializeViewPager();
     }
@@ -131,9 +137,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initializeViewPager(){
         this.mainFragmentAdapter=new MainFragmentAdapter(getSupportFragmentManager(), this.userSettings);
-        this.viewPager=findViewById(R.id.activity_main_view_pager);
         this.viewPager.setAdapter(this.mainFragmentAdapter);
-        TabLayout tabLayout=findViewById(R.id.activity_main_tab_layout);
-        tabLayout.setupWithViewPager(viewPager);
+        this.tabLayout.setupWithViewPager(viewPager);
     }
 }
