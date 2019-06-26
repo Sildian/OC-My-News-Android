@@ -65,7 +65,7 @@ public class Utilities {
                 date = inputFormat.parse(inputDate);
             } catch (ParseException e) {
                 Log.d("CHECK_DATE", e.getMessage());
-                return "";
+                return null;
             }
 
             outputDate = outputFormat.format(date);

@@ -185,11 +185,9 @@ public class MainFragment extends Fragment {
 
     private void refreshScreenAfterRequestError(){
         this.progressBar.setVisibility(View.GONE);
-        if(this.articles.isEmpty()) {
-            this.messageText.setVisibility(View.VISIBLE);
-        }
+        this.articleAdapter.notifyDataSetChanged();
+        this.messageText.setVisibility(View.VISIBLE);
         this.swipeRefreshLayout.setRefreshing(false);
-        Toast.makeText(getContext(), getString(R.string.message_request_error), Toast.LENGTH_LONG).show();
     }
 
     /**Runs the query to get the articles from NYT top stories API
@@ -208,8 +206,9 @@ public class MainFragment extends Fragment {
 
             @Override
             public void onError(Throwable e) {
-                refreshScreenAfterRequestError();
                 Log.d("CHECK_API", e.getMessage());
+                articles.clear();
+                refreshScreenAfterRequestError();
             }
 
             @Override
@@ -233,8 +232,9 @@ public class MainFragment extends Fragment {
 
             @Override
             public void onError(Throwable e) {
-                refreshScreenAfterRequestError();
                 Log.d("CHECK_API", e.getMessage());
+                articles.clear();
+                refreshScreenAfterRequestError();
             }
 
             @Override
@@ -264,8 +264,9 @@ public class MainFragment extends Fragment {
 
             @Override
             public void onError(Throwable e) {
-                refreshScreenAfterRequestError();
                 Log.d("CHECK_API", e.getMessage());
+                articles.clear();
+                refreshScreenAfterRequestError();
             }
 
             @Override
