@@ -1,10 +1,17 @@
 package com.sildian.mynews.utils;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
 
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+
+import com.sildian.mynews.R;
 import com.sildian.mynews.controller.activities.MainActivity;
 import com.sildian.mynews.model.UserSettings;
 import com.sildian.mynews.model.articles_search_api.SearchAPIResponse;
@@ -24,6 +31,12 @@ import io.reactivex.observers.DisposableObserver;
  ************************************************************************************************/
 
 public class NotificationReceiver extends BroadcastReceiver {
+
+    /**Static attributes**/
+
+    public static final String CHANEL_NOTIFICATION="CHANEL_NOTIFICATION";
+    public static final String CHANEL_NAME="My news notification";
+    public static final int NOTIFICATION_ID=10;
 
     /**Attributes**/
 
@@ -62,7 +75,7 @@ public class NotificationReceiver extends BroadcastReceiver {
                 .subscribeWith(new DisposableObserver<SearchAPIResponse>() {
                     @Override
                     public void onNext(SearchAPIResponse searchAPIResponse) {
-                        Log.i("CHECK_NOTIFICATION", "Articles found");
+                        sendNotification();
                     }
 
                     @Override
@@ -75,5 +88,44 @@ public class NotificationReceiver extends BroadcastReceiver {
 
                     }
                 });
+    }
+
+    /**Sends a notification to the phone**/
+
+    private void sendNotification(){
+
+        /*Creates the notification builder*/
+
+        NotificationCompat.Builder notificationBuilder;
+
+        /*If the current SDK is Oreo or higher, then creates a chanel*/
+
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O) {
+            NotificationChannel notificationChannel = new NotificationChannel
+                    (CHANEL_NOTIFICATION, CHANEL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
+            notificationChannel.setDescription(CHANEL_NAME);
+            NotificationManager notificationManager=(NotificationManager) MainActivity.APPLICATION.getSystemService(MainActivity.NOTIFICATION_SERVICE);
+            notificationManager.createNotificationChannel(notificationChannel);
+
+            notificationBuilder=new NotificationCompat.Builder(MainActivity.APPLICATION, CHANEL_NOTIFICATION);
+        }
+
+        /*Else just creates the notification builder and sets the priority*/
+
+        else{
+            notificationBuilder=new NotificationCompat.Builder(MainActivity.APPLICATION);
+            notificationBuilder.setPriority(NotificationManager.IMPORTANCE_DEFAULT);
+        }
+
+        /*Sets notification contents*/
+
+        notificationBuilder.setSmallIcon(R.mipmap.ic_launcher);
+        notificationBuilder.setContentTitle(MainActivity.APPLICATION.getResources().getString(R.string.notification_title));
+        notificationBuilder.setContentText(MainActivity.APPLICATION.getResources().getString(R.string.notification_text));
+
+        /*Send the notification*/
+
+        NotificationManagerCompat notificationManagerCompat=NotificationManagerCompat.from(MainActivity.APPLICATION);
+        notificationManagerCompat.notify(NOTIFICATION_ID, notificationBuilder.build());
     }
 }
