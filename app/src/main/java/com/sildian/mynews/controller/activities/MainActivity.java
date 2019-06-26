@@ -12,8 +12,11 @@ import android.view.MenuItem;
 
 import com.google.android.material.tabs.TabLayout;
 import com.sildian.mynews.R;
+import com.sildian.mynews.controller.fragments.MainFragment;
 import com.sildian.mynews.model.UserSettings;
 import com.sildian.mynews.view.MainFragmentAdapter;
+
+import java.util.Set;
 
 /*************************************************************************************************
  * MainActivity
@@ -36,7 +39,9 @@ public class MainActivity extends AppCompatActivity {
 
     /**Other attributes**/
 
-    UserSettings userSettings;                                  //The user settings
+    private UserSettings userSettings;                      //The user settings
+    private ViewPager viewPager;                            //The view pager monitoring the fragments
+    private MainFragmentAdapter mainFragmentAdapter;        //The adapter monitoring the fragments
 
     /**Callback methods**/
 
@@ -86,6 +91,32 @@ public class MainActivity extends AppCompatActivity {
         switch(requestCode){
             case KEY_RESULT_SETTINGS:
                 this.userSettings=data.getParcelableExtra(KEY_SETTINGS_USER);
+                this.mainFragmentAdapter.updateUserSettings(this.userSettings);
+                int id=data.getIntExtra(MainActivity.KEY_SETTINGS_ID, 0);
+                startTaskAfterSettingsActivityResult(id);
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**Defines a task to be proceeded after receiving a result from SettingsActivity
+     * @param id : the id received from SettingsActivity
+     */
+
+    private void startTaskAfterSettingsActivityResult(int id){
+        switch(id){
+            case SettingsActivity.ID_SHEETS:
+                break;
+            case SettingsActivity.ID_SEARCH:
+                if(this.viewPager.getCurrentItem()!= MainFragment.ID_SEARCH) {
+                    this.viewPager.setCurrentItem(MainFragment.ID_SEARCH, true);
+                    this.viewPager.getAdapter().notifyDataSetChanged();
+                }
+                break;
+            case SettingsActivity.ID_NOTIFICATIONS:
+                break;
+            default:
                 break;
         }
     }
@@ -99,8 +130,9 @@ public class MainActivity extends AppCompatActivity {
     /**Initializes the view pager and displays the fragments**/
 
     private void initializeViewPager(){
-        ViewPager viewPager=findViewById(R.id.activity_main_view_pager);
-        viewPager.setAdapter(new MainFragmentAdapter(getSupportFragmentManager()));
+        this.mainFragmentAdapter=new MainFragmentAdapter(getSupportFragmentManager(), this.userSettings);
+        this.viewPager=findViewById(R.id.activity_main_view_pager);
+        this.viewPager.setAdapter(this.mainFragmentAdapter);
         TabLayout tabLayout=findViewById(R.id.activity_main_tab_layout);
         tabLayout.setupWithViewPager(viewPager);
     }

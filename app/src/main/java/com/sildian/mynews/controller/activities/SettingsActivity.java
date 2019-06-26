@@ -67,6 +67,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void setActivityResult(){
         Intent resultIntent=new Intent();
+        resultIntent.putExtra(MainActivity.KEY_SETTINGS_ID, this.id);
         resultIntent.putExtra(MainActivity.KEY_SETTINGS_USER, this.userSettings);
         setResult(RESULT_OK, resultIntent);
     }

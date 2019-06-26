@@ -4,7 +4,6 @@ import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
@@ -54,19 +53,23 @@ public class Utilities {
 
     public static String convertDate(String inputDateFormat, String outputDateFormat, String inputDate){
 
-        SimpleDateFormat inputFormat=new SimpleDateFormat(inputDateFormat);
-        SimpleDateFormat outputFormat=new SimpleDateFormat(outputDateFormat);
+        String outputDate=null;
 
-        Date date=new Date();
-        try {
-            date = inputFormat.parse(inputDate);
-        }
-        catch(ParseException e){
-            Log.d("CHECK_DATE", e.getMessage());
-            return "";
-        }
+        if(!inputDate.isEmpty()) {
 
-        String outputDate=outputFormat.format(date);
+            SimpleDateFormat inputFormat = new SimpleDateFormat(inputDateFormat);
+            SimpleDateFormat outputFormat = new SimpleDateFormat(outputDateFormat);
+
+            Date date = new Date();
+            try {
+                date = inputFormat.parse(inputDate);
+            } catch (ParseException e) {
+                Log.d("CHECK_DATE", e.getMessage());
+                return "";
+            }
+
+            outputDate = outputFormat.format(date);
+        }
 
         return outputDate;
     }

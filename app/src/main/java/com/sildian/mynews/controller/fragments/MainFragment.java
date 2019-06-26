@@ -21,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.sildian.mynews.R;
 import com.sildian.mynews.controller.activities.ArticleActivity;
 import com.sildian.mynews.model.Article;
+import com.sildian.mynews.model.UserSettings;
 import com.sildian.mynews.model.articles_search_api.SearchAPIResponse;
 import com.sildian.mynews.model.most_popular_api.MostPopularAPIResponse;
 import com.sildian.mynews.model.top_stories_api.TopStoriesAPIResponse;
@@ -65,6 +66,7 @@ public class MainFragment extends Fragment {
     /**Attributes**/
 
     private int id;                                             //The id will define the behaviour of the fragment
+    private UserSettings userSettings;                          //The user settings
     private List<Article> articles;                             //The list of articles
     private ArticleAdapter articleAdapter;                      //The adapter to manage the recycler view
     private Disposable disposable;                              //The disposable which gets the response
@@ -73,8 +75,15 @@ public class MainFragment extends Fragment {
      * @param id : the id will define the behaviour of the fragment
      */
 
-    public MainFragment(int id) {
+    public MainFragment(int id, UserSettings userSettings) {
         this.id=id;
+        this.userSettings=userSettings;
+    }
+
+    /**Updates the user settings**/
+
+    public void updateUserSettings(UserSettings userSettings){
+        this.userSettings=userSettings;
     }
 
     /**Callback methods**/
@@ -134,8 +143,7 @@ public class MainFragment extends Fragment {
 
     /**Refreshes the query depending on the current id**/
 
-    private void refreshQuery(){
-        //Todo : change the queries parameters
+    public void refreshQuery(){
         switch(this.id) {
             case ID_TOP_STORIES:
                 String section= Utilities.convertQueryWord(getString(R.string.section_name_default));
@@ -145,11 +153,11 @@ public class MainFragment extends Fragment {
                 runMostPopularArticlesRequest();
                 break;
             case ID_SEARCH:
-                String keyWords="fish, chicken";
-                ArrayList<String> sections=new ArrayList<String>();
-                sections.add("food");
-                sections.add("arts");
-                runSearchArticlesRequest(keyWords, sections, "20190101", "20190530");
+                String keyWords=this.userSettings.getSearchKeyWords();
+                ArrayList<String> sections=this.userSettings.getSearchSections();
+                String beginDate=Utilities.convertDate("MM/dd/yyyy", "yyyyMMdd", this.userSettings.getSearchBeginDate());
+                String endDate=Utilities.convertDate("MM/dd/yyyy", "yyyyMMdd", this.userSettings.getSearchEndDate());
+                runSearchArticlesRequest(keyWords, sections, beginDate, endDate);
                 break;
             default:
                 break;
