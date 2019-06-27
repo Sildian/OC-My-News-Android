@@ -29,8 +29,8 @@ public class NYTStreams {
         NYTAPI nytApi=NYTAPI.retrofit.create(NYTAPI.class);
         return nytApi.getTopStoriesArticles(section, NYTAPI.API_KEY)
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .timeout(10, TimeUnit.SECONDS);
+                .timeout(10, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     /**Gets the articles from NYT Most popular API
@@ -41,8 +41,8 @@ public class NYTStreams {
         NYTAPI nytApi=NYTAPI.retrofit.create(NYTAPI.class);
         return nytApi.getMostPopularArticles("1", NYTAPI.API_KEY)
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .timeout(10, TimeUnit.SECONDS);
+                .timeout(10, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     /**Gets the articles from NYT Articles Search API
@@ -83,8 +83,8 @@ public class NYTStreams {
         NYTAPI nytApi=NYTAPI.retrofit.create(NYTAPI.class);
         return nytApi.getSearchArticlesWithNoDate(NYTAPI.API_KEY, "newest", keyWords, sectionsFilter)
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .timeout(10, TimeUnit.SECONDS);
+                .timeout(10, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     /**NYT Articles Search API : case begin date only**/
@@ -95,8 +95,8 @@ public class NYTStreams {
         NYTAPI nytApi=NYTAPI.retrofit.create(NYTAPI.class);
         return nytApi.getSearchArticlesWithBeginDate(NYTAPI.API_KEY, "newest", keyWords, sectionsFilter, beginDate)
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .timeout(10, TimeUnit.SECONDS);
+                .timeout(10, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     /**NYT Articles Search API : case end date only**/
@@ -107,8 +107,8 @@ public class NYTStreams {
         NYTAPI nytApi=NYTAPI.retrofit.create(NYTAPI.class);
         return nytApi.getSearchArticlesWithEndDate(NYTAPI.API_KEY, "newest", keyWords, sectionsFilter, endDate)
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .timeout(10, TimeUnit.SECONDS);
+                .timeout(10, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     /**NYT Articles Search API : case begin date and end date**/
@@ -119,7 +119,7 @@ public class NYTStreams {
         NYTAPI nytApi=NYTAPI.retrofit.create(NYTAPI.class);
         return nytApi.getSearchArticlesWithBeginDateAndEndDate(NYTAPI.API_KEY, "newest", keyWords, sectionsFilter, beginDate, endDate)
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .timeout(10, TimeUnit.SECONDS);
+                .timeout(10, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread());
     }
 }
