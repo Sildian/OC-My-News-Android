@@ -6,16 +6,28 @@
     android:orientation="vertical"
     tools:context=".controller.fragments.SettingsSheetsFragment">
 
-    <TableLayout
-        android:id="@+id/fragment_settings_sheets_sections"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/fragment_settings_sheets_button_validate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/component_margin"
-        android:text="@string/button_validate_text" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TableLayout
+                android:id="@+id/fragment_settings_sheets_sections"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/fragment_settings_sheets_button_validate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/component_margin"
+                android:text="@string/button_validate_text" />
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>
