@@ -8,11 +8,14 @@ import android.app.AlarmManager;
 import android.app.Application;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.Gson;
 import com.sildian.mynews.R;
 import com.sildian.mynews.controller.fragments.MainFragment;
 import com.sildian.mynews.model.UserSettings;
@@ -35,6 +38,11 @@ public class MainActivity extends AppCompatActivity {
     /**Static attributes**/
 
     public static Application APPLICATION;
+
+    /**Keys used to save and load the user settings**/
+
+    public static final String KEY_FILE_NAME="user_settings.xml";
+    public static final String KEY_FILE_USER_SETTINGS="KEY_FILE_USER_SETTINGS";
 
     /**Keys used to transfer data within intents**/
 
@@ -63,8 +71,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setSupportActionBar(findViewById(R.id.activity_main_toolbar));
         ButterKnife.bind(this);
-        initializeUserSettings();
+        loadUserSettings();
         initializeViewPager();
+    }
+
+    @Override
+    protected void onDestroy() {
+        saveUserSettings();
+        super.onDestroy();
     }
 
     @Override
@@ -134,12 +148,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /**Initializes the user settings**/
-
-    private void initializeUserSettings(){
-        this.userSettings=new UserSettings();
-    }
-
     /**Initializes the view pager and displays the fragments**/
 
     private void initializeViewPager(){
@@ -174,5 +182,31 @@ public class MainActivity extends AppCompatActivity {
         else{
             notificationAlarm.cancel(notificationReceiverPendingIntent);
         }
+    }
+
+    /**Loads the user settings if already exists.**/
+
+    private void loadUserSettings(){
+
+        Gson gson=new Gson();
+        SharedPreferences sharedPreferences=getSharedPreferences(KEY_FILE_NAME, MODE_PRIVATE);
+
+        if(sharedPreferences.contains(KEY_FILE_USER_SETTINGS)){
+            String userSettingsJson;
+            userSettingsJson=sharedPreferences.getString(KEY_FILE_USER_SETTINGS, null);
+            this.userSettings=gson.fromJson(userSettingsJson, UserSettings.class);
+        }
+        else{
+            this.userSettings=new UserSettings();
+        }
+    }
+
+    /**Saves the user settings**/
+
+    private void saveUserSettings(){
+        Gson gson=new Gson();
+        String userSettingsJson=gson.toJson(this.userSettings);
+        SharedPreferences sharedPreferences=getSharedPreferences(KEY_FILE_NAME, MODE_PRIVATE);
+        sharedPreferences.edit().putString(KEY_FILE_USER_SETTINGS, userSettingsJson).apply();
     }
 }
