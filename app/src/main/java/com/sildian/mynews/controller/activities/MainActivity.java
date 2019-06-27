@@ -16,13 +16,18 @@ import android.view.MenuItem;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.sildian.mynews.R;
 import com.sildian.mynews.controller.fragments.MainFragment;
 import com.sildian.mynews.model.UserSettings;
 import com.sildian.mynews.utils.NotificationReceiver;
 import com.sildian.mynews.view.MainFragmentAdapter;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,9 +44,9 @@ public class MainActivity extends AppCompatActivity {
 
     public static Application APPLICATION;
 
-    /**Keys used to save and load the user settings**/
+    /**Keys used to save and load data**/
 
-    public static final String KEY_FILE_NAME="user_settings.xml";
+    public static final String KEY_FILE_NAME_USER_SETTINGS="user_settings.xml";
     public static final String KEY_FILE_USER_SETTINGS="KEY_FILE_USER_SETTINGS";
 
     /**Keys used to transfer data within intents**/
@@ -191,11 +196,10 @@ public class MainActivity extends AppCompatActivity {
     private void loadUserSettings(){
 
         Gson gson=new Gson();
-        SharedPreferences sharedPreferences=getSharedPreferences(KEY_FILE_NAME, MODE_PRIVATE);
+        SharedPreferences sharedPreferences=getSharedPreferences(KEY_FILE_NAME_USER_SETTINGS, MODE_PRIVATE);
 
         if(sharedPreferences.contains(KEY_FILE_USER_SETTINGS)){
-            String userSettingsJson;
-            userSettingsJson=sharedPreferences.getString(KEY_FILE_USER_SETTINGS, null);
+            String userSettingsJson=sharedPreferences.getString(KEY_FILE_USER_SETTINGS, null);
             this.userSettings=gson.fromJson(userSettingsJson, UserSettings.class);
         }
         else{
@@ -208,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
     private void saveUserSettings(){
         Gson gson=new Gson();
         String userSettingsJson=gson.toJson(this.userSettings);
-        SharedPreferences sharedPreferences=getSharedPreferences(KEY_FILE_NAME, MODE_PRIVATE);
+        SharedPreferences sharedPreferences=getSharedPreferences(KEY_FILE_NAME_USER_SETTINGS, MODE_PRIVATE);
         sharedPreferences.edit().putString(KEY_FILE_USER_SETTINGS, userSettingsJson).apply();
     }
 }
