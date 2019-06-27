@@ -26,6 +26,8 @@
     <string name="dialog_negative_button_text">Non</string>
     <string name="dialog_settings_caution_title">Attention</string>
     <string name="dialog_settings_caution_message">Au moins un mot-clé et un thème doivent être sélectionnés.</string>
+    <string name="dialog_settings_back_title">Retour</string>
+    <string name="dialog_settings_back_message">Sauvegarder les paramètres?</string>
 
     <string name="notification_title">My news</string>
     <string name="notification_text">De nouveaux articles correspondants à vos critères ont été publiés</string>

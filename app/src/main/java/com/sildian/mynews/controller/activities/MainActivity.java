@@ -116,10 +116,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         switch(requestCode){
             case KEY_RESULT_SETTINGS:
-                this.userSettings=data.getParcelableExtra(KEY_SETTINGS_USER);
-                this.mainFragmentAdapter.updateUserSettings(this.userSettings);
-                int id=data.getIntExtra(MainActivity.KEY_SETTINGS_ID, 0);
-                startTaskAfterSettingsActivityResult(id);
+                if(resultCode==RESULT_OK) {
+                    this.userSettings = data.getParcelableExtra(KEY_SETTINGS_USER);
+                    this.mainFragmentAdapter.updateUserSettings(this.userSettings);
+                    int id = data.getIntExtra(MainActivity.KEY_SETTINGS_ID, 0);
+                    startTaskAfterSettingsActivityResult(id);
+                }
                 break;
             default:
                 break;

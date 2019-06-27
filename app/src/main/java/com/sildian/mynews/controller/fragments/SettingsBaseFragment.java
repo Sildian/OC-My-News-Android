@@ -5,16 +5,22 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import android.content.DialogInterface;
+import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
 import com.sildian.mynews.R;
+import com.sildian.mynews.controller.activities.SettingsActivity;
 import com.sildian.mynews.model.UserSettings;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.ButterKnife;
 
 /*************************************************************************************************
  * SettingsBaseFragment
@@ -35,12 +41,32 @@ public abstract class SettingsBaseFragment extends Fragment {
 
     protected UserSettings userSettings;                //The user settings
 
+    /**Abstract methods**/
+
+    protected abstract int getFragmentLayout();         //Gets the fragment layout
+    protected abstract TableLayout getSectionsLayout(); //Gets the sections layout
+    protected abstract void initializeViews();          //Initializes the views in the layout
+    protected abstract boolean updateUserSettings();    //Updates the user settings
+    public abstract void validateSettings();            //Validates the settings and eventually finishes the activity
+
     /**Constructor**/
 
     public SettingsBaseFragment(UserSettings userSettings) {
         this.sectionsTableRows=new ArrayList<>();
         this.sectionsCheckBoxes=new ArrayList<>();
         this.userSettings=userSettings;
+    }
+
+    /**Callback methods**/
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view=inflater.inflate(getFragmentLayout(), container, false);
+        ButterKnife.bind(this, view);
+        generateSectionsCheckBoxes(getSectionsLayout());
+        initializeViews();
+        refreshScreen();
+        return view;
     }
 
     /**Generates check boxes allowing to select the sections
@@ -82,16 +108,76 @@ public abstract class SettingsBaseFragment extends Fragment {
         }
     }
 
-    /**Refreshes the screen
-     * @param sections : the list used to update the sections check boxes
-     */
+    /**Refreshes the screen*/
 
-    protected void refreshScreen(List<String> sections){
+    protected void refreshScreen(){
+
+        /*Creates a list of sections and gets the activity*/
+
+        List<String> sections;
+        SettingsActivity settingsActivity=(SettingsActivity) getActivity();
+
+        /*Feeds the list of sections depending on the activity's id*/
+
+        switch(settingsActivity.getId()){
+            case SettingsActivity.ID_SHEETS:
+                sections=this.userSettings.getSheetsSections();
+                break;
+            case SettingsActivity.ID_SEARCH:
+                sections=this.userSettings.getSearchSections();
+                break;
+            case SettingsActivity.ID_NOTIFICATIONS:
+                sections=this.userSettings.getNotificationSections();
+                break;
+            default:
+                sections=new ArrayList();
+                break;
+        }
+
+        /*Then for each check box, sets it true or false*/
+
         for(CheckBox sectionCheckBox:this.sectionsCheckBoxes){
             if(sections.contains(sectionCheckBox.getText().toString())){
                 sectionCheckBox.setChecked(true);
             }
         }
+    }
+
+    /**Updates the user settings sections
+     * @return the number of checked sections
+     */
+
+    protected int updateUserSettingsSections(){
+
+        /*Initializes the number of checked sections to 0 and gets the activity*/
+
+        int nbSectionsChecked=0;
+        SettingsActivity settingsActivity=(SettingsActivity) getActivity();
+
+        /*For each check box, updates the user settings section depending on the activity's id*/
+
+        for (CheckBox sectionCheckBox : this.sectionsCheckBoxes) {
+            switch (settingsActivity.getId()){
+                case SettingsActivity.ID_SHEETS:
+                    this.userSettings.updateSheetsSections(sectionCheckBox.getText().toString(), sectionCheckBox.isChecked());
+                    break;
+                case SettingsActivity.ID_SEARCH:
+                    this.userSettings.updateSearchSections(sectionCheckBox.getText().toString(), sectionCheckBox.isChecked());
+                    break;
+                case SettingsActivity.ID_NOTIFICATIONS:
+                    this.userSettings.updateNotificationSections(sectionCheckBox.getText().toString(), sectionCheckBox.isChecked());
+                    break;
+                default:
+                    break;
+            }
+
+            /*Then if the current check box is checked, increases the number of checked sections*/
+
+            if(sectionCheckBox.isChecked()){
+                nbSectionsChecked++;
+            }
+        }
+        return nbSectionsChecked;
     }
 
     /**Shows a dialog box notifying the use that some fields are empty**/
@@ -107,5 +193,20 @@ public abstract class SettingsBaseFragment extends Fragment {
             }
         });
         cautionDialog.create().show();
+    }
+
+    /**Finishes the activity
+     * @param success : true if finishes with success
+     */
+
+    protected void finishActivity(boolean success){
+        SettingsActivity settingsActivity=(SettingsActivity) getActivity();
+        if(success){
+            settingsActivity.setActivityResultSuccess();
+        }
+        else{
+            settingsActivity.setActivityResultAbort();
+        }
+        settingsActivity.finish();
     }
 }

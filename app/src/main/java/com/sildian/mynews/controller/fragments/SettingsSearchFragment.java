@@ -1,18 +1,11 @@
 package com.sildian.mynews.controller.fragments;
 
 
-import android.content.DialogInterface;
-import android.os.Bundle;
-
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
 import android.text.InputType;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TextView;
@@ -22,7 +15,6 @@ import com.sildian.mynews.model.UserSettings;
 import com.sildian.mynews.view.DatePickerFragment;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /*************************************************************************************************
  * SettingsSearchFragment
@@ -48,20 +40,6 @@ public class SettingsSearchFragment extends SettingsBaseFragment implements View
     /**Callback methods**/
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_settings_search, container, false);
-        ButterKnife.bind(this, view);
-        super.generateSectionsCheckBoxes(this.sectionsLayout);
-        this.beginDateText.setInputType(InputType.TYPE_NULL);
-        this.beginDateText.setOnFocusChangeListener(this);
-        this.endDateText.setInputType(InputType.TYPE_NULL);
-        this.endDateText.setOnFocusChangeListener(this);
-        this.validateButton.setOnClickListener(this);
-        refreshScreen();
-        return view;
-    }
-
-    @Override
     public void onFocusChange(View v, boolean hasFocus) {
         if(hasFocus) {
             if (v == beginDateText || v == endDateText) {
@@ -73,30 +51,15 @@ public class SettingsSearchFragment extends SettingsBaseFragment implements View
     @Override
     public void onClick(View v) {
         if(v==this.validateButton) {
-            int nbSectionsChecked=0;
-
-            for (CheckBox sectionCheckBox : this.sectionsCheckBoxes) {
-                this.userSettings.updateSearchSections(sectionCheckBox.getText().toString(), sectionCheckBox.isChecked());
-                if(sectionCheckBox.isChecked()){
-                    nbSectionsChecked++;
-                }
-            }
-            this.userSettings.setSearchKeyWords(this.keyWordsText.getText().toString());
-            this.userSettings.setSearchBeginDate(this.beginDateText.getText().toString());
-            this.userSettings.setSearchEndDate(this.endDateText.getText().toString());
-
-            if(this.keyWordsText.getText().toString().isEmpty()||nbSectionsChecked==0){
-                showCautionDialog();
-            } else {
-                getActivity().finish();
-            }
+            validateSettings();
         }
     }
 
     /**Refreshes the screen**/
 
-    private void refreshScreen(){
-        super.refreshScreen(this.userSettings.getSearchSections());
+    @Override
+    protected void refreshScreen(){
+        super.refreshScreen();
         this.keyWordsText.setText(this.userSettings.getSearchKeyWords());
         this.beginDateText.setText(this.userSettings.getSearchBeginDate());
         this.endDateText.setText(this.userSettings.getSearchEndDate());
@@ -107,5 +70,51 @@ public class SettingsSearchFragment extends SettingsBaseFragment implements View
     private void showDatePickerDialog(View v) {
         DialogFragment dialogFragment = new DatePickerFragment(v);
         dialogFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
+    }
+
+    /**SettingsBaseFragment abstract methods**/
+
+    @Override
+    protected int getFragmentLayout() {
+        return R.layout.fragment_settings_search;
+    }
+
+    @Override
+    protected TableLayout getSectionsLayout() {
+        return this.sectionsLayout;
+    }
+
+    @Override
+    protected void initializeViews() {
+        this.beginDateText.setInputType(InputType.TYPE_NULL);
+        this.beginDateText.setOnFocusChangeListener(this);
+        this.endDateText.setInputType(InputType.TYPE_NULL);
+        this.endDateText.setOnFocusChangeListener(this);
+        this.validateButton.setOnClickListener(this);
+    }
+
+    @Override
+    protected boolean updateUserSettings() {
+        int nbSectionsChecked=updateUserSettingsSections();
+        this.userSettings.setSearchKeyWords(this.keyWordsText.getText().toString());
+        this.userSettings.setSearchBeginDate(this.beginDateText.getText().toString());
+        this.userSettings.setSearchEndDate(this.endDateText.getText().toString());
+        return nbSectionsChecked>0;
+    }
+
+    @Override
+    public void validateSettings() {
+
+        /*Updates the user settings*/
+
+        boolean sectionsChecked=updateUserSettings();
+
+        /*If no key words or no sections are selected, then shows the caution dialog. Else finishes the activity.*/
+
+        if(this.keyWordsText.getText().toString().isEmpty()||!sectionsChecked){
+            showCautionDialog();
+        } else {
+            finishActivity(true);
+        }
     }
 }

@@ -1,20 +1,14 @@
 package com.sildian.mynews.controller.fragments;
 
 
-import android.os.Bundle;
-
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.TableLayout;
 
 import com.sildian.mynews.R;
 import com.sildian.mynews.model.UserSettings;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /*************************************************************************************************
  * SettingsSheetsFragment
@@ -26,7 +20,7 @@ public class SettingsSheetsFragment extends SettingsBaseFragment implements View
     /**Components**/
 
     @BindView(R.id.fragment_settings_sheets_sections) TableLayout sectionsLayout;
-    @BindView(R.id.fragment_settings_sheet_button_validate) Button validateButton;
+    @BindView(R.id.fragment_settings_sheets_button_validate) Button validateButton;
 
     /**Constructor**/
 
@@ -37,28 +31,38 @@ public class SettingsSheetsFragment extends SettingsBaseFragment implements View
     /**Callback methods**/
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_settings_sheets, container, false);
-        ButterKnife.bind(this, view);
-        super.generateSectionsCheckBoxes(this.sectionsLayout);
-        this.validateButton.setOnClickListener(this);
-        refreshScreen();
-        return view;
-    }
-
-    @Override
     public void onClick(View v) {
         if(v==validateButton) {
-            for (CheckBox sectionCheckBox : this.sectionsCheckBoxes) {
-                this.userSettings.updateSheetsSections(sectionCheckBox.getText().toString(), sectionCheckBox.isChecked());
-            }
-            getActivity().finish();
+            validateSettings();
         }
     }
 
-    /**Refreshes the screen**/
+    /**SettingsBaseFragment abstract methods**/
 
-    private void refreshScreen(){
-        super.refreshScreen(this.userSettings.getSheetsSections());
+    @Override
+    protected int getFragmentLayout() {
+        return R.layout.fragment_settings_sheets;
+    }
+
+    @Override
+    protected TableLayout getSectionsLayout() {
+        return this.sectionsLayout;
+    }
+
+    @Override
+    protected void initializeViews() {
+        this.validateButton.setOnClickListener(this);
+    }
+
+    @Override
+    protected boolean updateUserSettings() {
+        updateUserSettingsSections();
+        return true;
+    }
+
+    @Override
+    public void validateSettings() {
+        updateUserSettings();
+        finishActivity(true);
     }
 }

@@ -12,7 +12,7 @@
         android:layout_height="wrap_content" />
 
     <Button
-        android:id="@+id/fragment_settings_sheet_button_validate"
+        android:id="@+id/fragment_settings_sheets_button_validate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/component_margin"

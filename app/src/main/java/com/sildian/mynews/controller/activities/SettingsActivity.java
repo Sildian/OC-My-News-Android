@@ -48,7 +48,6 @@ public class SettingsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.id=getIntent().getIntExtra(MainActivity.KEY_SETTINGS_ID, ID_SHEETS);
         this.userSettings=getIntent().getParcelableExtra(MainActivity.KEY_SETTINGS_USER);
-        setActivityResult();
         displaySettingsFragment();
     }
 
@@ -63,13 +62,21 @@ public class SettingsActivity extends AppCompatActivity {
         return true;
     }
 
-    /**Sets the result that the activity returns after finishing**/
+    /**Sets the result that the activity returns after finishing with success**/
 
-    private void setActivityResult(){
+    public void setActivityResultSuccess(){
         Intent resultIntent=new Intent();
         resultIntent.putExtra(MainActivity.KEY_SETTINGS_ID, this.id);
         resultIntent.putExtra(MainActivity.KEY_SETTINGS_USER, this.userSettings);
         setResult(RESULT_OK, resultIntent);
+    }
+
+    /**Sets the result that the activity returns after finishing by aborting**/
+
+    public void setActivityResultAbort(){
+        Intent resultIntent=new Intent();
+        resultIntent.putExtra(MainActivity.KEY_SETTINGS_ID, this.id);
+        setResult(RESULT_CANCELED, resultIntent);
     }
 
     /**Displays the fragment depending on the id**/
@@ -118,24 +125,29 @@ public class SettingsActivity extends AppCompatActivity {
 
     /**Shows a dialog box asking confirmation to leave the activity**/
 
-    //TODO : complete the actions to do in this dialog
-
     public void showBackDialog(){
         AlertDialog.Builder backDialog=new AlertDialog.Builder(this);
-        backDialog.setTitle("Au revoir");
-        backDialog.setMessage("By bye");
-        backDialog.setNegativeButton("Non", new DialogInterface.OnClickListener() {
+        backDialog.setTitle(R.string.dialog_settings_back_title);
+        backDialog.setMessage(R.string.dialog_settings_back_message);
+        backDialog.setNegativeButton(R.string.dialog_negative_button_text, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                setActivityResultAbort();
                 finish();
             }
         });
-        backDialog.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+        backDialog.setPositiveButton(R.string.dialog_positive_button_text, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                finish();
+                settingsFragment.validateSettings();
             }
         });
         backDialog.create().show();
+    }
+
+    /**Getters**/
+
+    public int getId() {
+        return id;
     }
 }

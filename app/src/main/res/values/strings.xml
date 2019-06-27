@@ -25,6 +25,8 @@
     <string name="dialog_negative_button_text">No</string>
     <string name="dialog_settings_caution_title">Caution</string>
     <string name="dialog_settings_caution_message">At least one key word and one section must be selected.</string>
+    <string name="dialog_settings_back_title">Back</string>
+    <string name="dialog_settings_back_message">Save the settings?</string>
 
     <string name="notification_title">My news</string>
     <string name="notification_text">New articles matching your criteria were published</string>
