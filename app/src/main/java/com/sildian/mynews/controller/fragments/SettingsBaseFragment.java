@@ -1,8 +1,10 @@
 package com.sildian.mynews.controller.fragments;
 
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import android.content.DialogInterface;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TableLayout;
@@ -90,5 +92,20 @@ public abstract class SettingsBaseFragment extends Fragment {
                 sectionCheckBox.setChecked(true);
             }
         }
+    }
+
+    /**Shows a dialog box notifying the use that some fields are empty**/
+
+    protected void showCautionDialog(){
+        AlertDialog.Builder cautionDialog=new AlertDialog.Builder(getActivity());
+        cautionDialog.setTitle(R.string.dialog_settings_caution_title);
+        cautionDialog.setMessage(R.string.dialog_settings_caution_message);
+        cautionDialog.setNeutralButton(R.string.dialog_neutral_button_text, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        cautionDialog.create().show();
     }
 }

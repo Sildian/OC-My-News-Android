@@ -21,6 +21,15 @@
         <item>Activer les notifications</item>
     </string-array>
 
+    <string name="dialog_neutral_button_text">OK</string>
+    <string name="dialog_positive_button_text">Oui</string>
+    <string name="dialog_negative_button_text">Non</string>
+    <string name="dialog_settings_caution_title">Attention</string>
+    <string name="dialog_settings_caution_message">Au moins un mot-clé et un thème doivent être sélectionnés.</string>
+
+    <string name="notification_title">My news</string>
+    <string name="notification_text">De nouveaux articles correspondants à vos critères ont été publiés</string>
+
     <string name="message_request_error">Désolé, impossible de télécharger les articles!</string>
     <string name="text_search_query_text">Mots recherchés</string>
     <string name="text_begin_date_text">Date de début</string>
@@ -30,8 +39,6 @@
     <string name="button_search_text">Rechercher</string>
     <string name="switch_notifications_text">Activer les notifications (une par jour)</string>
 
-    <string name="notification_title">My news</string>
-    <string name="notification_text">De nouveaux articles correspondants à vos critères ont été publiés</string>
 
     <string-array name="sections_names">
         <item>Arts</item>

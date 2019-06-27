@@ -20,6 +20,15 @@
         <item>Activate notifications</item>
     </string-array>
 
+    <string name="dialog_neutral_button_text">OK</string>
+    <string name="dialog_positive_button_text">Yes</string>
+    <string name="dialog_negative_button_text">No</string>
+    <string name="dialog_settings_caution_title">Caution</string>
+    <string name="dialog_settings_caution_message">At least one key word and one section must be selected.</string>
+
+    <string name="notification_title">My news</string>
+    <string name="notification_text">New articles matching your criteria were published</string>
+
     <string name="message_request_error">Sorry, couldn\'t load the articles!</string>
     <string name="text_search_query_text">Search query term</string>
     <string name="text_begin_date_text">Begin date</string>
@@ -29,8 +38,6 @@
     <string name="button_search_text">Search</string>
     <string name="switch_notifications_text">Enable notifications (once per day)</string>
 
-    <string name="notification_title">My news</string>
-    <string name="notification_text">New articles matching your criteria were published</string>
 
     <string-array name="sections_names">
         <item>Arts</item>

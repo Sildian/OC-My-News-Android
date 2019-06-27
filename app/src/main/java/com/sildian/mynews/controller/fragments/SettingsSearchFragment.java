@@ -1,8 +1,10 @@
 package com.sildian.mynews.controller.fragments;
 
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
 import android.text.InputType;
@@ -70,14 +72,24 @@ public class SettingsSearchFragment extends SettingsBaseFragment implements View
 
     @Override
     public void onClick(View v) {
-        if(v==validateButton) {
+        if(v==this.validateButton) {
+            int nbSectionsChecked=0;
+
             for (CheckBox sectionCheckBox : this.sectionsCheckBoxes) {
                 this.userSettings.updateSearchSections(sectionCheckBox.getText().toString(), sectionCheckBox.isChecked());
+                if(sectionCheckBox.isChecked()){
+                    nbSectionsChecked++;
+                }
             }
             this.userSettings.setSearchKeyWords(this.keyWordsText.getText().toString());
             this.userSettings.setSearchBeginDate(this.beginDateText.getText().toString());
             this.userSettings.setSearchEndDate(this.endDateText.getText().toString());
-            getActivity().finish();
+
+            if(this.keyWordsText.getText().toString().isEmpty()||nbSectionsChecked==0){
+                showCautionDialog();
+            } else {
+                getActivity().finish();
+            }
         }
     }
 

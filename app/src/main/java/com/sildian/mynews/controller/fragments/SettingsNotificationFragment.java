@@ -54,13 +54,23 @@ public class SettingsNotificationFragment extends SettingsBaseFragment implement
 
     @Override
     public void onClick(View v) {
-        if(v==validateButton) {
+        if(v==this.validateButton) {
+            int nbSectionsChecked=0;
+
             for (CheckBox sectionCheckBox : this.sectionsCheckBoxes) {
                 this.userSettings.updateNotificationSections(sectionCheckBox.getText().toString(), sectionCheckBox.isChecked());
+                if(sectionCheckBox.isChecked()){
+                    nbSectionsChecked++;
+                }
             }
             this.userSettings.setNotificationKeyWords(this.keyWordsText.getText().toString());
             this.userSettings.setNotificationOn(this.notificationSwitch.isChecked());
-            getActivity().finish();
+
+            if(this.keyWordsText.getText().toString().isEmpty()||nbSectionsChecked==0){
+                showCautionDialog();
+            } else {
+                getActivity().finish();
+            }
         }
     }
 
