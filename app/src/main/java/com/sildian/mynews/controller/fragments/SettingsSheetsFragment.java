@@ -28,6 +28,10 @@ public class SettingsSheetsFragment extends SettingsBaseFragment implements View
         super(userSettings);
     }
 
+    public SettingsSheetsFragment() {
+        super();
+    }
+
     /**Callback methods**/
 
     @Override

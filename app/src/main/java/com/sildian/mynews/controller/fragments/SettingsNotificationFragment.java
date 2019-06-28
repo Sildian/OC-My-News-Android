@@ -32,6 +32,10 @@ public class SettingsNotificationFragment extends SettingsBaseFragment implement
         super(userSettings);
     }
 
+    public SettingsNotificationFragment() {
+        super();
+    }
+
     /**Callback methods**/
 
     @Override

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -43,6 +44,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import icepick.Icepick;
+import icepick.State;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 
@@ -74,8 +77,8 @@ public class MainFragment extends Fragment {
     /**Attributes**/
 
     private MainActivity mainActivity;                          //The activity running the fragment
-    private int id;                                             //The id will define the behaviour of the fragment
-    private UserSettings userSettings;                          //The user settings
+    @State int id;                                              //The id will define the behaviour of the fragment
+    @State UserSettings userSettings;                           //The user settings
     private List<Article> articles;                             //The list of articles
     private ArticleAdapter articleAdapter;                      //The adapter to manage the recycler view
     private Disposable disposable;                              //The disposable which gets the response
@@ -87,6 +90,10 @@ public class MainFragment extends Fragment {
     public MainFragment(int id, UserSettings userSettings) {
         this.id=id;
         this.userSettings=userSettings;
+    }
+
+    public MainFragment(){
+
     }
 
     /**Updates the user settings**/
@@ -107,6 +114,7 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, view);
+        Icepick.restoreInstanceState(this, savedInstanceState);
         initializeSwipeRefreshLayout();
         initializeArticlesRecyclerView();
         refreshQuery();
@@ -119,6 +127,12 @@ public class MainFragment extends Fragment {
             this.disposable.dispose();
         }
         super.onDestroy();
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Icepick.saveInstanceState(this, outState);
     }
 
     /**Initializes the swipe refresh layout**/

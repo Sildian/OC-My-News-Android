@@ -1,6 +1,7 @@
 package com.sildian.mynews.controller.fragments;
 
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
@@ -21,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
+import icepick.Icepick;
+import icepick.State;
 
 /*************************************************************************************************
  * SettingsBaseFragment
@@ -39,7 +42,7 @@ public abstract class SettingsBaseFragment extends Fragment {
 
     /**Attributes**/
 
-    protected UserSettings userSettings;                //The user settings
+    @State UserSettings userSettings;                   //The user settings
 
     /**Abstract methods**/
 
@@ -57,16 +60,29 @@ public abstract class SettingsBaseFragment extends Fragment {
         this.userSettings=userSettings;
     }
 
+    public SettingsBaseFragment(){
+        this.sectionsTableRows=new ArrayList<>();
+        this.sectionsCheckBoxes=new ArrayList<>();
+        this.userSettings=null;
+    }
+
     /**Callback methods**/
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view=inflater.inflate(getFragmentLayout(), container, false);
         ButterKnife.bind(this, view);
-        generateSectionsCheckBoxes(getSectionsLayout());
+        Icepick.restoreInstanceState(this, savedInstanceState);
         initializeViews();
+        generateSectionsCheckBoxes(getSectionsLayout());
         refreshScreen();
         return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Icepick.saveInstanceState(this, outState);
     }
 
     /**Generates check boxes allowing to select the sections

@@ -37,6 +37,10 @@ public class SettingsSearchFragment extends SettingsBaseFragment implements View
         super(userSettings);
     }
 
+    public SettingsSearchFragment() {
+        super();
+    }
+
     /**Callback methods**/
 
     @Override
