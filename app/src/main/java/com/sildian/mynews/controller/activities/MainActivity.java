@@ -145,6 +145,9 @@ public class MainActivity extends AppCompatActivity {
     private void startTaskAfterSettingsActivityResult(int id){
         switch(id){
             case SettingsActivity.ID_SHEETS:
+                if(this.viewPager.getCurrentItem()!= MainFragment.ID_TOP_STORIES) {
+                    this.viewPager.setCurrentItem(MainFragment.ID_TOP_STORIES, true);
+                }
                 break;
             case SettingsActivity.ID_SEARCH:
                 if(this.viewPager.getCurrentItem()!= MainFragment.ID_SEARCH) {
@@ -166,6 +169,7 @@ public class MainActivity extends AppCompatActivity {
         this.mainFragmentAdapter=new MainFragmentAdapter(getSupportFragmentManager(), this.userSettings);
         this.viewPager.setAdapter(this.mainFragmentAdapter);
         this.tabLayout.setupWithViewPager(viewPager);
+        this.tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
     }
 
     /**Activates or deactivates the alarm allowing to send notification to the phone**/

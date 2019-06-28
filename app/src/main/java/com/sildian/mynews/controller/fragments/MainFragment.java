@@ -34,6 +34,7 @@ import com.sildian.mynews.utils.NYTStreams;
 import com.sildian.mynews.utils.Utilities;
 import com.sildian.mynews.view.ArticleAdapter;
 import com.sildian.mynews.view.ItemClickSupport;
+import com.sildian.mynews.view.MainFragmentAdapter;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -72,7 +73,7 @@ public class MainFragment extends Fragment {
 
     /**Attributes**/
 
-    private MainActivity mainActivity;                         //The activity running the fragment
+    private MainActivity mainActivity;                          //The activity running the fragment
     private int id;                                             //The id will define the behaviour of the fragment
     private UserSettings userSettings;                          //The user settings
     private List<Article> articles;                             //The list of articles
@@ -185,6 +186,8 @@ public class MainFragment extends Fragment {
                 runSearchArticlesRequest(keyWords, sections, beginDate, endDate);
                 break;
             default:
+                String sectionName= Utilities.convertQueryWord(this.userSettings.getSheetsSections().get(this.id- MainFragmentAdapter.NB_SHEETS_BASE));
+                runTopStoriesArticlesRequest(sectionName);
                 break;
         }
     }

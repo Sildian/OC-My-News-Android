@@ -18,29 +18,41 @@ import com.sildian.mynews.model.UserSettings;
 
 public class MainFragmentAdapter extends FragmentPagerAdapter {
 
+    /**Static attributes**/
+
+    public static final int NB_SHEETS_BASE=3;      //The base number of sheets
+
     /**Attributes**/
 
     private UserSettings userSettings;              //The user settings
+    private int nbSheets;                           //THe number of sheets
 
     /**Constructor**/
 
     public MainFragmentAdapter(FragmentManager fragmentManager, UserSettings userSettings){
         super(fragmentManager);
         this.userSettings=userSettings;
+        this.nbSheets=NB_SHEETS_BASE+this.userSettings.getSheetsSections().size();
     }
 
     /**Adapter methods**/
 
     @Override
     public int getCount() {
-        return 3;
+        return this.nbSheets;
     }
 
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        String[] pagesNames=MainActivity.APPLICATION.getResources().getStringArray(R.array.view_pager_pages_names);
-        String pageName= pagesNames[position];
+        String pageName;
+        if(position<NB_SHEETS_BASE) {
+            String[] pagesNames = MainActivity.APPLICATION.getResources().getStringArray(R.array.view_pager_pages_names);
+            pageName = pagesNames[position];
+        }
+        else{
+            pageName=this.userSettings.getSheetsSections().get(position-NB_SHEETS_BASE);
+        }
         return pageName;
     }
 
@@ -54,7 +66,9 @@ public class MainFragmentAdapter extends FragmentPagerAdapter {
         MainFragment fragment=(MainFragment) object;
         if(fragment!=null){
             fragment.updateUserSettings(this.userSettings);
-            fragment.refreshQuery();
+            if(fragment.getId()==MainFragment.ID_SEARCH) {
+                fragment.refreshQuery();
+            }
         }
         return super.getItemPosition(object);
     }
@@ -63,6 +77,7 @@ public class MainFragmentAdapter extends FragmentPagerAdapter {
 
     public void updateUserSettings(UserSettings userSettings){
         this.userSettings=userSettings;
+        this.nbSheets=NB_SHEETS_BASE+this.userSettings.getSheetsSections().size();
         notifyDataSetChanged();
     }
 }
