@@ -15,7 +15,7 @@ import io.reactivex.observers.TestObserver;
 
 import static org.junit.Assert.*;
 
-public class NYTStreamsTest {
+public class NYTStreamsInstrumentTest {
 
     /**Top stories API**/
 
