@@ -36,6 +36,7 @@
     <string name="notification_text">New articles matching your criteria were published</string>
 
     <string name="message_request_error">Sorry, couldn\'t load the articles!</string>
+    <string name="message_request_not_found">No article matching your criteria was found.</string>
     <string name="text_search_query_text">Search query term</string>
     <string name="text_begin_date_text">Begin date</string>
     <string name="text_end_date_text">End date</string>

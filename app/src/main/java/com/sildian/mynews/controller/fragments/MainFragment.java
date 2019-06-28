@@ -207,6 +207,10 @@ public class MainFragment extends Fragment {
         this.progressBar.setVisibility(View.GONE);
         this.swipeRefreshLayout.setRefreshing(false);
         this.articleAdapter.notifyDataSetChanged();
+        if(this.articles.isEmpty()){
+            this.messageText.setText(R.string.message_request_not_found);
+            this.messageText.setVisibility(View.VISIBLE);
+        }
     }
 
     /**Refreshes the screen after a request returning error**/
@@ -214,6 +218,7 @@ public class MainFragment extends Fragment {
     private void refreshScreenAfterRequestError(){
         this.progressBar.setVisibility(View.GONE);
         this.articleAdapter.notifyDataSetChanged();
+        this.messageText.setText(R.string.message_request_error);
         this.messageText.setVisibility(View.VISIBLE);
         this.swipeRefreshLayout.setRefreshing(false);
     }
@@ -302,5 +307,11 @@ public class MainFragment extends Fragment {
 
             }
         });
+    }
+
+    /**Getters**/
+    
+    public int getMainFragmentId() {
+        return id;
     }
 }

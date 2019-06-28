@@ -66,7 +66,7 @@ public class MainFragmentAdapter extends FragmentPagerAdapter {
         MainFragment fragment=(MainFragment) object;
         if(fragment!=null){
             fragment.updateUserSettings(this.userSettings);
-            if(fragment.getId()==MainFragment.ID_SEARCH) {
+            if(fragment.getMainFragmentId()==MainFragment.ID_SEARCH) {
                 fragment.refreshQuery();
             }
         }

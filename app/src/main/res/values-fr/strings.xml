@@ -37,6 +37,7 @@
     <string name="notification_text">De nouveaux articles correspondants à vos critères ont été publiés</string>
 
     <string name="message_request_error">Désolé, impossible de télécharger les articles!</string>
+    <string name="message_request_not_found">Aucun article correspondant à vos critères n\'a été trouvé.</string>
     <string name="text_search_query_text">Mots recherchés</string>
     <string name="text_begin_date_text">Date de début</string>
     <string name="text_end_date_text">Date de fin</string>
