@@ -48,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String KEY_FILE_NAME_USER_SETTINGS="user_settings.xml";
     public static final String KEY_FILE_USER_SETTINGS="KEY_FILE_USER_SETTINGS";
+    public static final String KEY_FILE_NAME_CHECKED_ARTICLES="checked_articles.xml";
+    public static final String KEY_FILE_CHECKED_ARTICLES="KEY_FILE_CHECKED_ARTICLES";
 
     /**Keys used to transfer data within intents**/
 
@@ -66,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
     /**Other attributes**/
 
     private UserSettings userSettings;                      //The user settings
+    private List<String> checkedArticlesUrls;               //The list of all URL related to already checked articles
 
     /**Callback methods**/
 
@@ -77,12 +80,14 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(findViewById(R.id.activity_main_toolbar));
         ButterKnife.bind(this);
         loadUserSettings();
+        loadCheckedArticlesUrls();
         initializeViewPager();
     }
 
     @Override
     protected void onDestroy() {
         saveUserSettings();
+        saveCheckedArticlesUrls();
         super.onDestroy();
     }
 
@@ -214,5 +219,45 @@ public class MainActivity extends AppCompatActivity {
         String userSettingsJson=gson.toJson(this.userSettings);
         SharedPreferences sharedPreferences=getSharedPreferences(KEY_FILE_NAME_USER_SETTINGS, MODE_PRIVATE);
         sharedPreferences.edit().putString(KEY_FILE_USER_SETTINGS, userSettingsJson).apply();
+    }
+
+    /**Loads the URL of all articles which are already checked if exist**/
+
+    public void loadCheckedArticlesUrls(){
+
+        Gson gson=new Gson();
+        SharedPreferences sharedPreferences=getSharedPreferences(KEY_FILE_NAME_CHECKED_ARTICLES, MODE_PRIVATE);
+
+        if(sharedPreferences.contains(KEY_FILE_CHECKED_ARTICLES)){
+            String checkedArticlesUrlsJson=sharedPreferences.getString(KEY_FILE_CHECKED_ARTICLES, null);
+            Type stringCollection = new TypeToken<Collection<String>>(){}.getType();
+            this.checkedArticlesUrls=gson.fromJson(checkedArticlesUrlsJson, stringCollection);
+        }
+        else{
+            this.checkedArticlesUrls=new ArrayList<>();
+        }
+    }
+
+    /**Saves the URL of all articles which are already checked**/
+
+    public void saveCheckedArticlesUrls(){
+        Gson gson=new Gson();
+        String checkedArticlesUrlJson=gson.toJson(this.checkedArticlesUrls);
+        SharedPreferences sharedPreferences=getSharedPreferences(KEY_FILE_NAME_CHECKED_ARTICLES, MODE_PRIVATE);
+        sharedPreferences.edit().putString(KEY_FILE_CHECKED_ARTICLES, checkedArticlesUrlJson).apply();
+    }
+
+    /**Adds an url to the list of checked articles urls
+     * @param url : the article's url to be added to the list
+     */
+
+    public void addCheckedArticleUrl(String url){
+        this.checkedArticlesUrls.add(url);
+    }
+
+    /**Getters**/
+
+    public List<String> getCheckedArticlesUrls() {
+        return checkedArticlesUrls;
     }
 }

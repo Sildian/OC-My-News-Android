@@ -1,10 +1,12 @@
 package com.sildian.mynews.controller.fragments;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -51,11 +53,6 @@ import io.reactivex.observers.DisposableObserver;
 
 public class MainFragment extends Fragment {
 
-    /**Keys used to save and load data**/
-
-    public static final String KEY_FILE_NAME_CHECKED_ARTICLES="checked_articles.xml";
-    public static final String KEY_FILE_CHECKED_ARTICLES="KEY_FILE_CHECKED_ARTICLES";
-
     /**Keys to transfer data within intents**/
 
     public static final String KEY_ARTICLE_URL="KEY_ARTICLE_URL";
@@ -75,9 +72,9 @@ public class MainFragment extends Fragment {
 
     /**Attributes**/
 
+    private MainActivity mainActivity;                         //The activity running the fragment
     private int id;                                             //The id will define the behaviour of the fragment
     private UserSettings userSettings;                          //The user settings
-    private List<String> checkedArticlesUrls;                   //The list of all URL related to already checked articles
     private List<Article> articles;                             //The list of articles
     private ArticleAdapter articleAdapter;                      //The adapter to manage the recycler view
     private Disposable disposable;                              //The disposable which gets the response
@@ -100,10 +97,15 @@ public class MainFragment extends Fragment {
     /**Callback methods**/
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.mainActivity=(MainActivity) context;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, view);
-        loadCheckedArticlesUrls();
         initializeSwipeRefreshLayout();
         initializeArticlesRecyclerView();
         refreshQuery();
@@ -112,7 +114,6 @@ public class MainFragment extends Fragment {
 
     @Override
     public void onDestroy() {
-        saveCheckedArticlesUrls();
         if (this.disposable != null && !this.disposable.isDisposed()){
             this.disposable.dispose();
         }
@@ -137,7 +138,7 @@ public class MainFragment extends Fragment {
         /*Initializes the different items to create the recycler view*/
 
         this.articles=new ArrayList<Article>();
-        this.articleAdapter=new ArticleAdapter(this.articles, Glide.with(this), this.checkedArticlesUrls);
+        this.articleAdapter=new ArticleAdapter(this.articles, Glide.with(this), mainActivity.getCheckedArticlesUrls());
         this.articlesRecyclerView.setAdapter(this.articleAdapter);
         this.articlesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -150,8 +151,8 @@ public class MainFragment extends Fragment {
 
                         /*If the article is not checked yet, then adds its url to the list of checked articles urls*/
 
-                        if(!checkedArticlesUrls.contains(articles.get(position).getArticleUrl())) {
-                            addCheckedArticleUrl(articles.get(position).getArticleUrl());
+                        if(!mainActivity.getCheckedArticlesUrls().contains(articles.get(position).getArticleUrl())) {
+                            mainActivity.addCheckedArticleUrl(articles.get(position).getArticleUrl());
                             articleAdapter.notifyDataSetChanged();
                         }
 
@@ -298,39 +299,5 @@ public class MainFragment extends Fragment {
 
             }
         });
-    }
-
-    /**Loads the URL of all articles which are already checked if exist**/
-
-    public void loadCheckedArticlesUrls(){
-
-        Gson gson=new Gson();
-        SharedPreferences sharedPreferences=getActivity().getSharedPreferences(KEY_FILE_NAME_CHECKED_ARTICLES, getContext().MODE_PRIVATE);
-
-        if(sharedPreferences.contains(KEY_FILE_CHECKED_ARTICLES)){
-            String checkedArticlesUrlsJson=sharedPreferences.getString(KEY_FILE_CHECKED_ARTICLES, null);
-            Type stringCollection = new TypeToken<Collection<String>>(){}.getType();
-            checkedArticlesUrls=gson.fromJson(checkedArticlesUrlsJson, stringCollection);
-        }
-        else{
-            checkedArticlesUrls=new ArrayList<>();
-        }
-    }
-
-    /**Saves the URL of all articles which are already checked**/
-
-    public void saveCheckedArticlesUrls(){
-        Gson gson=new Gson();
-        String checkedArticlesUrlJson=gson.toJson(checkedArticlesUrls);
-        SharedPreferences sharedPreferences=getActivity().getSharedPreferences(KEY_FILE_NAME_CHECKED_ARTICLES, getContext().MODE_PRIVATE);
-        sharedPreferences.edit().putString(KEY_FILE_CHECKED_ARTICLES, checkedArticlesUrlJson).apply();
-    }
-
-    /**Adds an url to the list of checked articles urls
-     * @param url : the article's url to be added to the list
-     */
-
-    private void addCheckedArticleUrl(String url){
-        this.checkedArticlesUrls.add(url);
     }
 }
