@@ -1,16 +1,17 @@
 package com.sildian.mynews.controller.activities;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import android.app.AlarmManager;
 import android.app.Application;
 import android.app.PendingIntent;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -112,6 +113,12 @@ public class MainActivity extends AppCompatActivity {
             case R.id.menu_main_notifications:
                 settingsActivityIntent.putExtra(KEY_SETTINGS_ID, SettingsActivity.ID_NOTIFICATIONS);
                 break;
+            case R.id.menu_main_help:
+                showHelpDialog();
+                return super.onOptionsItemSelected(item);
+            case R.id.menu_main_about:
+                showAboutDialog();
+                return super.onOptionsItemSelected(item);
             default:
                 break;
         }
@@ -198,6 +205,36 @@ public class MainActivity extends AppCompatActivity {
         else{
             notificationAlarm.cancel(notificationReceiverPendingIntent);
         }
+    }
+
+    /**Shows a dialog box about help*/
+
+    private void showHelpDialog(){
+        AlertDialog.Builder helpDialog=new AlertDialog.Builder(this);
+        helpDialog.setTitle(R.string.dialog_help_title);
+        helpDialog.setMessage(R.string.dialog_help_message);
+        helpDialog.setNeutralButton(R.string.dialog_neutral_button_text, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        helpDialog.create().show();
+    }
+
+    /**Shows a dialog box about the app*/
+
+    private void showAboutDialog(){
+        AlertDialog.Builder aboutDialog=new AlertDialog.Builder(this);
+        aboutDialog.setTitle(R.string.dialog_about_title);
+        aboutDialog.setMessage(R.string.dialog_about_message);
+        aboutDialog.setNeutralButton(R.string.dialog_neutral_button_text, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        aboutDialog.create().show();
     }
 
     /**Loads the user settings if already exists.**/

@@ -28,6 +28,10 @@
     <string name="dialog_settings_caution_message">Au moins un mot-clé et un thème doivent être sélectionnés.</string>
     <string name="dialog_settings_back_title">Retour</string>
     <string name="dialog_settings_back_message">Sauvegarder les paramètres?</string>
+    <string name="dialog_help_title">Aide</string>
+    <string name="dialog_help_message">Sélectionner \"Pages\" pour ajouter ou retirer des sujets.\nSélectionner \"Recherches\" pour rechercher des articles.\nSélectionner \"Notifications\" pour activer ou désactiver les notifications.</string>
+    <string name="dialog_about_title">A propos</string>
+    <string name="dialog_about_message">My news fournit différentes requêtes permettant de lire les articles du New York Times.</string>
 
     <string name="notification_title">My news</string>
     <string name="notification_text">De nouveaux articles correspondants à vos critères ont été publiés</string>

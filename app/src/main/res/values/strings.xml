@@ -27,6 +27,10 @@
     <string name="dialog_settings_caution_message">At least one key word and one section must be selected.</string>
     <string name="dialog_settings_back_title">Back</string>
     <string name="dialog_settings_back_message">Save the settings?</string>
+    <string name="dialog_help_title">Help</string>
+    <string name="dialog_help_message">Select \"Sheets\" to add or remove topics.\nSelect \"Search\" to search articles.\nSelect \"Notifications\" to activate or deactivate notifications.</string>
+    <string name="dialog_about_title">About</string>
+    <string name="dialog_about_message">My news provides different queries to read articles from the New York Times.</string>
 
     <string name="notification_title">My news</string>
     <string name="notification_text">New articles matching your criteria were published</string>
