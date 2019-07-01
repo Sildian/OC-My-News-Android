@@ -3,6 +3,7 @@
     package="com.sildian.mynews">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
         android:allowBackup="true"
@@ -12,16 +13,27 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <receiver
+            android:name=".utils.NotificationAlarmReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.sildian.mynews.notificationAlarm"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+        <receiver
             android:name=".utils.NotificationReceiver"
             android:enabled="true"
-            android:exported="true"></receiver>
+            android:exported="true" />
 
         <activity
             android:name=".controller.activities.SettingsActivity"
-            android:parentActivityName=".controller.activities.MainActivity"></activity>
+            android:parentActivityName=".controller.activities.MainActivity" />
         <activity
             android:name=".controller.activities.ArticleActivity"
-            android:parentActivityName=".controller.activities.MainActivity"></activity>
+            android:parentActivityName=".controller.activities.MainActivity" />
         <activity android:name=".controller.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

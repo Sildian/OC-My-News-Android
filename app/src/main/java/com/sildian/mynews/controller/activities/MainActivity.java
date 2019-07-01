@@ -12,6 +12,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -47,9 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**Keys used to save and load data**/
 
-    public static final String KEY_FILE_NAME_USER_SETTINGS="user_settings.xml";
     public static final String KEY_FILE_USER_SETTINGS="KEY_FILE_USER_SETTINGS";
-    public static final String KEY_FILE_NAME_CHECKED_ARTICLES="checked_articles.xml";
     public static final String KEY_FILE_CHECKED_ARTICLES="KEY_FILE_CHECKED_ARTICLES";
 
     /**Keys used to transfer data within intents**/
@@ -59,6 +58,10 @@ public class MainActivity extends AppCompatActivity {
     public static final String KEY_NOTIFICATION_USER="KEY_NOTIFICATION_USER";
 
     public static final int KEY_RESULT_SETTINGS=10;
+
+    /**Events**/
+
+    public static final String EVENT_NOTIFICATION_ALARM="com.sildian.mynews.notificationAlarm";
 
     /**View pager items**/
 
@@ -182,29 +185,9 @@ public class MainActivity extends AppCompatActivity {
     /**Activates or deactivates the alarm allowing to send notification to the phone**/
 
     private void setNotificationAlarm(){
-
-        //TODO : change the alarm first start and interval
-
-        /*Creates the alarm manager*/
-
-        AlarmManager notificationAlarm=(AlarmManager) getSystemService(ALARM_SERVICE);
-
-        /*Creates an intent allowing to start NotificationReceiver*/
-
-        Intent notificationReceiverIntent = new Intent(MainActivity.this, NotificationReceiver.class);
-        notificationReceiverIntent.putExtra(KEY_NOTIFICATION_USER, this.userSettings);
-        PendingIntent notificationReceiverPendingIntent = PendingIntent.getBroadcast(this, 0, notificationReceiverIntent, 0);
-
-        /*If the notification is on, activates the alarm. Else, deactivates it.*/
-
-        if(this.userSettings.getNotificationOn()) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.add(Calendar.MINUTE, 1);
-            notificationAlarm.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 60000, notificationReceiverPendingIntent);
-        }
-        else{
-            notificationAlarm.cancel(notificationReceiverPendingIntent);
-        }
+        Intent notificationAlarmReceiverIntent = new Intent(EVENT_NOTIFICATION_ALARM);
+        notificationAlarmReceiverIntent.putExtra(KEY_NOTIFICATION_USER, this.userSettings);
+        sendBroadcast(notificationAlarmReceiverIntent);
     }
 
     /**Shows a dialog box about help*/
@@ -242,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
     private void loadUserSettings(){
 
         Gson gson=new Gson();
-        SharedPreferences sharedPreferences=getSharedPreferences(KEY_FILE_NAME_USER_SETTINGS, MODE_PRIVATE);
+        SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         if(sharedPreferences.contains(KEY_FILE_USER_SETTINGS)){
             String userSettingsJson=sharedPreferences.getString(KEY_FILE_USER_SETTINGS, null);
@@ -258,7 +241,7 @@ public class MainActivity extends AppCompatActivity {
     private void saveUserSettings(){
         Gson gson=new Gson();
         String userSettingsJson=gson.toJson(this.userSettings);
-        SharedPreferences sharedPreferences=getSharedPreferences(KEY_FILE_NAME_USER_SETTINGS, MODE_PRIVATE);
+        SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         sharedPreferences.edit().putString(KEY_FILE_USER_SETTINGS, userSettingsJson).apply();
     }
 
@@ -267,7 +250,7 @@ public class MainActivity extends AppCompatActivity {
     public void loadCheckedArticlesUrls(){
 
         Gson gson=new Gson();
-        SharedPreferences sharedPreferences=getSharedPreferences(KEY_FILE_NAME_CHECKED_ARTICLES, MODE_PRIVATE);
+        SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         if(sharedPreferences.contains(KEY_FILE_CHECKED_ARTICLES)){
             String checkedArticlesUrlsJson=sharedPreferences.getString(KEY_FILE_CHECKED_ARTICLES, null);
@@ -284,7 +267,7 @@ public class MainActivity extends AppCompatActivity {
     public void saveCheckedArticlesUrls(){
         Gson gson=new Gson();
         String checkedArticlesUrlJson=gson.toJson(this.checkedArticlesUrls);
-        SharedPreferences sharedPreferences=getSharedPreferences(KEY_FILE_NAME_CHECKED_ARTICLES, MODE_PRIVATE);
+        SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         sharedPreferences.edit().putString(KEY_FILE_CHECKED_ARTICLES, checkedArticlesUrlJson).apply();
     }
 

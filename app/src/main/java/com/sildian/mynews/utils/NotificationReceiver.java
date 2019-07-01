@@ -32,7 +32,7 @@ import io.reactivex.observers.DisposableObserver;
 
 public class NotificationReceiver extends BroadcastReceiver {
 
-    /**Static attributes**/
+    /**Notification information**/
 
     public static final String CHANEL_NOTIFICATION="CHANEL_NOTIFICATION";
     public static final String CHANEL_NAME="My news notification";
@@ -40,6 +40,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 
     /**Attributes**/
 
+    private Context context;                        //The context
     private UserSettings userSettings;              //The user settings
     private Disposable disposable;                  //The disposable which gets the response
 
@@ -47,6 +48,10 @@ public class NotificationReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+
+        /*Stores the context*/
+
+        this.context=context;
 
         /*Gets the data from the intent*/
 
@@ -104,28 +109,28 @@ public class NotificationReceiver extends BroadcastReceiver {
             NotificationChannel notificationChannel = new NotificationChannel
                     (CHANEL_NOTIFICATION, CHANEL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
             notificationChannel.setDescription(CHANEL_NAME);
-            NotificationManager notificationManager=(NotificationManager) MainActivity.APPLICATION.getSystemService(MainActivity.NOTIFICATION_SERVICE);
+            NotificationManager notificationManager=(NotificationManager) this.context.getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.createNotificationChannel(notificationChannel);
 
-            notificationBuilder=new NotificationCompat.Builder(MainActivity.APPLICATION, CHANEL_NOTIFICATION);
+            notificationBuilder=new NotificationCompat.Builder(this.context, CHANEL_NOTIFICATION);
         }
 
         /*Else just creates the notification builder and sets the priority*/
 
         else{
-            notificationBuilder=new NotificationCompat.Builder(MainActivity.APPLICATION);
+            notificationBuilder=new NotificationCompat.Builder(this.context);
             notificationBuilder.setPriority(NotificationManager.IMPORTANCE_DEFAULT);
         }
 
         /*Sets notification contents*/
 
         notificationBuilder.setSmallIcon(R.mipmap.ic_launcher);
-        notificationBuilder.setContentTitle(MainActivity.APPLICATION.getResources().getString(R.string.notification_title));
-        notificationBuilder.setContentText(MainActivity.APPLICATION.getResources().getString(R.string.notification_text));
+        notificationBuilder.setContentTitle(this.context.getResources().getString(R.string.notification_title));
+        notificationBuilder.setContentText(this.context.getResources().getString(R.string.notification_text));
 
         /*Send the notification*/
 
-        NotificationManagerCompat notificationManagerCompat=NotificationManagerCompat.from(MainActivity.APPLICATION);
+        NotificationManagerCompat notificationManagerCompat=NotificationManagerCompat.from(this.context);
         notificationManagerCompat.notify(NOTIFICATION_ID, notificationBuilder.build());
     }
 }
