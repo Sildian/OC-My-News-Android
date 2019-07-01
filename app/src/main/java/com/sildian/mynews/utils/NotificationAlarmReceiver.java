@@ -66,8 +66,6 @@ public class NotificationAlarmReceiver extends BroadcastReceiver {
 
     private void setAlarm(){
 
-        //TODO : change the alarm first start and interval
-
         /*Creates the alarm manager*/
 
         AlarmManager notificationAlarm = (AlarmManager) this.context.getSystemService(Context.ALARM_SERVICE);
@@ -82,8 +80,11 @@ public class NotificationAlarmReceiver extends BroadcastReceiver {
 
         if (this.userSettings.getNotificationOn()) {
             Calendar calendar = Calendar.getInstance();
-            calendar.add(Calendar.MINUTE, 1);
-            notificationAlarm.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 60000, notificationReceiverPendingIntent);
+            calendar.set(Calendar.HOUR, 0);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
+            notificationAlarm.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, notificationReceiverPendingIntent);
         } else {
             notificationAlarm.cancel(notificationReceiverPendingIntent);
         }

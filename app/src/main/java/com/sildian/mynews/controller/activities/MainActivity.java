@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
+import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -80,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         APPLICATION=getApplication();
+        TimeZone.setDefault(TimeZone.getTimeZone("EST"));           //Sets the default time zone to Eastern America time zone
         setContentView(R.layout.activity_main);
         setSupportActionBar(findViewById(R.id.activity_main_toolbar));
         ButterKnife.bind(this);
