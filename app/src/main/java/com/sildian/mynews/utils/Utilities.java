@@ -2,6 +2,9 @@ package com.sildian.mynews.utils;
 
 import android.util.Log;
 
+import com.sildian.mynews.controller.activities.MainActivity;
+
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -90,5 +93,16 @@ public class Utilities {
         calendar.set(Calendar.DAY_OF_MONTH, day);
         SimpleDateFormat format=new SimpleDateFormat(dateFormat);
         return format.format(calendar.getTime());
+    }
+
+    /**Gets the local date format pattern
+     * @return a String containing the local date format's pattern
+     */
+
+    public static String getLocalDateFormatPattern(){
+        DateFormat dateFormat=DateFormat.getDateInstance(DateFormat.SHORT);
+        SimpleDateFormat simpleDateFormat=(SimpleDateFormat) dateFormat;
+        String formatPattern=simpleDateFormat.toPattern();
+        return formatPattern;
     }
 }

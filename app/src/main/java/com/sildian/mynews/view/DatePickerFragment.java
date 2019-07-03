@@ -52,7 +52,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int day) {
-        String dateToDisplay= Utilities.generateDate("MM/dd/yyyy", year, month, day);
+        String dateToDisplay= Utilities.generateDate(Utilities.getLocalDateFormatPattern(), year, month, day);
         this.callView.setText(dateToDisplay);
         this.callView.clearFocus();
     }
@@ -83,7 +83,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
         /*Else then sets the date to the existing date in the callView*/
 
         else {
-            SimpleDateFormat dateFormat=new SimpleDateFormat("MM/dd/yyyy");
+            SimpleDateFormat dateFormat=new SimpleDateFormat(Utilities.getLocalDateFormatPattern());
             try {
                 calendar.setTime(dateFormat.parse(this.callView.getText().toString()));
             }

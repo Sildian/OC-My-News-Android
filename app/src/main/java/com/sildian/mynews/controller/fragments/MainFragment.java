@@ -192,8 +192,8 @@ public class MainFragment extends Fragment {
             case ID_SEARCH:
                 String keyWords=this.userSettings.getSearchKeyWords();
                 ArrayList<String> sections=this.userSettings.getSearchSections();
-                String beginDate=Utilities.convertDate("MM/dd/yyyy", "yyyyMMdd", this.userSettings.getSearchBeginDate());
-                String endDate=Utilities.convertDate("MM/dd/yyyy", "yyyyMMdd", this.userSettings.getSearchEndDate());
+                String beginDate=Utilities.convertDate(Utilities.getLocalDateFormatPattern(), "yyyyMMdd", this.userSettings.getSearchBeginDate());
+                String endDate=Utilities.convertDate(Utilities.getLocalDateFormatPattern(), "yyyyMMdd", this.userSettings.getSearchEndDate());
                 runSearchArticlesRequest(keyWords, sections, beginDate, endDate);
                 break;
             default:

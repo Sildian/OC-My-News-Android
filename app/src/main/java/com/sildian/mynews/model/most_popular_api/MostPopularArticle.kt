@@ -47,7 +47,7 @@ class MostPopularArticle : Article {
 
     override fun getArticleDate(): String? {
         val inputDateFormat:String="yyyy-MM-dd"
-        val outputDateFormat:String="MM/dd/yyyy"
+        val outputDateFormat:String=Utilities.getLocalDateFormatPattern()
         return Utilities.convertDate(inputDateFormat, outputDateFormat, this.publishedDate)
     }
 

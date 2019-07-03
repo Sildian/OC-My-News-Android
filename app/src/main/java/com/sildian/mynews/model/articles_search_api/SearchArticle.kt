@@ -50,7 +50,7 @@ class SearchArticle : Article {
 
     override fun getArticleDate(): String? {
         val inputDateFormat:String="yyyy-MM-dd'T'HH:mm:ss"
-        val outputDateFormat:String="MM/dd/yyyy"
+        val outputDateFormat:String=Utilities.getLocalDateFormatPattern()
         return Utilities.convertDate(inputDateFormat, outputDateFormat, this.pubDate)
     }
 
