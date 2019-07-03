@@ -80,7 +80,9 @@ public class NotificationReceiver extends BroadcastReceiver {
                 .subscribeWith(new DisposableObserver<SearchAPIResponse>() {
                     @Override
                     public void onNext(SearchAPIResponse searchAPIResponse) {
-                        sendNotification();
+                        if(!searchAPIResponse.getResponse().getDocs().isEmpty()) {
+                            sendNotification();
+                        }
                     }
 
                     @Override
@@ -97,6 +99,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 
     /**Sends a notification to the phone**/
 
+    @SuppressWarnings("deprecated")
     private void sendNotification(){
 
         /*Creates the notification builder*/
