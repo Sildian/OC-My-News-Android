@@ -3,11 +3,9 @@ package com.sildian.mynews.controller.fragments;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,15 +15,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.sildian.mynews.R;
 import com.sildian.mynews.controller.activities.ArticleActivity;
 import com.sildian.mynews.controller.activities.MainActivity;
+import com.sildian.mynews.controller.activities.SettingsActivity;
 import com.sildian.mynews.model.Article;
 import com.sildian.mynews.model.UserSettings;
 import com.sildian.mynews.model.articles_search_api.SearchAPIResponse;
@@ -37,9 +35,7 @@ import com.sildian.mynews.view.ArticleAdapter;
 import com.sildian.mynews.view.ItemClickSupport;
 import com.sildian.mynews.view.MainFragmentAdapter;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import butterknife.BindView;
@@ -138,6 +134,7 @@ public class MainFragment extends Fragment {
     /**Initializes the swipe refresh layout**/
 
     private void initializeSwipeRefreshLayout(){
+        this.swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimaryDark));
         this.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -209,7 +206,9 @@ public class MainFragment extends Fragment {
     /**Refreshes the screen before a request**/
 
     private void refreshScreenBeforeRequest(){
-        if(this.articles.isEmpty()) {
+        this.articles.clear();
+        this.articleAdapter.notifyDataSetChanged();
+        if(!this.swipeRefreshLayout.isRefreshing()) {
             this.progressBar.setVisibility(View.VISIBLE);
         }
         this.messageText.setVisibility(View.GONE);
@@ -237,6 +236,14 @@ public class MainFragment extends Fragment {
         this.swipeRefreshLayout.setRefreshing(false);
     }
 
+    /**Refreshes the screen when trying to run a search request without parameters**/
+
+    private void refreshScreenWhenSearchRequestHasNoParameter(){
+        this.messageText.setText(R.string.message_request_no_parameter);
+        this.messageText.setVisibility(View.VISIBLE);
+        this.swipeRefreshLayout.setRefreshing(false);
+    }
+
     /**Runs the query to get the articles from NYT top stories API
      * @param section : the section name
      */
@@ -246,7 +253,6 @@ public class MainFragment extends Fragment {
         this.disposable= NYTStreams.streamGetTopStoriesArticles(section).subscribeWith(new DisposableObserver<TopStoriesAPIResponse>(){
             @Override
             public void onNext(TopStoriesAPIResponse topStoriesAPIResponse) {
-                articles.clear();
                 articles.addAll(topStoriesAPIResponse.getResults());
                 refreshScreenAfterRequestSuccess();
             }
@@ -254,7 +260,6 @@ public class MainFragment extends Fragment {
             @Override
             public void onError(Throwable e) {
                 Log.d("CHECK_API", e.getMessage());
-                articles.clear();
                 refreshScreenAfterRequestError();
             }
 
@@ -272,7 +277,6 @@ public class MainFragment extends Fragment {
         this.disposable= NYTStreams.streamGetMostPopularArticles().subscribeWith(new DisposableObserver<MostPopularAPIResponse>(){
             @Override
             public void onNext(MostPopularAPIResponse mostPopularAPIResponse) {
-                articles.clear();
                 articles.addAll(mostPopularAPIResponse.getResults());
                 refreshScreenAfterRequestSuccess();
             }
@@ -280,7 +284,6 @@ public class MainFragment extends Fragment {
             @Override
             public void onError(Throwable e) {
                 Log.d("CHECK_API", e.getMessage());
-                articles.clear();
                 refreshScreenAfterRequestError();
             }
 
@@ -299,28 +302,31 @@ public class MainFragment extends Fragment {
      */
 
     private void runSearchArticlesRequest(String keyWords, List<String> sections, String beginDate, String endDate){
-        refreshScreenBeforeRequest();
-        this.disposable= NYTStreams.streamGetSearchArticles(keyWords, sections, beginDate, endDate)
-                .subscribeWith(new DisposableObserver<SearchAPIResponse>(){
-            @Override
-            public void onNext(SearchAPIResponse searchAPIResponse) {
-                articles.clear();
-                articles.addAll(searchAPIResponse.getResponse().getDocs());
-                refreshScreenAfterRequestSuccess();
-            }
+        if(keyWords.isEmpty()||sections.isEmpty()){
+            refreshScreenWhenSearchRequestHasNoParameter();
+        }
+        else {
+            refreshScreenBeforeRequest();
+            this.disposable = NYTStreams.streamGetSearchArticles(keyWords, sections, beginDate, endDate)
+                    .subscribeWith(new DisposableObserver<SearchAPIResponse>() {
+                        @Override
+                        public void onNext(SearchAPIResponse searchAPIResponse) {
+                            articles.addAll(searchAPIResponse.getResponse().getDocs());
+                            refreshScreenAfterRequestSuccess();
+                        }
 
-            @Override
-            public void onError(Throwable e) {
-                Log.d("CHECK_API", e.getMessage());
-                articles.clear();
-                refreshScreenAfterRequestError();
-            }
+                        @Override
+                        public void onError(Throwable e) {
+                            Log.d("CHECK_API", e.getMessage());
+                            refreshScreenAfterRequestError();
+                        }
 
-            @Override
-            public void onComplete() {
+                        @Override
+                        public void onComplete() {
 
-            }
-        });
+                        }
+                    });
+        }
     }
 
     /**Getters**/
