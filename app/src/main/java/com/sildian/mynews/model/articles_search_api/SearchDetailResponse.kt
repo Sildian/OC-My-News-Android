@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName
  * Monitors the data from NYT Search API
  *************************************************************************************************/
 
-class SearchDetailResponse {
+open class SearchDetailResponse {
 
-    @SerializedName("docs") @Expose val docs: List<SearchArticle>? = null
+    open @SerializedName("docs") @Expose val docs: List<SearchArticle>? = null
 }

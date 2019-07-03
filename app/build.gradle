@@ -68,6 +68,9 @@ dependencies {
 
     //LeakCanary Library
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0-alpha-2'
+
+    //Mockito Library
+    testImplementation "org.mockito:mockito-core:2.+"
 }
 repositories {
     mavenCentral()

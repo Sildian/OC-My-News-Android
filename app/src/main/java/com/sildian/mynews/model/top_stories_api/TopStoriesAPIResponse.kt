@@ -8,12 +8,12 @@ import com.google.gson.annotations.SerializedName
  * Monitors the data from NYT Top stories API
  *************************************************************************************************/
 
-class TopStoriesAPIResponse {
+open class TopStoriesAPIResponse {
 
-    @SerializedName("status") @Expose val status: String? = null
-    @SerializedName("copyright") @Expose val copyright: String? = null
-    @SerializedName("section") @Expose val section: String? = null
-    @SerializedName("last_updated") @Expose val lastUpdated: String? = null
-    @SerializedName("num_results") @Expose val numResults: Int? = null
-    @SerializedName("results") @Expose val results: List<TopStoriesArticle>? = null
+    open @SerializedName("status") @Expose val status: String? = null
+    open @SerializedName("copyright") @Expose val copyright: String? = null
+    open @SerializedName("section") @Expose val section: String? = null
+    open @SerializedName("last_updated") @Expose val lastUpdated: String? = null
+    open @SerializedName("num_results") @Expose val numResults: Int? = null
+    open @SerializedName("results") @Expose val results: List<TopStoriesArticle>? = null
 }

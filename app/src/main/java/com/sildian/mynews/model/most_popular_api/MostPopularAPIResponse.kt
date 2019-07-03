@@ -8,10 +8,10 @@ import com.google.gson.annotations.SerializedName
  * Monitors the data from NYT Most popular API
  *************************************************************************************************/
 
-class MostPopularAPIResponse {
+open class MostPopularAPIResponse {
 
-    @SerializedName("status") @Expose val status: String? = null
-    @SerializedName("copyright") @Expose val copyright: String? = null
-    @SerializedName("num_results") @Expose val numResults: Int? = null
-    @SerializedName("results") @Expose val results: List<MostPopularArticle>? = null
+    open @SerializedName("status") @Expose val status: String? = null
+    open @SerializedName("copyright") @Expose val copyright: String? = null
+    open @SerializedName("num_results") @Expose val numResults: Int? = null
+    open @SerializedName("results") @Expose val results: List<MostPopularArticle>? = null
 }
