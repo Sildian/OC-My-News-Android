@@ -62,9 +62,10 @@ public class NotificationReceiver extends BroadcastReceiver {
         String keyWords=this.userSettings.getNotificationKeyWords();
         ArrayList<String> sections=this.userSettings.getNotificationSections();
         Calendar calendar=Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, -1);
         int year=calendar.get(Calendar.YEAR);
         int month=calendar.get(Calendar.MONTH);
-        int day=calendar.get(Calendar.DAY_OF_MONTH-1);
+        int day=calendar.get(Calendar.DAY_OF_MONTH);
         String beginDate=Utilities.generateDate("yyyyMMdd", year, month, day);
         String endDate=Utilities.generateDate("yyyyMMdd", year, month, day);
 
