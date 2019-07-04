@@ -25,4 +25,5 @@ android:
     - addon-google_apis-google-$ANDROID_API_LEVEL
 
 script:
+  - ./gradlew test --info
   - ./gradlew build check
