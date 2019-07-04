@@ -5,9 +5,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
-import android.app.AlarmManager;
 import android.app.Application;
-import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,18 +20,14 @@ import com.google.gson.reflect.TypeToken;
 import com.sildian.mynews.R;
 import com.sildian.mynews.controller.fragments.MainFragment;
 import com.sildian.mynews.model.UserSettings;
-import com.sildian.mynews.utils.NotificationReceiver;
 import com.sildian.mynews.view.MainFragmentAdapter;
 
+import java.lang.ref.WeakReference;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 import java.util.TimeZone;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /*************************************************************************************************
  * MainActivity
@@ -66,9 +60,9 @@ public class MainActivity extends AppCompatActivity {
 
     /**View pager items**/
 
-    private MainFragmentAdapter mainFragmentAdapter;
-    @BindView (R.id.activity_main_view_pager) ViewPager viewPager;
-    @BindView (R.id.activity_main_tab_layout) TabLayout tabLayout;
+    private WeakReference<MainFragmentAdapter> mainFragmentAdapter;
+    private WeakReference<ViewPager> viewPager;
+    private WeakReference<TabLayout> tabLayout;
 
     /**Other attributes**/
 
@@ -84,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
         TimeZone.setDefault(TimeZone.getTimeZone("EST"));           //Sets the default time zone to Eastern America time zone
         setContentView(R.layout.activity_main);
         setSupportActionBar(findViewById(R.id.activity_main_toolbar));
-        ButterKnife.bind(this);
         loadUserSettings();
         loadCheckedArticlesUrls();
         initializeViewPager();
@@ -140,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
             case KEY_RESULT_SETTINGS:
                 if(resultCode==RESULT_OK) {
                     this.userSettings = data.getParcelableExtra(KEY_SETTINGS_USER);
-                    this.mainFragmentAdapter.updateUserSettings(this.userSettings);
+                    this.mainFragmentAdapter.get().updateUserSettings(this.userSettings);
                     int id = data.getIntExtra(MainActivity.KEY_SETTINGS_ID, 0);
                     startTaskAfterSettingsActivityResult(id);
                 }
@@ -157,14 +150,14 @@ public class MainActivity extends AppCompatActivity {
     private void startTaskAfterSettingsActivityResult(int id){
         switch(id){
             case SettingsActivity.ID_SHEETS:
-                if(this.viewPager.getCurrentItem()!= MainFragment.ID_TOP_STORIES) {
-                    this.viewPager.setCurrentItem(MainFragment.ID_TOP_STORIES, true);
+                if(this.viewPager.get().getCurrentItem()!= MainFragment.ID_TOP_STORIES) {
+                    this.viewPager.get().setCurrentItem(MainFragment.ID_TOP_STORIES, true);
                 }
                 break;
             case SettingsActivity.ID_SEARCH:
-                if(this.viewPager.getCurrentItem()!= MainFragment.ID_SEARCH) {
-                    this.viewPager.setCurrentItem(MainFragment.ID_SEARCH, true);
-                    this.viewPager.getAdapter().notifyDataSetChanged();
+                if(this.viewPager.get().getCurrentItem()!= MainFragment.ID_SEARCH) {
+                    this.viewPager.get().setCurrentItem(MainFragment.ID_SEARCH, true);
+                    this.viewPager.get().getAdapter().notifyDataSetChanged();
                 }
                 break;
             case SettingsActivity.ID_NOTIFICATIONS:
@@ -178,10 +171,12 @@ public class MainActivity extends AppCompatActivity {
     /**Initializes the view pager and displays the fragments**/
 
     private void initializeViewPager(){
-        this.mainFragmentAdapter=new MainFragmentAdapter(getSupportFragmentManager(), this.userSettings);
-        this.viewPager.setAdapter(this.mainFragmentAdapter);
-        this.tabLayout.setupWithViewPager(viewPager);
-        this.tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        this.mainFragmentAdapter=new WeakReference<>(new MainFragmentAdapter(getSupportFragmentManager(), this.userSettings));
+        this.viewPager=new WeakReference<>(findViewById(R.id.activity_main_view_pager));
+        this.tabLayout=new WeakReference<>(findViewById(R.id.activity_main_tab_layout));
+        this.viewPager.get().setAdapter(this.mainFragmentAdapter.get());
+        this.tabLayout.get().setupWithViewPager(viewPager.get());
+        this.tabLayout.get().setTabMode(TabLayout.MODE_SCROLLABLE);
     }
 
     /**Activates or deactivates the alarm allowing to send notification to the phone**/
