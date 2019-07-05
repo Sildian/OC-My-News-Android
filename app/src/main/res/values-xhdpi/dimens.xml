@@ -3,6 +3,8 @@
     <dimen name="component_margin">4dp</dimen>
     <dimen name="text_size_title">15sp</dimen>
     <dimen name="text_size_normal">12sp</dimen>
+    <dimen name="text_size_menu_title">18sp</dimen>
+    <dimen name="text_size_menu_normal">15sp</dimen>
 
     <dimen name="list_articles_layout_margin">4dp</dimen>
     <dimen name="list_articles_components_margin">4dp</dimen>

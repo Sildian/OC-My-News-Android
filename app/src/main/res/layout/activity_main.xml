@@ -18,8 +18,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
-        app:tabTextColor="@android:color/white">
-    </com.google.android.material.tabs.TabLayout>
+        app:tabTextAppearance="@style/TabTextAppearance"
+        app:tabTextColor="@android:color/white"></com.google.android.material.tabs.TabLayout>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/activity_main_view_pager"
