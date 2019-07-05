@@ -4,7 +4,8 @@
     <dimen name="text_size_title">12sp</dimen>
     <dimen name="text_size_normal">10sp</dimen>
     <dimen name="text_size_menu_title">15sp</dimen>
-    <dimen name="text_size_menu_normal">12sp</dimen>
+    <dimen name="text_size_menu_medium">12sp</dimen>
+    <dimen name="text_size_menu_normal">11sp</dimen>
 
     <dimen name="list_articles_layout_margin">2dp</dimen>
     <dimen name="list_articles_components_margin">2dp</dimen>
