@@ -2,12 +2,12 @@ package com.sildian.mynews.controller.fragments;
 
 
 import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.sildian.mynews.R;
@@ -26,7 +26,7 @@ public class SettingsSearchFragment extends SettingsBaseFragment implements View
     /**Components**/
 
     @BindView(R.id.fragment_settings_search_keywords) TextView keyWordsText;
-    @BindView(R.id.fragment_settings_search_sections) TableLayout sectionsLayout;
+    @BindView(R.id.fragment_settings_search_recycler_view) RecyclerView sectionsRecyclerView;
     @BindView(R.id.fragment_settings_search_begin_date) EditText beginDateText;
     @BindView(R.id.fragment_settings_search_end_date) EditText endDateText;
     @BindView(R.id.fragment_settings_search_button_validate) Button validateButton;
@@ -63,7 +63,6 @@ public class SettingsSearchFragment extends SettingsBaseFragment implements View
 
     @Override
     protected void refreshScreen(){
-        super.refreshScreen();
         this.keyWordsText.setText(this.userSettings.getSearchKeyWords());
         this.beginDateText.setText(this.userSettings.getSearchBeginDate());
         this.endDateText.setText(this.userSettings.getSearchEndDate());
@@ -84,8 +83,8 @@ public class SettingsSearchFragment extends SettingsBaseFragment implements View
     }
 
     @Override
-    protected TableLayout getSectionsLayout() {
-        return this.sectionsLayout;
+    protected RecyclerView getSectionsRecyclerView() {
+        return this.sectionsRecyclerView;
     }
 
     @Override

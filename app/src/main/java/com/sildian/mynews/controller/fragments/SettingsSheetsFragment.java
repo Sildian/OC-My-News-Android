@@ -3,7 +3,8 @@ package com.sildian.mynews.controller.fragments;
 
 import android.view.View;
 import android.widget.Button;
-import android.widget.TableLayout;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.sildian.mynews.R;
 import com.sildian.mynews.model.UserSettings;
@@ -19,7 +20,7 @@ public class SettingsSheetsFragment extends SettingsBaseFragment implements View
 
     /**Components**/
 
-    @BindView(R.id.fragment_settings_sheets_sections) TableLayout sectionsLayout;
+    @BindView(R.id.fragment_settings_sheets_recycler_view) RecyclerView sectionsRecyclerView;
     @BindView(R.id.fragment_settings_sheets_button_validate) Button validateButton;
 
     /**Constructor**/
@@ -49,13 +50,18 @@ public class SettingsSheetsFragment extends SettingsBaseFragment implements View
     }
 
     @Override
-    protected TableLayout getSectionsLayout() {
-        return this.sectionsLayout;
+    protected RecyclerView getSectionsRecyclerView() {
+        return this.sectionsRecyclerView;
     }
 
     @Override
     protected void initializeViews() {
         this.validateButton.setOnClickListener(this);
+    }
+
+    @Override
+    protected void refreshScreen() {
+
     }
 
     @Override

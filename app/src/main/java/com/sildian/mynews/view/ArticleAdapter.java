@@ -34,7 +34,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleViewHolder> {
         this.checkedArticlesUrls=checkedArticlesUrls;
     }
 
-    /**Callback methods**/
+    /**Adapter methods**/
 
     @NonNull
     @Override

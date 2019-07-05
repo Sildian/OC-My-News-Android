@@ -4,6 +4,8 @@ package com.sildian.mynews.controller.fragments;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -11,12 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 
 import com.sildian.mynews.R;
 import com.sildian.mynews.controller.activities.SettingsActivity;
 import com.sildian.mynews.model.UserSettings;
+import com.sildian.mynews.view.SectionAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,33 +37,28 @@ public abstract class SettingsBaseFragment extends Fragment {
 
     /**Components**/
 
-    protected TableLayout sectionsTableLayout;          //The table
-    protected List<TableRow> sectionsTableRows;         //The rows in the table
-    protected List<CheckBox> sectionsCheckBoxes;        //The check boxes
+    protected SectionAdapter sectionAdapter;                    //The sections recycler view's adapter
 
     /**Attributes**/
 
-    @State UserSettings userSettings;                   //The user settings
+    @State UserSettings userSettings;                           //The user settings
 
     /**Abstract methods**/
 
-    protected abstract int getFragmentLayout();         //Gets the fragment layout
-    protected abstract TableLayout getSectionsLayout(); //Gets the sections layout
-    protected abstract void initializeViews();          //Initializes the views in the layout
-    protected abstract boolean updateUserSettings();    //Updates the user settings
-    public abstract void validateSettings();            //Validates the settings and eventually finishes the activity
+    protected abstract int getFragmentLayout();                 //Gets the fragment layout
+    protected abstract RecyclerView getSectionsRecyclerView();  //Gets the sections recycler view
+    protected abstract void initializeViews();                  //Initializes the views in the layout
+    protected abstract void refreshScreen();                    //Refreshes the components in the screen
+    protected abstract boolean updateUserSettings();            //Updates the user settings
+    public abstract void validateSettings();                    //Validates the settings and eventually finishes the activity
 
     /**Constructor**/
 
     public SettingsBaseFragment(UserSettings userSettings) {
-        this.sectionsTableRows=new ArrayList<>();
-        this.sectionsCheckBoxes=new ArrayList<>();
         this.userSettings=userSettings;
     }
 
     public SettingsBaseFragment(){
-        this.sectionsTableRows=new ArrayList<>();
-        this.sectionsCheckBoxes=new ArrayList<>();
         this.userSettings=null;
     }
 
@@ -74,7 +70,7 @@ public abstract class SettingsBaseFragment extends Fragment {
         ButterKnife.bind(this, view);
         Icepick.restoreInstanceState(this, savedInstanceState);
         initializeViews();
-        generateSectionsCheckBoxes(getSectionsLayout());
+        initializeSectionsRecyclerView();
         refreshScreen();
         return view;
     }
@@ -85,78 +81,49 @@ public abstract class SettingsBaseFragment extends Fragment {
         Icepick.saveInstanceState(this, outState);
     }
 
-    /**Generates check boxes allowing to select the sections
-     * @param sectionsTableLayout : the base Table layout
-     * The number of check boxes depends on R.array.sections_names's size
-     * 2 check boxes are shown by row
-     */
+    protected void initializeSectionsRecyclerView(){
 
+        /*Gets the full list of sections names*/
 
-    protected void generateSectionsCheckBoxes(TableLayout sectionsTableLayout){
-
-        this.sectionsTableLayout=sectionsTableLayout;
-
-        String[] sections= getResources().getStringArray(R.array.sections_names);       //List of sections
-        View sectionTableRowTemplate;                                                   //Gets a template to create a row in the table
-        View sectionCheckBoxTemplate;                                                   //Gets a template to create a check box
-
-        /*For each item in the list...*/
-
-        for(int i=0;i<sections.length;i++){
-
-            /*If the current item id is not a multiple of 2, then creates a new row in the table*/
-
-            if(((double)i+1)%2!=0){
-                sectionTableRowTemplate=getLayoutInflater()
-                        .inflate(R.layout.checkbox_section_row_template, this.sectionsTableLayout, false);
-                this.sectionsTableRows.add(sectionTableRowTemplate.findViewById(R.id.checkbox_section_row));
-                this.sectionsTableLayout.addView(this.sectionsTableRows.get(this.sectionsTableRows.size()-1));
-            }
-
-            /*Then adds a check box in the last row*/
-
-            sectionCheckBoxTemplate=getLayoutInflater()
-                    .inflate(R.layout.checkbox_section_template, this.sectionsTableRows.get(this.sectionsTableRows.size()-1), false);
-            this.sectionsCheckBoxes.add(sectionCheckBoxTemplate.findViewById(R.id.checkbox_section));
-            this.sectionsCheckBoxes.get(this.sectionsCheckBoxes.size()-1).setText(sections[i]);
-            this.sectionsTableRows.get(this.sectionsTableRows.size()-1)
-                    .addView(this.sectionsCheckBoxes.get(this.sectionsCheckBoxes.size()-1));
+        String[] sectionsNames=getResources().getStringArray(R.array.sections_names);
+        List<String> sectionsNamesList=new ArrayList<>();
+        for(String sectionName:sectionsNames){
+            sectionsNamesList.add(sectionName);
         }
-    }
 
-    /**Refreshes the screen*/
+        /*Sets the adapter with the sections names and the correct user settings list to feed the checkboxes*/
 
-    protected void refreshScreen(){
-
-        /*Creates a list of sections and gets the activity*/
-
-        List<String> sections;
         SettingsActivity settingsActivity=(SettingsActivity) getActivity();
-
-        /*Feeds the list of sections depending on the activity's id*/
-
         switch(settingsActivity.getId()){
             case SettingsActivity.ID_SHEETS:
-                sections=this.userSettings.getSheetsSections();
+                this.sectionAdapter=new SectionAdapter(sectionsNamesList, this.userSettings.getSheetsSections());
                 break;
             case SettingsActivity.ID_SEARCH:
-                sections=this.userSettings.getSearchSections();
+                this.sectionAdapter=new SectionAdapter(sectionsNamesList, this.userSettings.getSearchSections());
                 break;
             case SettingsActivity.ID_NOTIFICATIONS:
-                sections=this.userSettings.getNotificationSections();
+                this.sectionAdapter=new SectionAdapter(sectionsNamesList, this.userSettings.getNotificationSections());
                 break;
             default:
-                sections=new ArrayList();
+                this.sectionAdapter=new SectionAdapter(sectionsNamesList, this.userSettings.getSheetsSections());
                 break;
         }
 
-        /*Then for each check box, sets it true or false*/
+        /*Sets the adapter and the layout manager to the recycler view*/
 
-        for(CheckBox sectionCheckBox:this.sectionsCheckBoxes){
-            if(sections.contains(sectionCheckBox.getText().toString())){
-                sectionCheckBox.setChecked(true);
-            }
-        }
+        getSectionsRecyclerView().setAdapter(this.sectionAdapter);
+        getSectionsRecyclerView().setLayoutManager(new GridLayoutManager(getActivity(), 2));
+    }
+
+    /**Gets an item from the sections recycler view
+     * @param position : the position of the item
+     * @return : the component contained in the item
+     */
+
+    protected CheckBox getItemFromSectionRecyclerView(int position){
+        View view=getSectionsRecyclerView().getChildAt(position);
+        CheckBox sectionCheckbox=view.findViewById(R.id.checkbox_section);
+        return sectionCheckbox;
     }
 
     /**Updates the user settings sections
@@ -172,16 +139,20 @@ public abstract class SettingsBaseFragment extends Fragment {
 
         /*For each check box, updates the user settings section depending on the activity's id*/
 
-        for (CheckBox sectionCheckBox : this.sectionsCheckBoxes) {
+        for(int i=0;i<this.sectionAdapter.getItemCount();i++){
+
             switch (settingsActivity.getId()){
                 case SettingsActivity.ID_SHEETS:
-                    this.userSettings.updateSheetsSections(sectionCheckBox.getText().toString(), sectionCheckBox.isChecked());
+                    this.userSettings.updateSheetsSections
+                            (getItemFromSectionRecyclerView(i).getText().toString(), getItemFromSectionRecyclerView(i).isChecked());
                     break;
                 case SettingsActivity.ID_SEARCH:
-                    this.userSettings.updateSearchSections(sectionCheckBox.getText().toString(), sectionCheckBox.isChecked());
+                    this.userSettings.updateSearchSections
+                            (getItemFromSectionRecyclerView(i).getText().toString(), getItemFromSectionRecyclerView(i).isChecked());
                     break;
                 case SettingsActivity.ID_NOTIFICATIONS:
-                    this.userSettings.updateNotificationSections(sectionCheckBox.getText().toString(), sectionCheckBox.isChecked());
+                    this.userSettings.updateNotificationSections
+                            (getItemFromSectionRecyclerView(i).getText().toString(), getItemFromSectionRecyclerView(i).isChecked());
                     break;
                 default:
                     break;
@@ -189,7 +160,7 @@ public abstract class SettingsBaseFragment extends Fragment {
 
             /*Then if the current check box is checked, increases the number of checked sections*/
 
-            if(sectionCheckBox.isChecked()){
+            if(getItemFromSectionRecyclerView(i).isChecked()){
                 nbSectionsChecked++;
             }
         }

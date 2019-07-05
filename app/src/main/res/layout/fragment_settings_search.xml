@@ -80,12 +80,12 @@
 
         </LinearLayout>
 
-        <TableLayout
-            android:id="@+id/fragment_settings_search_sections"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fragment_settings_search_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-        <Button
+            <Button
             android:id="@+id/fragment_settings_search_button_validate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

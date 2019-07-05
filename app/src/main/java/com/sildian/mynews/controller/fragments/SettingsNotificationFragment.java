@@ -4,8 +4,9 @@ package com.sildian.mynews.controller.fragments;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Switch;
-import android.widget.TableLayout;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.sildian.mynews.R;
 import com.sildian.mynews.model.UserSettings;
@@ -22,7 +23,7 @@ public class SettingsNotificationFragment extends SettingsBaseFragment implement
     /**Components**/
 
     @BindView(R.id.fragment_settings_notification_keywords) TextView keyWordsText;
-    @BindView(R.id.fragment_settings_notification_sections) TableLayout sectionsLayout;
+    @BindView(R.id.fragment_settings_notification_recycler_view) RecyclerView sectionsRecyclerView;
     @BindView(R.id.fragment_settings_notification_switch) Switch notificationSwitch;
     @BindView(R.id.fragment_settings_notification_button_validate) Button validateButton;
 
@@ -48,7 +49,6 @@ public class SettingsNotificationFragment extends SettingsBaseFragment implement
     /**Refreshes the screen**/
 
     protected void refreshScreen(){
-        super.refreshScreen();
         this.keyWordsText.setText(this.userSettings.getNotificationKeyWords());
         this.notificationSwitch.setChecked(this.userSettings.getNotificationOn());
     }
@@ -61,8 +61,8 @@ public class SettingsNotificationFragment extends SettingsBaseFragment implement
     }
 
     @Override
-    protected TableLayout getSectionsLayout() {
-        return this.sectionsLayout;
+    protected RecyclerView getSectionsRecyclerView() {
+        return this.sectionsRecyclerView;
     }
 
     @Override

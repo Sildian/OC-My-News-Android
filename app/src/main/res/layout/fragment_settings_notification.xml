@@ -25,12 +25,12 @@
             android:textSize="@dimen/text_size_title"
             android:hint="@string/text_search_query_text" />
 
-        <TableLayout
-            android:id="@+id/fragment_settings_notification_sections"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fragment_settings_notification_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-        <View
+            <View
             android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
