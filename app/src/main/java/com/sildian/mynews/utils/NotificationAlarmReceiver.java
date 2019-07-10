@@ -14,6 +14,7 @@ import com.sildian.mynews.controller.activities.MainActivity;
 import com.sildian.mynews.model.UserSettings;
 
 import java.util.Calendar;
+import java.util.TimeZone;
 
 /*************************************************************************************************
  * NotificationAlarmReceiver
@@ -79,10 +80,11 @@ public class NotificationAlarmReceiver extends BroadcastReceiver {
         /*If the notification is on, activates the alarm. Else, deactivates it.*/
 
         if (this.userSettings.getNotificationOn()) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.HOUR, 0);
+            Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Puerto_Rico"));
+            calendar.set(Calendar.HOUR_OF_DAY, 0);
             calendar.set(Calendar.MINUTE, 0);
             calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
             calendar.add(Calendar.DAY_OF_MONTH, 1);
             notificationAlarm.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, notificationReceiverPendingIntent);
         } else {

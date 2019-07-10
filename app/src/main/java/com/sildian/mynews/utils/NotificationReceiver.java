@@ -19,6 +19,7 @@ import com.sildian.mynews.model.articles_search_api.SearchAPIResponse;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
@@ -61,7 +62,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 
         String keyWords=this.userSettings.getNotificationKeyWords();
         ArrayList<String> sections=this.userSettings.getNotificationSections();
-        Calendar calendar=Calendar.getInstance();
+        Calendar calendar=Calendar.getInstance(TimeZone.getTimeZone("America/Puerto_Rico"));
         calendar.add(Calendar.DAY_OF_MONTH, -1);
         int year=calendar.get(Calendar.YEAR);
         int month=calendar.get(Calendar.MONTH);

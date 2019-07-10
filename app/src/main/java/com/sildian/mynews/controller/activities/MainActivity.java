@@ -75,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         APPLICATION=getApplication();
-        TimeZone.setDefault(TimeZone.getTimeZone("EST"));           //Sets the default time zone to Eastern America time zone
         setContentView(R.layout.activity_main);
         setSupportActionBar(findViewById(R.id.activity_main_toolbar));
         loadUserSettings();
