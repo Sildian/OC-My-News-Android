@@ -44,6 +44,7 @@ public class SettingsSearchFragmentTest {
 
     @Test
     public void settingsSearchFragmentTest() {
+
         ViewInteraction actionMenuItemView = onView(
                 allOf(withId(R.id.menu_main_search), withContentDescription("Recherche"),
                         childAtPosition(
@@ -64,43 +65,43 @@ public class SettingsSearchFragmentTest {
         appCompatEditText.perform(scrollTo(), replaceText("pizza"), closeSoftKeyboard());
 
         ViewInteraction appCompatCheckBox = onView(
-                allOf(withId(R.id.checkbox_section), withText("Books"),
+                allOf(withId(R.id.checkbox_section), withText("Food"),
                         childAtPosition(
-                                allOf(withId(R.id.checkbox_section_row),
+                                allOf(withId(R.id.fragment_settings_search_recycler_view),
                                         childAtPosition(
-                                                withId(R.id.fragment_settings_search_sections),
-                                                1)),
-                                0)));
+                                                withClassName(is("android.widget.LinearLayout")),
+                                                2)),
+                                5)));
         appCompatCheckBox.perform(scrollTo(), click());
 
         ViewInteraction appCompatCheckBox2 = onView(
-                allOf(withId(R.id.checkbox_section), withText("Food"),
+                allOf(withId(R.id.checkbox_section), withText("Health"),
                         childAtPosition(
-                                allOf(withId(R.id.checkbox_section_row),
+                                allOf(withId(R.id.fragment_settings_search_recycler_view),
                                         childAtPosition(
-                                                withId(R.id.fragment_settings_search_sections),
+                                                withClassName(is("android.widget.LinearLayout")),
                                                 2)),
-                                1)));
+                                6)));
         appCompatCheckBox2.perform(scrollTo(), click());
 
         ViewInteraction appCompatCheckBox3 = onView(
-                allOf(withId(R.id.checkbox_section), withText("Health"),
+                allOf(withId(R.id.checkbox_section), withText("Books"),
                         childAtPosition(
-                                allOf(withId(R.id.checkbox_section_row),
+                                allOf(withId(R.id.fragment_settings_search_recycler_view),
                                         childAtPosition(
-                                                withId(R.id.fragment_settings_search_sections),
-                                                3)),
-                                0)));
+                                                withClassName(is("android.widget.LinearLayout")),
+                                                2)),
+                                2)));
         appCompatCheckBox3.perform(scrollTo(), click());
 
         ViewInteraction appCompatCheckBox4 = onView(
-                allOf(withId(R.id.checkbox_section), withText("Magazine"),
+                allOf(withId(R.id.checkbox_section), withText("World"),
                         childAtPosition(
-                                allOf(withId(R.id.checkbox_section_row),
+                                allOf(withId(R.id.fragment_settings_search_recycler_view),
                                         childAtPosition(
-                                                withId(R.id.fragment_settings_search_sections),
-                                                4)),
-                                0)));
+                                                withClassName(is("android.widget.LinearLayout")),
+                                                2)),
+                                23)));
         appCompatCheckBox4.perform(scrollTo(), click());
 
         ViewInteraction appCompatButton = onView(

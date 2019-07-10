@@ -75,43 +75,43 @@ public class SettingsNotificationFragmentTest {
         appCompatEditText.perform(scrollTo(), replaceText("pizza"), closeSoftKeyboard());
 
         ViewInteraction appCompatCheckBox = onView(
-                allOf(withId(R.id.checkbox_section), withText("Books"),
+                allOf(withId(R.id.checkbox_section), withText("Food"),
                         childAtPosition(
-                                allOf(withId(R.id.checkbox_section_row),
+                                allOf(withId(R.id.fragment_settings_notification_recycler_view),
                                         childAtPosition(
-                                                withId(R.id.fragment_settings_notification_sections),
+                                                withClassName(is("android.widget.LinearLayout")),
                                                 1)),
-                                0)));
+                                5)));
         appCompatCheckBox.perform(scrollTo(), click());
 
         ViewInteraction appCompatCheckBox2 = onView(
-                allOf(withId(R.id.checkbox_section), withText("Food"),
+                allOf(withId(R.id.checkbox_section), withText("Books"),
                         childAtPosition(
-                                allOf(withId(R.id.checkbox_section_row),
+                                allOf(withId(R.id.fragment_settings_notification_recycler_view),
                                         childAtPosition(
-                                                withId(R.id.fragment_settings_notification_sections),
-                                                2)),
-                                1)));
+                                                withClassName(is("android.widget.LinearLayout")),
+                                                1)),
+                                2)));
         appCompatCheckBox2.perform(scrollTo(), click());
 
         ViewInteraction appCompatCheckBox3 = onView(
                 allOf(withId(R.id.checkbox_section), withText("Health"),
                         childAtPosition(
-                                allOf(withId(R.id.checkbox_section_row),
+                                allOf(withId(R.id.fragment_settings_notification_recycler_view),
                                         childAtPosition(
-                                                withId(R.id.fragment_settings_notification_sections),
-                                                3)),
-                                0)));
+                                                withClassName(is("android.widget.LinearLayout")),
+                                                1)),
+                                6)));
         appCompatCheckBox3.perform(scrollTo(), click());
 
         ViewInteraction appCompatCheckBox4 = onView(
-                allOf(withId(R.id.checkbox_section), withText("Magazine"),
+                allOf(withId(R.id.checkbox_section), withText("World"),
                         childAtPosition(
-                                allOf(withId(R.id.checkbox_section_row),
+                                allOf(withId(R.id.fragment_settings_notification_recycler_view),
                                         childAtPosition(
-                                                withId(R.id.fragment_settings_notification_sections),
-                                                4)),
-                                0)));
+                                                withClassName(is("android.widget.LinearLayout")),
+                                                1)),
+                                23)));
         appCompatCheckBox4.perform(scrollTo(), click());
 
         ViewInteraction appCompatButton = onView(
