@@ -2,8 +2,6 @@ package com.sildian.mynews.utils;
 
 import android.util.Log;
 
-import com.sildian.mynews.controller.activities.MainActivity;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

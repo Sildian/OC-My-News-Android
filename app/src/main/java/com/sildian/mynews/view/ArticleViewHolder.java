@@ -11,7 +11,6 @@ import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.sildian.mynews.R;
 import com.sildian.mynews.model.Article;
-import com.sildian.mynews.utils.Utilities;
 
 import java.util.List;
 

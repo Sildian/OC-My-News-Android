@@ -11,7 +11,7 @@
         android:id="@+id/list_articles_item_image"
         android:layout_width="@dimen/list_articles_item_image_width"
         android:layout_height="@dimen/list_articles_item_image_height"
-        android:layout_gravity="left"
+        android:layout_gravity="start"
         android:layout_margin="@dimen/list_articles_components_margin"
         tools:srcCompat="@tools:sample/avatars[12]" />
 
@@ -29,7 +29,7 @@
                 android:id="@+id/list_articles_item_text_section"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
+                android:layout_gravity="start"
                 android:text="Section"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="@dimen/list_articles_item_text_size_head"
@@ -39,7 +39,7 @@
                 android:id="@+id/list_articles_item_text_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
+                android:layout_gravity="end"
                 android:text="xx/xx/xxxx"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="@dimen/list_articles_item_text_size_head" />
@@ -49,7 +49,7 @@
             android:id="@+id/list_articles_item_text_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="left"
+            android:layout_gravity="start"
             android:layout_margin="@dimen/list_articles_components_margin"
             android:text="Title"
             android:textSize="@dimen/list_articles_item_text_size_body" />

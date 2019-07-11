@@ -15,7 +15,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -23,7 +22,6 @@ import com.bumptech.glide.Glide;
 import com.sildian.mynews.R;
 import com.sildian.mynews.controller.activities.ArticleActivity;
 import com.sildian.mynews.controller.activities.MainActivity;
-import com.sildian.mynews.controller.activities.SettingsActivity;
 import com.sildian.mynews.model.Article;
 import com.sildian.mynews.model.UserSettings;
 import com.sildian.mynews.model.articles_search_api.SearchAPIResponse;

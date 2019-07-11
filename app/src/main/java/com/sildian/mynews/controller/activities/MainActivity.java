@@ -23,7 +23,6 @@ import com.sildian.mynews.R;
 import com.sildian.mynews.controller.fragments.MainFragment;
 import com.sildian.mynews.model.UserSettings;
 import com.sildian.mynews.utils.NotificationAlarmReceiver;
-import com.sildian.mynews.utils.NotificationReceiver;
 import com.sildian.mynews.view.MainFragmentAdapter;
 
 import java.lang.ref.WeakReference;
@@ -31,7 +30,6 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.TimeZone;
 
 /*************************************************************************************************
  * MainActivity
