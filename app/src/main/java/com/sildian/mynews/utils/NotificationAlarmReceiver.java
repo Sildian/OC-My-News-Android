@@ -74,7 +74,7 @@ public class NotificationAlarmReceiver extends BroadcastReceiver {
         /*Creates an intent allowing to start NotificationReceiver*/
 
         Intent notificationReceiverIntent = new Intent(this.context, NotificationReceiver.class);
-        notificationReceiverIntent.putExtra(MainActivity.KEY_NOTIFICATION_USER, this.userSettings);
+        notificationReceiverIntent.setAction(MainActivity.EVENT_NOTIFICATION_START);
         PendingIntent notificationReceiverPendingIntent = PendingIntent.getBroadcast(this.context, 0, notificationReceiverIntent, 0);
 
         /*If the notification is on, activates the alarm. Else, deactivates it.*/

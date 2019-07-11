@@ -5,12 +5,15 @@ import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.google.gson.Gson;
 import com.sildian.mynews.R;
 import com.sildian.mynews.controller.activities.MainActivity;
 import com.sildian.mynews.model.UserSettings;
@@ -52,27 +55,29 @@ public class NotificationReceiver extends BroadcastReceiver {
 
         /*Stores the context*/
 
-        this.context=context;
+        this.context = context;
 
         /*Gets the data from the intent*/
 
-        this.userSettings=intent.getParcelableExtra(MainActivity.KEY_NOTIFICATION_USER);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        loadUserSettings(sharedPreferences);
 
         /*Sets the parameters to be sent to the query*/
 
-        String keyWords=this.userSettings.getNotificationKeyWords();
-        ArrayList<String> sections=this.userSettings.getNotificationSections();
-        Calendar calendar=Calendar.getInstance(TimeZone.getTimeZone("America/Puerto_Rico"));
+        String keyWords = this.userSettings.getNotificationKeyWords();
+        ArrayList<String> sections = this.userSettings.getNotificationSections();
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Puerto_Rico"));
         calendar.add(Calendar.DAY_OF_MONTH, -1);
-        int year=calendar.get(Calendar.YEAR);
-        int month=calendar.get(Calendar.MONTH);
-        int day=calendar.get(Calendar.DAY_OF_MONTH);
-        String beginDate=Utilities.generateDate("yyyyMMdd", year, month, day);
-        String endDate=Utilities.generateDate("yyyyMMdd", year, month, day);
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        String beginDate = Utilities.generateDate("yyyyMMdd", year, month, day);
+        String endDate = Utilities.generateDate("yyyyMMdd", year, month, day);
 
         /*Runs the query*/
 
         runSearchArticlesRequest(keyWords, sections, beginDate, endDate);
+
     }
 
     /**Runs Article Search API request**/
@@ -137,5 +142,22 @@ public class NotificationReceiver extends BroadcastReceiver {
 
         NotificationManagerCompat notificationManagerCompat=NotificationManagerCompat.from(this.context);
         notificationManagerCompat.notify(NOTIFICATION_ID, notificationBuilder.build());
+    }
+
+    /**Loads the user settings from shared preferences
+     * @param sharedPreferences : the file containing the data
+     */
+
+    private void loadUserSettings(SharedPreferences sharedPreferences){
+
+        Gson gson=new Gson();
+
+        if(sharedPreferences.contains(MainActivity.KEY_FILE_USER_SETTINGS)){
+            String userSettingsJson=sharedPreferences.getString(MainActivity.KEY_FILE_USER_SETTINGS, null);
+            this.userSettings=gson.fromJson(userSettingsJson, UserSettings.class);
+        }
+        else{
+            this.userSettings=new UserSettings();
+        }
     }
 }

@@ -8,7 +8,9 @@ import androidx.viewpager.widget.ViewPager;
 import android.app.Application;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
@@ -20,6 +22,8 @@ import com.google.gson.reflect.TypeToken;
 import com.sildian.mynews.R;
 import com.sildian.mynews.controller.fragments.MainFragment;
 import com.sildian.mynews.model.UserSettings;
+import com.sildian.mynews.utils.NotificationAlarmReceiver;
+import com.sildian.mynews.utils.NotificationReceiver;
 import com.sildian.mynews.view.MainFragmentAdapter;
 
 import java.lang.ref.WeakReference;
@@ -57,12 +61,17 @@ public class MainActivity extends AppCompatActivity {
     /**Events**/
 
     public static final String EVENT_NOTIFICATION_ALARM="com.sildian.mynews.notificationAlarm";
+    public static final String EVENT_NOTIFICATION_START="com.sildian.mynews.notificationStart";
 
     /**View pager items**/
 
     private WeakReference<MainFragmentAdapter> mainFragmentAdapter;
     private WeakReference<ViewPager> viewPager;
     private WeakReference<TabLayout> tabLayout;
+
+    /**Receivers to be registered (only for Oreo and higher SDK versions)**/
+
+    private NotificationAlarmReceiver notificationAlarmReceiver;
 
     /**Other attributes**/
 
@@ -75,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         APPLICATION=getApplication();
+        registerReceivers();
         setContentView(R.layout.activity_main);
         setSupportActionBar(findViewById(R.id.activity_main_toolbar));
         loadUserSettings();
@@ -86,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         saveUserSettings();
         saveCheckedArticlesUrls();
+        unregisterReceivers();
         super.onDestroy();
     }
 
@@ -139,6 +150,26 @@ public class MainActivity extends AppCompatActivity {
                 break;
             default:
                 break;
+        }
+    }
+
+    /**Registers receivers (only for Oreo and higher versions)**/
+
+    private void registerReceivers(){
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
+            IntentFilter notificationAlarmFilter=new IntentFilter();
+            notificationAlarmFilter.addAction(EVENT_NOTIFICATION_ALARM);
+            notificationAlarmFilter.addAction(Intent.ACTION_BOOT_COMPLETED);
+            this.notificationAlarmReceiver=new NotificationAlarmReceiver();
+            registerReceiver(this.notificationAlarmReceiver, notificationAlarmFilter);
+        }
+    }
+
+    /**Unregister receivers (only for Oreo and higher versions)**/
+
+    private void unregisterReceivers(){
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
+            unregisterReceiver(this.notificationAlarmReceiver);
         }
     }
 
