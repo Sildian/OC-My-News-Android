@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="component_margin">4dp</dimen>
-    <dimen name="text_size_title">12sp</dimen>
-    <dimen name="text_size_normal">10sp</dimen>
-    <dimen name="text_size_menu_title">15sp</dimen>
-    <dimen name="text_size_menu_medium">12sp</dimen>
-    <dimen name="text_size_menu_normal">11sp</dimen>
+    <dimen name="text_size_title">14sp</dimen>
+    <dimen name="text_size_normal">12sp</dimen>
+    <dimen name="text_size_menu_title">16sp</dimen>
+    <dimen name="text_size_menu_medium">14sp</dimen>
+    <dimen name="text_size_menu_normal">12sp</dimen>
 
     <dimen name="list_articles_layout_margin">4dp</dimen>
     <dimen name="list_articles_components_margin">4dp</dimen>
-    <dimen name="list_articles_item_image_width">60dp</dimen>
-    <dimen name="list_articles_item_image_height">60dp</dimen>
-    <dimen name="list_articles_item_text_size_head">10sp</dimen>
-    <dimen name="list_articles_item_text_size_body">12sp</dimen>
+    <dimen name="list_articles_item_image_width">70dp</dimen>
+    <dimen name="list_articles_item_image_height">70dp</dimen>
+    <dimen name="list_articles_item_text_size_head">12sp</dimen>
+    <dimen name="list_articles_item_text_size_body">14sp</dimen>
 </resources>
